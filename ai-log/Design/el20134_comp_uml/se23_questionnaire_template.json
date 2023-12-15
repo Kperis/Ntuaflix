@@ -1,0 +1,19 @@
+{
+    "answers": {
+        "phase": "design",
+        "action": "problem understanding",
+        "scope": "uml component",
+        "action experience": "little",
+        "prog lang": "n/a",
+        "other prog lang": "<fill in>",
+        "tool": "chat gpt 3.x",
+        "other tool": "<fill in>",
+        "tool option": "free",
+        "tool experience": "enough",
+        "time allocated (h)": "0.1",
+        "time saved estimate (h)": "1", 
+        "quality of ai help": "minor modifications needed",
+        "generic feeling": "needs work",
+        "notes": "<fill in>"
+    }
+}
