@@ -1,0 +1,23 @@
+{
+  "name": "back-end",
+  "version": "1.0.0",
+  "description": "New npm folder",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ntua/softeng23-33.git"
+  },
+  "keywords": [
+    "softeng23-33",
+    "nodejs"
+  ],
+  "author": "team33",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ntua/softeng23-33/issues"
+  },
+  "homepage": "https://github.com/ntua/softeng23-33#readme"
+}
