@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS Authentication (
 
 -- create table TitleObject whit attributes movie_id,original_title,primary_title,start_year,end_year,is_adult,runtime_min,image_url,type
 CREATE TABLE IF NOT EXISTS TitleObject (
-    movie_id INT NOT NULL AUTO_INCREMENT,
+    movie_id VARCHAR(20) NOT NULL ,
     original_title VARCHAR(255) ,
     primary_title VARCHAR(255) ,
     start_year INT,
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS Akas_info (
     region VARCHAR(255) ,
     language VARCHAR(255) ,
     is_original_title BOOLEAN ,
-    movie_id INT NOT NULL,
+    movie_id VARCHAR(20) NOT NULL,
     PRIMARY KEY (akas_id),
     CONSTRAINT fk_movie_id_akas_id
         FOREIGN KEY (movie_id) 
@@ -58,9 +58,10 @@ CREATE TABLE IF NOT EXISTS Akas_info (
 
 -- create table Genres whith movie_id (primary key and foreign key to TitleObject(movie_id)) and genre
 CREATE TABLE IF NOT EXISTS Genres (
-    movie_id INT NOT NULL,
+    genre_id INT NOT NULL AUTO_INCREMENT,
+    movie_id VARCHAR(20) NOT NULL,
     genre VARCHAR(255) NOT NULL,
-    PRIMARY KEY (movie_id),
+    PRIMARY KEY (genre_id),
     CONSTRAINT fk_movie_id_genre
         FOREIGN KEY (movie_id) 
         REFERENCES TitleObject(movie_id)
@@ -70,10 +71,10 @@ CREATE TABLE IF NOT EXISTS Genres (
 
 -- create table Episode_info whith movie_id(primary key and foreign key to TitleObject(movie_id)), season_num,episode_num,parent_id
 CREATE TABLE IF NOT EXISTS Episode_info (
-    movie_id INT NOT NULL,
+    movie_id VARCHAR(20) NOT NULL,
     season_num INT,
     episode_num INT,
-    parent_id INT,
+    parent_id VARCHAR(20),
     PRIMARY KEY (movie_id),
     CONSTRAINT fk_movie_id_episode_info
         FOREIGN KEY (movie_id) 
@@ -84,7 +85,7 @@ CREATE TABLE IF NOT EXISTS Episode_info (
 
 -- create table Ratings whith movie_id(primary key and foreign key to TitleObject(movie_id)), average_rating,num_votes
 CREATE TABLE IF NOT EXISTS Ratings (
-    movie_id INT NOT NULL,
+    movie_id VARCHAR(20) NOT NULL,
     average_rating FLOAT,
     num_votes INT,
     PRIMARY KEY (movie_id),
@@ -98,9 +99,10 @@ CREATE TABLE IF NOT EXISTS Ratings (
 -- create table Types whith akas_id(primary key and foreign key to Akas_info(akas_id)), 
 
 CREATE TABLE IF NOT EXISTS Types (
+    type_id INT NOT NULL AUTO_INCREMENT,
     akas_id INT NOT NULL,
     type VARCHAR(255),
-    PRIMARY KEY (akas_id),
+    PRIMARY KEY (type_id),
     CONSTRAINT fk_akas_id_types
         FOREIGN KEY (akas_id) 
         REFERENCES Akas_info(akas_id)
@@ -110,9 +112,10 @@ CREATE TABLE IF NOT EXISTS Types (
 
 -- create table Attributes whith akas_id(primary key and foreign key to Akas_info(akas_id)) and attribute
 CREATE TABLE IF NOT EXISTS Attributes (
+    attribute_id INT NOT NULL AUTO_INCREMENT,
     akas_id INT NOT NULL,
     attribute VARCHAR(255),
-    PRIMARY KEY (akas_id),
+    PRIMARY KEY (attribute_id),
     CONSTRAINT fk_akas_id_attributes
         FOREIGN KEY (akas_id) 
         REFERENCES Akas_info(akas_id)
@@ -122,7 +125,7 @@ CREATE TABLE IF NOT EXISTS Attributes (
 
 -- create table Contributors whith attributes contributor_id(primary key),primary_name,birth_year,death_year, image_url
 CREATE TABLE IF NOT EXISTS Contributors (
-    contributor_id INT NOT NULL AUTO_INCREMENT,
+    contributor_id VARCHAR(20) NOT NULL,
     primary_name VARCHAR(255),
     birth_year INT,
     death_year INT,
@@ -132,9 +135,10 @@ CREATE TABLE IF NOT EXISTS Contributors (
 
 -- create table Primary_profession whith attributes contributor_id(primary key and foreign key to Contributors(contributor_id)) and profession
 CREATE TABLE IF NOT EXISTS Primary_profession (
-    contributor_id INT NOT NULL,
+    profession_id INT NOT NULL AUTO_INCREMENT,
+    contributor_id VARCHAR(20) NOT NULL,
     profession VARCHAR(255),
-    PRIMARY KEY (contributor_id),
+    PRIMARY KEY (profession_id),
     CONSTRAINT fk_contributor_id_primary_profession
         FOREIGN KEY (contributor_id) 
         REFERENCES Contributors(contributor_id)
@@ -144,8 +148,8 @@ CREATE TABLE IF NOT EXISTS Primary_profession (
 
 -- create table Works whith attributes contributor_id(primary key and foreign key to Contributors(contributor_id)) and movie_id(foreign key to TitleObject(movie_id)) and attributes category,job,characters,image_url
 CREATE TABLE IF NOT EXISTS Works (
-    contributor_id INT NOT NULL,
-    movie_id INT NOT NULL,
+    contributor_id VARCHAR(20) NOT NULL,
+    movie_id VARCHAR(20) NOT NULL,
     category VARCHAR(255),
     job VARCHAR(255),
     characters VARCHAR(255),
@@ -165,8 +169,8 @@ CREATE TABLE IF NOT EXISTS Works (
 
 -- create table Known_for whith attributes contributor_id(primary key and foreign key to Contributors(contributor_id)) and movie_id(foreign key to TitleObject(movie_id))
 CREATE TABLE IF NOT EXISTS Known_for (
-    contributor_id INT NOT NULL,
-    movie_id INT NOT NULL,
+    contributor_id VARCHAR(20) NOT NULL,
+    movie_id VARCHAR(20) NOT NULL,
     PRIMARY KEY (contributor_id,movie_id),
     CONSTRAINT fk_contributor_id_known_for
         FOREIGN KEY (contributor_id) 
@@ -183,7 +187,7 @@ CREATE TABLE IF NOT EXISTS Known_for (
 -- create table Watchlist whith attributes user_id(primary key and foreign key to Users(user_id)) and movie_id(foreign key to TitleObject(movie_id))
 CREATE TABLE IF NOT EXISTS Watchlist (
     user_id INT NOT NULL,
-    movie_id INT NOT NULL,
+    movie_id VARCHAR(20) NOT NULL,
     PRIMARY KEY (user_id,movie_id),
     CONSTRAINT fk_user_id_watchlist
         FOREIGN KEY (user_id) 
@@ -200,7 +204,7 @@ CREATE TABLE IF NOT EXISTS Watchlist (
 -- create table Favorites_list whith attributes user_id(primary key and foreign key to Users(user_id)) and movie_id(foreign key to TitleObject(movie_id))
 CREATE TABLE IF NOT EXISTS Favorites_list (
     user_id INT NOT NULL,
-    movie_id INT NOT NULL,
+    movie_id VARCHAR(20) NOT NULL,
     PRIMARY KEY (user_id,movie_id),
     CONSTRAINT fk_user_id_favorites_list
         FOREIGN KEY (user_id) 
