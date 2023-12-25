@@ -20,7 +20,7 @@ async function addTsvToTitleObject(pool) {
     const insertQuery_Genres = 'INSERT INTO Genres (movie_id,genre) VALUES (?, ?)';
     // Iterate over the rows and execute the database query
     //for (let i = 1; i < rows.length; i++) {
-    for (let i = 1 ; i < 6 ; i++) {
+    for (let i = 1 ; i < rows.length ; i++) {
         try {
         // Adjust the values based on your TSV columns
         const values_for_TitleObject = [rows[i][0], rows[i][1], rows[i][2], rows[i][3], rows[i][4], rows[i][5], rows[i][6], rows[i][7], rows[i][9]];

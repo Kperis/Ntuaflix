@@ -21,7 +21,7 @@ async function addTsvToNameBasics(pool) {
     const insertQuery_KnownForTitles = 'INSERT INTO Known_for (contributor_id,movie_id) VALUES (?, ?)';
     // Iterate over the rows and execute the database query
     //for (let i = 1; i < rows.length; i++) {
-    for (let i = 1 ; i < 6 ; i++) {
+    for (let i = 1 ; i < rows.length ; i++) {
         try {
         // Adjust the values based on your TSV columns
         const values_for_Contributors = [rows[i][0], rows[i][1], rows[i][2], rows[i][3], rows[i][6]];

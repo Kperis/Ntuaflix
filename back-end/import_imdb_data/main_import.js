@@ -2,6 +2,7 @@ const setupDatabase = require('./connect_database');
 
 //const addTsvToTable2 = require('./addTsvToTable2');
 const addTsvToTitleObject = require('./addTsvToTitleObject');
+
 const addTsvToEpisode = require('./addTsvEpisode');
 const addTsvToRatings = require('./addTsvRating');
 const addTsvToAkas = require('./addTsvAkas');

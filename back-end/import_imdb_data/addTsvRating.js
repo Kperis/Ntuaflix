@@ -19,7 +19,7 @@ async function addTsvToRatings(pool) {
     const insertQuery_Ratings = 'INSERT INTO Ratings (movie_id,average_rating,num_votes) VALUES (?, ?, ?)';
     // Iterate over the rows and execute the database query
     //for (let i = 1; i < rows.length; i++) {
-    for (let i = 1 ; i < 6 ; i++) {
+    for (let i = 1 ; i < rows.length ; i++) {
         try {
         // Adjust the values based on your TSV columns
         const values_for_ratings = [rows[i][0], rows[i][1], rows[i][2]];
