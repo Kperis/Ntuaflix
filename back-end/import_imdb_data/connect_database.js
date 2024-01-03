@@ -1,4 +1,4 @@
-const mysql = require('mysql2/promise');
+const mysql = require('mysql');
 
 async function setupDatabase() {
     const pool = mysql.createPool({
