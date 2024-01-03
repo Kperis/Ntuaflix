@@ -3,7 +3,7 @@ const cors = require('cors');
 
 /* Import routes */
 // Εδώ φορτώνουμε τα routes files που θα χρειαστούμε για κάθε endpoint
-const indexRoutes = require('./routes/launching');
+const indexRoutes = require('./routes/index');
 const adminRoutes = require('./routes/admin');
 
 

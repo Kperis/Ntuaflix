@@ -1,6 +1,6 @@
 const express = require('express');
 
-const indexController = require('../controllers/launching');
+const indexController = require('../controllers/index');
 const titleController = require('../controllers/title');
 const searchtitleController = require('../controllers/searchtitle')
 const bygenreController = require('../controllers/genretitle')
