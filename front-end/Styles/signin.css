@@ -1,0 +1,62 @@
+.signin-bg{
+    background: linear-gradient(45deg, var(--main-color),var(--variant-color));
+    width: 100%;
+    height: 100vh;
+    margin: 0;
+    padding-top: 4rem;
+
+}
+
+.signin-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 8rem;
+    /* border: 1px solid white; */
+    width: 40%;
+    height: 80vh;
+    color: rgba(96, 96, 96, 0.266);
+    /* margin-right: 6em; */
+    /* border-left: 3px solid white; */
+    font-size: 1.8em;
+    font-weight: bold;
+    color: var(--selection-color-variant);
+    background: linear-gradient(45deg, rgba(223,182,178,0.4),rgba(251,228,216,0.4));
+    margin: 0 auto 0 auto;
+    box-shadow: 0 0 10px 10px var(--selection-color-variant);
+}
+
+.signin-container button {
+    background-color: var(--selection-color);
+    border-radius: 12px;
+    border: 1px solid black;
+    width: 160px;
+    height: 48px;
+    color: white;
+    font-size: 0.6em;
+    font-weight: 700;
+    box-shadow: -1px 1px 8px 1px rgb(22, 22, 22);
+
+    transition: all ease-in-out 0.3s;
+}
+
+.signin-container button:hover{
+    transform: scale(1.08);
+    cursor: pointer;
+}
+
+.signin-container button:active{
+    transform: scale(0.9);
+}
+
+.input-field{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 80%;
+}
+
+.input-field input{
+    padding: 0.6rem;
+}
