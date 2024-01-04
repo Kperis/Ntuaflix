@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const mysql = require('mysql');
-//const { pool } = require('./utils/database');
+const { pool } = require('./utils/database');
 
 const app = express();
 
@@ -17,6 +17,34 @@ app.use(express.json());
 
 app.set('view engine', 'hbs'); 
 
+//// Check connection with db
+// Function to check the database connection
+function checkDatabaseConnection() {
+    return new Promise((resolve, reject) => {
+        pool.getConnection((err, connection) => {
+            if (err) {
+                reject(err); // Unable to get a connection
+            } else {
+                // Release the connection immediately after acquiring it
+                connection.release();
+                resolve(); // Connection successful
+            }
+        });
+    });
+}
+
+// Example usage in app.js
+checkDatabaseConnection()
+    .then(() => {
+        console.log('Database connection established successfully');
+        // Start your application logic here
+    })
+    .catch((err) => {
+        console.error('Error connecting to the database:', err);
+        // Handle error or exit the application
+    });
+
+////
 /* Import routes */
 // Εδώ φορτώνουμε τα routes files που θα χρειαστούμε για κάθε endpoint
 const indexRoutes = require('./routes/index');
