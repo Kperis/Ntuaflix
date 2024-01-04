@@ -1,5 +1,5 @@
 
-const setupDatabase = require('../import_imdb_data/connect_database');
+const { pool } = require('../utils/database');
 
 
 exports.getTitle = async (req, res, next) => {
@@ -9,7 +9,6 @@ exports.getTitle = async (req, res, next) => {
     if (titleID.startsWith(':')) {
         titleID = titleID.substring(1);
     }
-    const pool = await setupDatabase();
     // SQL query with a WHERE clause to filter by titleID
     const sqlQuery_1 = `
         SELECT

@@ -1,4 +1,4 @@
-const setupDatabase = require('./connect_database');
+const setupDatabase = require('../database');
 
 //const addTsvToTable2 = require('./addTsvToTable2');
 const addTsvToTitleObject = require('./addTsvToTitleObject');

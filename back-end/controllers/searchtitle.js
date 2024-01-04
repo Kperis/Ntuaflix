@@ -1,12 +1,11 @@
-
-const setupDatabase = require('../import_imdb_data/connect_database');
+const { pool } = require('../utils/database');
 
 
 exports.getSearchTitle = async (req, res, next) => {
 
     const titlePart = req.body.titlePart;
 
-    const pool = await setupDatabase();
+    
     // SQL query with a WHERE clause to filter by titleID
     const sqlQuery_1 = `
         SELECT * FROM titleObject WHERE titleObject.original_title LIKE ?

@@ -1,13 +1,13 @@
 const fs = require('fs');
 const path = require('path');
-const pool = require('./connect_database'); // Assuming you export the setupDatabase function
+const pool = require('../database'); // Assuming you export the setupDatabase function
 
-async function addTsvToEpisode(pool) {
+async function addTsvToRatings(pool) {
     const currentDir = __dirname;
     console.log(currentDir);
 
 
-    const tsvFilePath = path.join(currentDir, '/tsv_files/', 'truncated_title.episode.tsv');
+    const tsvFilePath = path.join(currentDir, '/tsv_files/', 'truncated_title.ratings.tsv');
     console.log(tsvFilePath);
     //const tsvFilePath = 'C:/Users/ggeor/Desktop/trial_makes_best/truncated_title.basics.tsv';
     const data = fs.readFileSync(tsvFilePath, 'utf8');
@@ -16,16 +16,16 @@ async function addTsvToEpisode(pool) {
     const rows = data.split('\n').map(row => row.split('\t'));
 
     // Define your database query
-    const insertQuery_Episodes = 'INSERT INTO Episode_info (movie_id,parent_id,season_num,episode_num) VALUES (?, ?, ?, ?)';
+    const insertQuery_Ratings = 'INSERT INTO Ratings (movie_id,average_rating,num_votes) VALUES (?, ?, ?)';
     // Iterate over the rows and execute the database query
     //for (let i = 1; i < rows.length; i++) {
     for (let i = 1 ; i < rows.length ; i++) {
         try {
         // Adjust the values based on your TSV columns
-        const values_for_episodes = [rows[i][0],rows[i][1],rows[i][2],rows[i][3]];
+        const values_for_ratings = [rows[i][0], rows[i][1], rows[i][2]];
         
         // Execute the query
-        const [result] = await pool.query(insertQuery_Episodes, values_for_episodes);
+        const [result] = await pool.query(insertQuery_Ratings, values_for_ratings);
 
         //console.log(rows[i][8]);
         //console.log('Row inserted:', result);
@@ -43,4 +43,4 @@ async function addTsvToEpisode(pool) {
     
 };
 
-module.exports = addTsvToEpisode;
+module.exports = addTsvToRatings;
