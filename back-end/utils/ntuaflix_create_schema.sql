@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS Users (
     last_name VARCHAR(255) NOT NULL,
     birthdate DATE NOT NULL,
     email VARCHAR(255) NOT NULL,
-    role VARCHAR(255) NOT NULL,
+    role ENUM('simple_user', 'admin') DEFAULT 'simple_user',
     PRIMARY KEY (user_id)
 );
 
