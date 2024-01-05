@@ -1,15 +1,12 @@
 const mysql = require('mysql');
+//dotenv.config({path: './.env'});
 
-/* create connection and export it */
 const pool = mysql.createPool({
-    host: 'localhost',
-    user: 'root',
-    database: 'ntuaflix',
-    password: '',
-    port: 3306, // Replace with your actual MySQL port
-    waitForConnections: true,
-    connectionLimit: 10,
-    queueLimit: 0
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    database: process.env.DB,
 });
 
 module.exports = { pool };

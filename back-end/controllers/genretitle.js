@@ -1,4 +1,4 @@
-const setupDatabase = require('../import_imdb_data/connect_database');
+const { pool } = require('../utils/database');
 
 exports.getGenreTitle = async (req, res, next) => {
     const qgenre = req.body.qgenre;
@@ -13,7 +13,6 @@ exports.getGenreTitle = async (req, res, next) => {
 
     const conditions = [];
 
-    const pool = await setupDatabase();
     // SQL query with a WHERE clause to filter by titleID
     let sqlQuery_1 = `
         SELECT * FROM titleObject 
