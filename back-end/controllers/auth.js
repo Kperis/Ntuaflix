@@ -14,7 +14,7 @@ exports.register = (req, res, next) => {
                 error: 'Internal Server Error'
             });
         }
-        connection.query('Select email FROM Users WHERE email = ?' , [email], (error, emailResults) => {
+        connection.query('Select email FROM Users WHERE email = ?' , [email], async (error, emailResults) => {
             if(error) {
                 console.log(error);
             } 
@@ -24,7 +24,7 @@ exports.register = (req, res, next) => {
                     message: "That email is already in use"
                 });
             } else{
-                connection.query('Select username FROM Authentication WHERE username = ?' , [username], (error, usernameResults) => {
+                connection.query('Select username FROM Authentication WHERE username = ?' , [username], async (error, usernameResults) => {
                     if(error) {
                         console.log(error);
                     } 
@@ -37,23 +37,25 @@ exports.register = (req, res, next) => {
                         // Both email and username are unique, proceed with registration logic
     
                         // Hash the password (you should use a proper hashing library in production)
-                        //const hashedPassword = /* hash your password here */
+                        let hashedPassword = await bcrypt.hash(password, 8);
+                        console.log(hashedPassword);
     
-                        connection.query('INSERT INTO Users (firstname, lastname, birthdate email) VALUES (?, ?, ?, ?)', [firstname, lastname, birthDate, email], (error, insertUserResults) => {
+                        connection.query('INSERT INTO Users (firstname, lastname, birthdate, email) VALUES (?, ?, ?, ?)', [firstname, lastname, birthDate, email], (error, insertUserResults) => {
                             if (error) {
                                 console.log(error);
                                 return res.render('register', {
                                     message: "Registration failed"
                                 });
                             } else { //need to change password to hashedpassword, havent completed yet hashing logic
-                                connection.query('INSERT INTO Authentication (username, password) VALUES (?,?)', [username, password], (error, insertAuthResults) => {
+                                connection.query('INSERT INTO Authentication (username, password) VALUES (?,?)', [username, hashedPassword], (error, insertAuthResults) => {
                                     if (error) {
                                         console.log(error);
                                         return res.render('register', {
                                             message: "Registration failed"
                                         });
                                     } else {
-                                        return res.render('/login', {
+                                        console.log(insertAuthResults);
+                                        return res.render('login', {
                                             message: "Registration Completed. Please login to continue"
                                         });
                                     }
