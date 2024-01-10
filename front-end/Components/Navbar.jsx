@@ -1,54 +1,72 @@
+'use client';
+
 import React from 'react'
-import HomeIcon from '@/public/home.png'
-import FriendIcon from '@/public/friends.png'
-import LibraryIcon from '@/public/library.png'
-import MenuIcon from '@/public/menu.png'
-import LogoutIcon from '@/public/logout.png'
 import NavIcon from './NavIcon'
+import '@/Styles/navbar.css'
 import Image from 'next/image'
+import { useState } from 'react'
+import { useEffect } from 'react'
 
 const Navbar = () => {
 
-    const iconlist = [
+    var iconlist = [
+        
         {
-            'icon': MenuIcon,
-            'description': 'Menu',
-            'alt': 'Menu'
+            icon: '/home.png',
+            description: 'Home',
+            alt: 'Home',
+            href: '/',
+            active: 0
         },
         {
-            'icon': HomeIcon,
-            'description': 'Home',
-            'alt': 'Home'
+            icon: '/actor.png',
+            description: 'Actor',
+            alt: 'Actor',
+            href: '/actors',
+            active: 0
         },
         {
-            'icon': FriendIcon,
-            'description': 'Friends',
-            'alt': 'Friends'
+            icon: '/friends.png',
+            description: 'Friends',
+            alt: 'Friends',
+            href: '/friends',
+            active: 0
         },
         {
-            'icon': LibraryIcon,
-            'description': 'Library',
-            'alt': 'Library'
+            icon: '/library.png',
+            description: 'Library',
+            alt: 'Library',
+            href: '/mylibrary',
+            active: 0
         },
         {
-            'icon': LogoutIcon,
-            'description': 'Logout',
-            'alt': 'Logout'
+            icon: '/logout.png',
+            description: 'Logout',
+            alt: 'Logout',
+            href: '/signin',
+            active: 0
         },        
     ]
 
+    const [route, setRoute] = useState('home');
+
+    const changeRoute = (title) =>{
+        setRoute(title);
+        console.log(title);
+    }
+    
     return (
         <div>
-            <nav>
-                <div>
-                    {/* <Image src='/library.png' alt='lol' width={50} height={50}/> */}
-                </div>
-                <ul>
+            <nav className='navbar-container'>
+                <ul className='navbar-items'>
                     {
-                        iconlist.map((icon,index) => {
-                            <li>
-                                <h1>LOL</h1>{/* <NavIcon image={`${icon.icon}`} description={`${icon.description}`} alt={`${icon.alt}`}/> */}
-                            </li>
+                        iconlist.map((icon) => {
+                            return(
+                                <li key={`${icon.description}`} 
+                                    onClick={() => changeRoute(icon.description)} >
+                                    <NavIcon image={icon.icon} description={icon.description} alt={icon.alt} active={route} href={icon.href}/>
+                                </li>
+                            );
                         })
                     }
                 </ul>

@@ -1,0 +1,26 @@
+.movie-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.2rem;
+    transition: all ease 0.2s;
+}
+
+.movie-container span{
+    color: white;
+}
+
+.poster{
+    border: 1px solid rgba(0,0,0,0.4);
+    box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.6);
+    cursor: pointer;
+    transition: all ease 0.2s;
+}
+
+
+.movie-container:hover .poster{
+    transform: scale(1.06);
+    transition: all ease 0.2s;
+}
+

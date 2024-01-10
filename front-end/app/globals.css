@@ -12,4 +12,9 @@ a {
   text-decoration: none;
 }
 
-
+body{
+  background: linear-gradient(60deg,var(--variant-color), var(--main-color));
+  background-repeat: no-repeat;
+  height: 100%;
+  background-attachment: fixed ;
+}

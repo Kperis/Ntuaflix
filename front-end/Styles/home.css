@@ -1,0 +1,17 @@
+body{
+    background: linear-gradient(60deg,var(--variant-color), var(--main-color));
+    height: 100%;
+    background-attachment: fixed;
+}
+
+
+.home-container{
+    padding: 0 8rem;
+}
+
+.home-container h1{
+    font-size: 4em;
+    color: var(--selection-color-variant);
+    text-align: center;
+    padding: 4rem;
+}

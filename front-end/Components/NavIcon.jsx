@@ -1,11 +1,17 @@
 import React from 'react'
 import Image from 'next/image'
+import '@/Styles/navbar.css'
+import Link from 'next/link'
 
-const NavIcon = ({alt, description, image}) => {
+
+const NavIcon = ({alt, description, image, active,href}) => {
+  
   return (
     <div>
-        <Image alt={`${alt}`} src={`${image}`} width={28} height={28}/>
-        <span>{`${description}`}</span>
+      <Link className={active === description ? 'navicon-active' : 'navicon' } href={href}>
+        <Image className='options-logo' alt={alt} src={image} width={48} height={48}/>
+        <span>{description}</span>
+      </Link>
     </div>
   )
 }
