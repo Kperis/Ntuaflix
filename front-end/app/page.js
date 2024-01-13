@@ -4,7 +4,7 @@ import React from "react";
 import Navbar from '@/Components/Navbar'
 import Image from 'next/image'
 import '@/Styles/home.css'
-import MovieList from '@/Components/MovieList'
+import List from '@/Components/List';
 
 export default function Home() {
 
@@ -59,7 +59,8 @@ export default function Home() {
   return (
     <div className='home-container' >
       <h1>Ntuaflix</h1>
-      <MovieList movies={movies}/>
+      {/* <MovieList movies={movies}/> */}
+      <List type='movie' arr={movies} classname='movielist-container'/>
     </div>
   )
 }

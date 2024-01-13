@@ -39,7 +39,7 @@ const Library = () => {
   return (
     <div className='library-container'>
         <ListContainer name={MovieLists[0].name} movies={MovieLists[0].movies} href={MovieLists[0].href} />
-        <ListContainer name={MovieLists[1].name} movies={MovieLists[1].movies} href={MovieLists[1].href} />
+        <ListContainer className='star-wars' name={MovieLists[1].name} movies={MovieLists[1].movies} href={MovieLists[1].href} />
     </div>
   )
 }

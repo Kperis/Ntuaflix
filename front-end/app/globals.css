@@ -2,7 +2,7 @@
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-  --main-color: #522b5b;
+  --main-color: rgb(82, 43, 91);
   --variant-color: #854F6C;
   --selection-color: rgb(223, 182, 178);
   --selection-color-variant: rgb(251, 228, 216);

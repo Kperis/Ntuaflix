@@ -1,11 +1,11 @@
 import React from 'react'
 
-const WatchLater = () => {
+const MovieInfo = () => {
   return (
     <div>
-        
+      
     </div>
   )
 }
 
-export default WatchLater
+export default MovieInfo
