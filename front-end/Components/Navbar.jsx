@@ -5,7 +5,6 @@ import NavIcon from './NavIcon'
 import '@/Styles/navbar.css'
 import Image from 'next/image'
 import { useState } from 'react'
-import { useEffect } from 'react'
 
 const Navbar = () => {
 
@@ -48,29 +47,45 @@ const Navbar = () => {
         },        
     ]
 
-    const [route, setRoute] = useState('home');
+    const [overlay, setOverlay] = useState(true);
+    const [route, setRoute] = useState('Home');
 
     const changeRoute = (title) =>{
+        if(title === 'Logout'){
+            setOverlay(false);
+        }
+        else if(title === 'Home'){
+            setOverlay(true);
+        }
+
         setRoute(title);
-        console.log(title);
+
     }
     
     return (
         <div>
+            {
+            
+            overlay ?
+
             <nav className='navbar-container'>
                 <ul className='navbar-items'>
                     {
-                        iconlist.map((icon) => {
-                            return(
-                                <li key={`${icon.description}`} 
-                                    onClick={() => changeRoute(icon.description)} >
-                                    <NavIcon image={icon.icon} description={icon.description} alt={icon.alt} active={route} href={icon.href}/>
-                                </li>
-                            );
-                        })
-                    }
+                        
+                            iconlist.map((icon) => {
+                                return(
+                                    <li key={`${icon.description}`} 
+                                        onClick={() => changeRoute(icon.description)} >
+                                        <NavIcon image={icon.icon} description={icon.description} alt={icon.alt} active={route} href={icon.href}/>
+                                    </li>
+                                );
+                            })            
+                        }
                 </ul>
             </nav>
+
+            : <div></div>
+}
         </div>
     )
 }

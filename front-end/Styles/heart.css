@@ -1,0 +1,7 @@
+.heart{
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+.fade-in {
+    transform: scale(1.5);
+  }

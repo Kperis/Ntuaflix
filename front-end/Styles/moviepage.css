@@ -1,0 +1,94 @@
+.moviepage-container{
+    min-height: 100vh;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+    padding: 4rem 0 2rem 0;
+
+    
+}
+
+.details{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+   
+
+    width: 60%;
+    height: 100%;
+    margin: 0 auto 0 auto;
+    padding: 1rem 8rem 2rem 8rem;
+    border: 1px solid rgba(0,0,0,0.6);
+    border-radius: 16px;
+
+    background-color: rgba(0,0,0,0.16);
+    backdrop-filter: blur(6px);
+    
+    color: white;
+    font-size: 2em;
+    box-shadow: 0 0 24px 16px rgba(0, 0, 0, 0.6);
+
+    gap: 2rem;
+}
+
+
+.seperation{
+    width: 100%;
+    height: 4px;
+    background-color: white;
+    border-radius: 4px;
+}
+
+.details > div > h1{
+font-size: 2.6em;
+}
+
+.details > div > span{
+    font-size: 0.8em;
+    }
+
+section:nth-of-type(2){
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 0.8em;
+    align-self: flex-start;
+}
+
+.addtolist-container{
+    display: flex;
+    width: 100%;
+
+    justify-content: space-between;
+    align-items: center;
+    
+}
+
+.addtolist-container button{
+    text-align: center;
+    width: fit-content;
+    padding: 1rem;
+    height: fit-content;
+    background-color: var(--variant-color);
+    color: var(--selection-color-variant);
+    font-weight: bold;
+    font-size: 0.8em;
+    cursor: pointer;
+    border-radius: 16px;
+    border: solid 1px rgba(0,0,0,0.5);
+    box-shadow: 0 6px 24px 4px rgba(0,0,0,0.7);
+
+    transition: all ease 0.25s;
+
+}
+
+.addtolist-container button:hover{
+    transform: scale(1.04);
+}
+
+.addtolist-container button:active{
+    transform: scale(0.96);
+}
