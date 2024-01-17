@@ -1,4 +1,6 @@
-const { pool } = require('../utils/database');
+const {pool} = require('../utils/database');
+const csvParser = require('csv-parser');
+const fs = require('fs');
 
 
 exports.getIndex = (req, res, next) => {
@@ -27,3 +29,54 @@ exports.getHealthcheck = (req, res, next) => {
         });
     });
 }
+
+
+exports.uploadTitleEpisode = async (req, res) => {
+    try {
+        const tsvFilePath = req.file.path;
+        const data = fs.readFileSync(tsvFilePath, 'utf8');
+        const rows = data.split('\n').map(row => row.split('\t'));
+
+        // Define your database query
+        const insertQuery_TitleObject = 'INSERT INTO TitleObject (movie_id,type,primary_title,original_title,is_adult,start_year,end_year,runtime_min,image_url) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
+        const insertQuery_Genres = 'INSERT INTO Genres (movie_id,genre) VALUES (?, ?)';
+
+        // Iterate over the rows and execute the database query
+        for (let i = 1; i < rows.length; i++) {
+            try {
+                // Adjust the values based on your TSV columns
+                const values_for_TitleObject = [rows[i][0], rows[i][1], rows[i][2], rows[i][3], rows[i][4], rows[i][5], rows[i][6], rows[i][7], rows[i][9]];
+
+                // Execute the query for TitleObject
+                const result_TitleObject = await pool.query(insertQuery_TitleObject, values_for_TitleObject);
+
+                // Execute queries for Genres
+                const genres = rows[i][8].split(',');
+                for (let j = 0; j < genres.length; j++) {
+                    const values_for_Genres = [rows[i][0], genres[j]];
+                    const result_Genres = await pool.query(insertQuery_Genres, values_for_Genres);
+                }
+
+                // console.log('Row inserted:', result_TitleObject);
+            } catch (error) {
+                console.error('Error inserting row:', error);
+                // Handle error appropriately, e.g., log it or send an error response
+                // Close the database connection pool on error (if needed)
+                // await pool.end();
+                continue;
+            }
+        }
+
+        // Remove the file after processing
+        fs.unlinkSync(tsvFilePath);
+
+        // Send a response
+        res.status(200).json({ message: 'File uploaded and processed successfully.' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
+   
+
