@@ -312,6 +312,7 @@ exports.uploadTitleRatings = (req, res) => {
             ////
 
             pool.getConnection((err, connection) => {
+            
                 if (err) {
                     console.error('Error getting connection:', err);
                     return res.status(500).json({ error: 'Internal Server Error' });
