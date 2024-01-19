@@ -31,7 +31,7 @@ exports.getHealthcheck = (req, res, next) => {
 }
 
 
-exports.uploadTitleEpisode = (req, res) => {
+exports.uploadTitleBasics = (req, res) => {
     try {
         const tsvFilePath = req.file.path;
         const data = fs.readFileSync(tsvFilePath, 'utf8');
@@ -82,3 +82,263 @@ exports.uploadTitleEpisode = (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
+
+exports.uploadTitleAkas = (req, res) => {
+    try {
+        const tsvFilePath = req.file.path;
+        const data = fs.readFileSync(tsvFilePath, 'utf8');
+        const rows = data.split('\n').map(row => row.split('\t'));
+
+        // Define your database query
+        const insertQuery_Akas = 'INSERT INTO Akas_info (movie_id,akas_title,region,language,is_original_title) VALUES (?, ?, ?, ?, ?)';
+        const insertQuery_types = 'INSERT INTO Types (akas_id,type) VALUES (?, ?)';
+        const insertQuery_attributes = 'INSERT INTO Attributes (akas_id,attribute) VALUES (?, ?)';
+
+        for (let i = 1; i < rows.length; i++) {
+            const values_for_Akas_info = [rows[i][0], rows[i][2], rows[i][3], rows[i][4], rows[i][7]];
+
+            pool.getConnection((err, connection) => {
+                if (err) {
+                    console.error('Error getting connection:', err);
+                    return res.status(500).json({ error: 'Internal Server Error' });
+                }
+
+                connection.query(insertQuery_Akas,values_for_Akas_info, (error, results) => {
+                    if (error) {
+                        console.error('Error executing query');
+                    }
+                    const akas_id = results.insertId;
+                
+                    try{
+                        const types = rows[i][4].split(',');
+                        const attributes = rows[i][5].split(',');
+                        for (let j = 0; j < types.length; j++) {
+                            const values_for_Types = [akas_id, types[j]];
+                            
+                            connection.query(insertQuery_types, values_for_Types, (error, results) => {
+                                if (error) {
+                                    console.error('Error executing query');
+                                }
+                            });
+                        }
+                        for (let j = 0; j < attributes.length; j++) {
+                            const values_for_attributes = [akas_id, attributes[j]];
+                            
+                            connection.query(insertQuery_attributes, values_for_attributes, (error, results) => {
+                                if (error) {
+                                    console.error('Error executing query');
+                                }
+                            });
+                        }
+                    } catch (error) {
+                        console.error("Error in genres");
+                    }
+                });
+                connection.release();
+            });
+        }
+        fs.unlinkSync(tsvFilePath);
+
+        // Send a response
+        res.status(200).json({ message: 'File uploaded and processed successfully.' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+
+};
+
+exports.uploadNameBasics = (req, res) => {
+    try {
+        const tsvFilePath = req.file.path;
+        const data = fs.readFileSync(tsvFilePath, 'utf8');
+        const rows = data.split('\n').map(row => row.split('\t'));
+
+        // Define your database query
+        const insertQuery_Contributors = 'INSERT INTO Contributors (contributor_id,primary_name,birth_year,death_year,image_url) VALUES (?, ?, ?, ?, ?)';
+        const insertQuery_Professions = 'INSERT INTO Primary_profession (contributor_id,profession) VALUES (?, ?)';
+        const insertQuery_KnownForTitles = 'INSERT INTO Known_for (contributor_id,movie_id) VALUES (?, ?)';
+
+        for (let i = 1; i < rows.length; i++) {
+            const values_for_Contributors = [rows[i][0], rows[i][1], rows[i][2], rows[i][3], rows[i][6]];
+
+            pool.getConnection((err, connection) => {
+                if (err) {
+                    console.error('Error getting connection:', err);
+                    return res.status(500).json({ error: 'Internal Server Error' });
+                }
+
+                connection.query(insertQuery_Contributors,values_for_Contributors, (error, results) => {
+                    if (error) {
+                        console.error('Error executing query Contributor');
+                    }
+                
+                    try{
+                        const pri_prof = rows[i][4].split(',');
+                        const known_for = rows[i][5].split(',');
+                        for (let j = 0; j < pri_prof.length; j++) {
+                            const values_for_pri_prof = [rows[i][0], pri_prof[j]];
+                            
+                            connection.query(insertQuery_Professions, values_for_pri_prof, (error, results) => {
+                                if (error) {
+                                    // console.error('Error executing query');
+                                }
+                            });
+                        }
+                        for (let j = 0; j < known_for.length; j++) {
+                            const values_for_known_for = [rows[i][0], known_for[j]];
+                            
+                            connection.query(insertQuery_KnownForTitles, values_for_known_for, (error, results) => {
+                                if (error) {
+                                    // console.error('Error executing query');
+                                }
+                            });
+                        }
+                    } catch (error) {
+                        console.error("Error in genres");
+                    }
+                });
+                connection.release();
+            });
+        }
+        fs.unlinkSync(tsvFilePath);
+
+        // Send a response
+        res.status(200).json({ message: 'File uploaded and processed successfully.' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+
+};
+
+exports.uploadTitlePrincipals = (req, res) => {
+    try {
+        const tsvFilePath = req.file.path;
+        const data = fs.readFileSync(tsvFilePath, 'utf8');
+        const rows = data.split('\n').map(row => row.split('\t'));
+
+        // Define your database query
+        ////
+        const insertQuery_Works = 'INSERT INTO Works (movie_id,contributor_id,category,job,characters,image_url) VALUES (?, ?, ?, ?, ?, ?)';
+        ////
+
+        for (let i = 1; i < rows.length; i++) {
+            ////
+            const values_for_Works = [rows[i][0], rows[i][2], rows[i][3], rows[i][4], rows[i][5], rows[i][6]];
+            ////
+
+            pool.getConnection((err, connection) => {
+                if (err) {
+                    console.error('Error getting connection:', err);
+                    return res.status(500).json({ error: 'Internal Server Error' });
+                }
+
+                connection.query(insertQuery_Works,values_for_Works, (error, results) => {
+                    if (error) {
+                        console.error('Error executing query Contributor');
+                    }
+                
+                });
+                connection.release();
+            });
+        }
+        fs.unlinkSync(tsvFilePath);
+
+        // Send a response
+        res.status(200).json({ message: 'File uploaded and processed successfully.' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+
+};
+exports.uploadTitleEpisode = (req, res) => {
+    try {
+        const tsvFilePath = req.file.path;
+        const data = fs.readFileSync(tsvFilePath, 'utf8');
+        const rows = data.split('\n').map(row => row.split('\t'));
+
+        // Define your database query
+        ////
+        const insertQuery_Episodes = 'INSERT INTO Episode_info (movie_id,parent_id,season_num,episode_num) VALUES (?, ?, ?, ?)';
+        ////
+
+        for (let i = 1; i < rows.length; i++) {
+            ////
+            const values_for_episodes = [rows[i][0],rows[i][1],rows[i][2],rows[i][3]];
+            ////
+
+            pool.getConnection((err, connection) => {
+                if (err) {
+                    console.error('Error getting connection:', err);
+                    return res.status(500).json({ error: 'Internal Server Error' });
+                }
+
+                connection.query(insertQuery_Episodes,values_for_episodes, (error, results) => {
+                    if (error) {
+                        console.error('Error executing query Episode');
+                    }
+                
+                });
+                connection.release();
+            });
+        }
+        fs.unlinkSync(tsvFilePath);
+
+        // Send a response
+        res.status(200).json({ message: 'File uploaded and processed successfully.' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+
+};
+
+exports.uploadTitleRatings = (req, res) => {
+    try {
+        const tsvFilePath = req.file.path;
+        const data = fs.readFileSync(tsvFilePath, 'utf8');
+        const rows = data.split('\n').map(row => row.split('\t'));
+
+        // Define your database query
+        ////
+        const insertQuery_Ratings = 'INSERT INTO Ratings (movie_id,average_rating,num_votes) VALUES (?, ?, ?)';
+        ////
+
+        for (let i = 1; i < rows.length; i++) {
+            ////
+            const values_for_ratings = [rows[i][0], rows[i][1], rows[i][2]];
+            ////
+
+            pool.getConnection((err, connection) => {
+                if (err) {
+                    console.error('Error getting connection:', err);
+                    return res.status(500).json({ error: 'Internal Server Error' });
+                }
+
+                connection.query(insertQuery_Ratings,values_for_ratings, (error, results) => {
+                    if (error) {
+                        console.error('Error executing query Rating');
+                    }
+                
+                });
+                connection.release();
+            });
+        }
+        fs.unlinkSync(tsvFilePath);
+
+        // Send a response
+        res.status(200).json({ message: 'File uploaded and processed successfully.' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+
+};
+
+
+
+
+
+
