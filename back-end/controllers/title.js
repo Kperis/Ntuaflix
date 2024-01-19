@@ -1,15 +1,13 @@
 
 const { pool } = require('../utils/database');
 
-
-exports.getTitle = async (req, res, next) => {
-    let titleID = req.params.titleID; // Assuming the titleID is passed as a parameter in the request
-    console.log(titleID);
+exports.getTitle = (req, res, next) => {
+    let titleID = req.params.titleID;
 
     if (titleID.startsWith(':')) {
         titleID = titleID.substring(1);
     }
-    // SQL query with a WHERE clause to filter by titleID
+
     const sqlQuery_1 = `
         SELECT
             TitleObject.movie_id AS titleID,
@@ -22,6 +20,7 @@ exports.getTitle = async (req, res, next) => {
             TitleObject
         WHERE
             TitleObject.movie_id = ?;`;
+
     const sqlQuery_2 = `
         SELECT
             Genres.genre AS genre
@@ -29,6 +28,7 @@ exports.getTitle = async (req, res, next) => {
             Genres
         WHERE
             Genres.movie_id = ?;`;
+
     const sqlQuery_3 = `
         SELECT
             Akas_info.akas_title AS akaTitle,
@@ -37,6 +37,7 @@ exports.getTitle = async (req, res, next) => {
             Akas_info
         WHERE
             Akas_info.movie_id = ?;`;
+
     const sqlQuery_4 = `
         SELECT
             Ratings.average_rating AS avRating,
@@ -45,6 +46,7 @@ exports.getTitle = async (req, res, next) => {
             Ratings
         WHERE
             Ratings.movie_id = ?;`;
+
     const sqlQuery_5 = `
         SELECT
             Contributors.contributor_id AS nameID,
@@ -58,29 +60,57 @@ exports.getTitle = async (req, res, next) => {
             Contributors.contributor_id = Works.contributor_id
         WHERE
             Works.movie_id = ?;`;
-    // Execute the query with the titleID as a parameter
-    try {
-        // Use Promise.all to execute all queries concurrently
-        const [result1, result2, result3, result4, result5] = await Promise.all([
-            pool.query(sqlQuery_1, [titleID]),
-            pool.query(sqlQuery_2, [titleID]),
-            pool.query(sqlQuery_3, [titleID]),
-            pool.query(sqlQuery_4, [titleID]),
-            pool.query(sqlQuery_5, [titleID])
-        ]);
 
-        // Merge results into a single JSON response
-        const mergedResponse = {
-            titleInfo: result1[0],
-            genres: result2[0],
-            akasInfo: result3[0],
-            ratings: result4[0],
-            contributors: result5[0]
-        };
-        //console.log(mergedResponse);
-        res.json(mergedResponse);
+    try {
+        pool.getConnection((err, connection) => {
+            if (err) {
+                console.error('Error getting connection:', err);
+                res.sendStatus(500);
+                return;
+            }
+
+            const executeQuery = (query, params) => {
+                return new Promise((resolve, reject) => {
+                    connection.query(query, params, (error, results) => {
+                        if (error) {
+                            console.error('Error executing query:', error);
+                            reject(error);
+                        } else {
+                            resolve(results);
+                        }
+                    });
+                });
+            };
+
+            Promise.all([
+                executeQuery(sqlQuery_1, [titleID]),
+                executeQuery(sqlQuery_2, [titleID]),
+                executeQuery(sqlQuery_3, [titleID]),
+                executeQuery(sqlQuery_4, [titleID]),
+                executeQuery(sqlQuery_5, [titleID]),
+            ])
+            .then(([results1, results2, results3, results4, results5]) => {
+                const mergedResponse = {
+                    titleInfo: results1[0],
+                    genres: results2,
+                    akasInfo: results3,
+                    ratings: results4,
+                    contributors: results5,
+                };
+                console.log(mergedResponse);
+                res.json(mergedResponse);
+            })
+            .catch((error) => {
+                console.error('Error executing queries:', error);
+                res.sendStatus(500);
+            })
+            .finally(() => {
+                connection.release();
+            });
+        });
     } catch (error) {
-        console.error('Error executing query', error);
+        console.error('Error:', error);
         res.sendStatus(500);
     }
 };
+

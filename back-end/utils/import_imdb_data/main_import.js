@@ -1,4 +1,3 @@
-const setupDatabase = require('../database');
 
 //const addTsvToTable2 = require('./addTsvToTable2');
 const addTsvToTitleObject = require('./addTsvToTitleObject');
@@ -8,6 +7,22 @@ const addTsvToRatings = require('./addTsvRating');
 const addTsvToAkas = require('./addTsvAkas');
 const addTsvToNameBasics = require('./addTsvNameBasics');
 const addTsvToPrincipals = require('./addTsvPrincipals');
+const mysql = require('mysql2/promise');
+
+async function setupDatabase() {
+    const pool = mysql.createPool({
+        host: 'localhost',
+        user: 'root',
+        database: 'ntuaflix',
+        password: '',
+        port: 3306, // Replace with your actual MySQL port
+        waitForConnections: true,
+        connectionLimit: 10,
+        queueLimit: 0
+        });
+
+    return pool;
+}
 
 async function main() {
   let pool;

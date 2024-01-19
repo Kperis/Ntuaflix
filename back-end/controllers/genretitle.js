@@ -40,11 +40,22 @@ exports.getGenreTitle = async (req, res, next) => {
 
     try {
         // Use Promise.all to execute all queries concurrently
+        pool.getConnection(( err, connection) => {
+            if (err) {
+                console.error('Error getting connection:', err);
+                return res.status(500).json({ error: 'Internal Server Error' });
+            }
+            connection.query(sqlQuery_1,conditions, (error, results) => {
+                if (error) {
+                    connection.release();
+                    console.error('Error executing query:', error);
+                    return res.status(500).json({ error: 'Internal Server Error' });
+                }
+                res.json(results);
+            });
+        });
         console.log('Generated SQL Query:', sqlQuery_1);
         console.log('Parameters:', conditions);
-        const [rows] = await pool.query(sqlQuery_1, conditions);
-
-        res.json(rows);
     } catch (error) {
         console.error('Error executing query', error);
         res.sendStatus(500);
