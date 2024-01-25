@@ -339,7 +339,54 @@ exports.uploadTitleRatings = (req, res) => {
 };
 
 
-
-
-
-
+exports.resetAll = (req, res) => {
+    try {
+        const reset_query = [
+            'SET FOREIGN_KEY_CHECKS=0',
+            'TRUNCATE TABLE Akas_info',
+            'TRUNCATE TABLE Attributes',
+            'TRUNCATE TABLE Authentication',
+            'TRUNCATE TABLE Contributors',
+            'TRUNCATE TABLE Episode_info',
+            'TRUNCATE TABLE Favorites_list',
+            'TRUNCATE TABLE Genres',
+            'TRUNCATE TABLE Known_for',
+            'TRUNCATE TABLE Primary_profession',
+            'TRUNCATE TABLE Ratings',
+            'TRUNCATE TABLE TitleObject',
+            'TRUNCATE TABLE Types',
+            'TRUNCATE TABLE Users',
+            'TRUNCATE TABLE Watchlist',
+            'TRUNCATE TABLE Works',
+            'SET FOREIGN_KEY_CHECKS=1'
+        ];
+        
+        pool.getConnection((err, connection) => {
+            if (err) {
+                console.error('Error getting connection:', err);
+                return res.status(500).json({ "status": "failed", "reason": err });
+            }
+        
+            // Execute each statement sequentially
+            reset_query.forEach((query, index) => {
+                connection.query(query, (error, results) => {
+                    if (error) {
+                        connection.release();
+                        console.error(`Error executing query ${index + 1}`, error);
+                        return res.status(500).json({ "status": "failed", "reason": error });
+                    }
+        
+                    if (index === reset_query.length - 1) {
+                        // If it's the last query, release the connection and send the response
+                        connection.release();
+                        res.status(200).json({ "status": "OK" });
+                    }
+                });
+            });
+        });
+        
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({"status":"failed", "reason":error});
+    }
+};

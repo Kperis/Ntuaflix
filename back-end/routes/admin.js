@@ -13,5 +13,6 @@ router.post('/upload/namebasics', upload.single('file'), adminController.uploadN
 router.post('/upload/titleprincipals', upload.single('file'), adminController.uploadTitlePrincipals);
 router.post('/upload/titleepisode', upload.single('file'), adminController.uploadTitleEpisode);
 router.post('/upload/titleratings', upload.single('file'), adminController.uploadTitleRatings);
+router.post('/resetall', adminController.resetAll);
 
 module.exports = router;
