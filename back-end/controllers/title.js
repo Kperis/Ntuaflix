@@ -97,7 +97,7 @@ exports.getTitle = (req, res, next) => {
                     ratings: results4,
                     contributors: results5,
                 };
-                console.log(mergedResponse);
+                //console.log(mergedResponse);
                 res.json(mergedResponse);
             })
             .catch((error) => {
