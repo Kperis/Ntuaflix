@@ -29,15 +29,15 @@ async function addTsvToNameBasics(pool) {
         const known_for = rows[i][5].split(',');
         
         // Execute the query
-        const [result] = await pool.query(insertQuery_Contributors, values_for_Contributors);
+        const result = await pool.query(insertQuery_Contributors, values_for_Contributors);
 
         for (let j = 0; j < pri_prof.length; j++) {
             const values_for_pri_prof = [rows[i][0], pri_prof[j]];
-            const [result] = await pool.query(insertQuery_Professions, values_for_pri_prof);
+            const result = await pool.query(insertQuery_Professions, values_for_pri_prof);
         }
         for (let j = 0; j <known_for.length; j++) {
             const values_for_known_for = [rows[i][0], known_for[j]];
-            const [result] = await pool.query(insertQuery_KnownForTitles, values_for_known_for);
+            const result = await pool.query(insertQuery_KnownForTitles, values_for_known_for);
         }
         //console.log(rows[i][8]);
         //console.log('Row inserted:', result);

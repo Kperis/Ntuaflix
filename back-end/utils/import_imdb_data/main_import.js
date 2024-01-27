@@ -7,7 +7,7 @@ const addTsvToRatings = require('./addTsvRating');
 const addTsvToAkas = require('./addTsvAkas');
 const addTsvToNameBasics = require('./addTsvNameBasics');
 const addTsvToPrincipals = require('./addTsvPrincipals');
-const mysql = require('mysql2/promise');
+const mysql = require('mysql');
 
 async function setupDatabase() {
     const pool = mysql.createPool({

@@ -25,7 +25,7 @@ async function addTsvToRatings(pool) {
         const values_for_ratings = [rows[i][0], rows[i][1], rows[i][2]];
         
         // Execute the query
-        const [result] = await pool.query(insertQuery_Ratings, values_for_ratings);
+        const result = await pool.query(insertQuery_Ratings, values_for_ratings);
 
         //console.log(rows[i][8]);
         //console.log('Row inserted:', result);

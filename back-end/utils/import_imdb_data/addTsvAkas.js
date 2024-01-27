@@ -30,17 +30,17 @@ async function addTsvToAkas(pool) {
         const attributes = rows[i][5].split(',');
         
         // Execute the query
-        const [result] = await pool.query(insertQuery_Akas, values_for_Akas_info);
+        const result = await pool.query(insertQuery_Akas, values_for_Akas_info);
         const akas_id = result.insertId;
         
 
         for (let j = 0; j < types.length; j++) {
             const values_for_types = [akas_id, types[j]];
-            const [result] = await pool.query(insertQuery_types, values_for_types);
+            const result = await pool.query(insertQuery_types, values_for_types);
         }
         for (let j = 0; j <attributes.length; j++) {
             const values_for_attributes = [akas_id, attributes[j]];
-            const [result] = await pool.query(insertQuery_attributes, values_for_attributes);
+            const result = await pool.query(insertQuery_attributes, values_for_attributes);
         }
         //console.log(rows[i][8]);
         //console.log('Row inserted:', result);

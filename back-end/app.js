@@ -54,9 +54,9 @@ const authRoutes = require('./routes/auth');
 
 /* Routes used */
 // Εδώ γίνεται ένα αρχικό indexing
-app.use('/ntuaflix_api', indexRoutes);
 app.use('/ntuaflix_api/admin', adminRoutes);
 app.use('/ntuaflix_api/auth', authRoutes);
+app.use('/ntuaflix_api', indexRoutes);
 
 app.use((req, res, next) => { res.status(500).json({ message: 'Interval Server Error' }) });
 

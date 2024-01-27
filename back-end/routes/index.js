@@ -14,10 +14,14 @@ router.get('/', indexController.getIndex);
 router.get('/register', authController.getRegister);
 router.get('/login', authController.getLogin);
 
-// Time for authentication!!
+// Time for authentication!! // After the login always check if the user is authenticated using the authMiddleware
+router.use(authMiddleware); 
 
+// First Use Case: Search for a title / Search for a person / Search for a genre
 router.get('/title/:titleID', titleController.getTitle);
 router.get('/searchtitle',searchtitleController.getSearchTitle);
 router.get('/bygenre',bygenreController.getGenreTitle);
+
+// Second Use Case: Add a title to your watchlist / Edit your watchlist 
 
 module.exports = router;
