@@ -127,3 +127,49 @@ const executeQuery = (connection, query, params) => {
 };
 
 module.exports = { getTitleObject };
+
+
+//////////////////////////
+// Example of a josn titleObject
+// {
+//     "titleID": "tt123456",
+//     "type": "movie",
+//     "originalTitle": "The Original Title",
+//     "titlePoster": "https://example.com/poster.jpg",
+//     "startYear": "2022",
+//     "endYear": "2024",
+//     "genres": [
+//       {
+//         "genreTitle": "Drama"
+//       },
+//       {
+//         "genreTitle": "Action"
+//       }
+//     ],
+//     "titleAkas": [
+//       {
+//         "akaTitle": "Alternate Title 1",
+//         "regionAbbrev": "US"
+//       },
+//       {
+//         "akaTitle": "Alternate Title 2",
+//         "regionAbbrev": "UK"
+//       }
+//     ],
+//     "principals": [
+//       {
+//         "nameID": "nm789012",
+//         "name": "John Doe",
+//         "category": "actor"
+//       },
+//       {
+//         "nameID": "nm345678",
+//         "name": "Jane Smith",
+//         "category": "director"
+//       }
+//     ],
+//     "rating": {
+//       "avRating": "8.5",
+//       "nVotes": "1000"
+//     }
+//   }

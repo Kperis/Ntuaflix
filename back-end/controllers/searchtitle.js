@@ -30,6 +30,11 @@ exports.getSearchTitle = (req, res, next) => {
             const titleIDs = results.map(result => result.titleID);
             const titleObjects = [];
 
+            if (titleIDs.length === 0) {
+                res.status(204).json(message = 'No data');
+                return;
+            }
+
             const getTitleObjects = async () => {
                 for (const titleID of titleIDs) {
                     try {
@@ -42,6 +47,7 @@ exports.getSearchTitle = (req, res, next) => {
                     }
                 }
                 res.status(200).json(titleObjects);
+                // Καθώς θέλω να επιστρέψω μια λίστα και όχι ενα json που περιέχει μια λιστα!!
             };
 
             getTitleObjects();
