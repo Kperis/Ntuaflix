@@ -5,7 +5,7 @@ const page = () => {
 
     
     const movie = {
-        poster: '/interstellar2.jpg',
+        poster: '/interstellar.jpg',
         review: '4.9',
         title: 'Interstellar'    
     }
