@@ -32,18 +32,18 @@ async function main() {
     pool = await setupDatabase();
 
     // Run specific functionality for adding TSV files to tables
-    await addTsvToTitleObject(pool);
-    console.log('Done with title object');
+    // await addTsvToTitleObject(pool);
+    // console.log('Done with title object');
     await addTsvToNameBasics(pool);
-    console.log('Done with name basics');
-    await addTsvToAkas(pool);
-    console.log('Done with akas');
-    await addTsvToEpisode(pool);
-    console.log('Done with episode');
-    await addTsvToRatings(pool);
-    console.log('Done with ratings');
-    await addTsvToPrincipals(pool);
-    console.log('Done with principals');
+    // console.log('Done with name basics');
+    // await addTsvToAkas(pool);
+    // console.log('Done with akas');
+    // await addTsvToEpisode(pool);
+    // console.log('Done with episode');
+    // await addTsvToRatings(pool);
+    // console.log('Done with ratings');
+    // await addTsvToPrincipals(pool);
+    // console.log('Done with principals');
 
     //await addTsvToTable2(pool);
   } catch (error) {
