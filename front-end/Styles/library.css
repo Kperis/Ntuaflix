@@ -1,0 +1,49 @@
+
+.library-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 80vh;
+    padding: 4rem 8rem;
+    gap: 16rem;
+    list-style: none;
+}
+
+.libraryList-container{
+    /* padding: 4rem 2rem; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 120px;
+    width: 260px;
+    height: 260px;
+    background: linear-gradient(180deg, rgba(17, 45, 101, 0.4),rgb(125, 0, 187));;
+    box-shadow: 0 4px 4px 0 rgba(255,255,255,0.5);
+    transition: all ease 0.2s;
+
+    /* border: 1px solid rgba(0,0,0,0.6); */
+}
+
+
+
+
+.libraryList-container:hover{
+    transform: scale(1.2);
+}
+
+
+
+.libraryList{
+    color: rgb(0, 255, 213);
+    font-weight: bold;
+    font-size: 1.2em;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* padding: 0 0 12rem 0; */
+}
+

@@ -1,0 +1,125 @@
+
+.navbar-container{
+    width: 84px;
+    background: rgba(255, 255, 255, 0.5);
+    height: 100vh;
+    position: fixed;
+    z-index: 10;
+    box-shadow: 1px 0 16px 0px rgba(0,0,0,0.6);
+    transition: all ease 0.4;
+}
+
+
+
+.navbar-items{
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+.navbar-items > li{
+    width: 100%;
+}
+
+/* .navbar-items li > div{
+    padding: 1.4rem;
+} */
+
+.navbar-container > ul > li:last-child{
+    margin-top: auto;
+}
+
+.navicon{
+    display: flex;
+    width: 100%;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 2rem;
+    font-size: 1.4em;
+    cursor: pointer;
+    padding: 1.4rem;
+    color: black;
+    /* transition: all linear 2s; */
+}
+
+.navicon:hover{
+    background-color: var(--selection-color-variant);
+}
+
+
+.navicon:hover .options-logo{
+    transform: scale(1.05);
+    transform: rotate(5deg);
+    transition: all ease 0.25s;
+}
+
+.navicon:hover span{
+    font-size: 1.1em;
+    transition: all ease 0.25s;
+}
+
+.navicon  span{
+    display: none;
+}
+
+.navicon-active{
+    display: flex;
+    width: 100%;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 2rem;
+    font-size: 1.4em;
+    cursor: pointer;
+    padding: 1.4rem;
+    background-color: var(--selection-color-variant);
+    /* transition: all linear 2s; */
+}
+
+
+.navicon-active:hover{
+    background-color: var(--selection-color-variant);
+}
+
+
+.navicon-active:hover .options-logo{
+    transform: scale(1.05);
+    transform: rotate(5deg);
+    transition: all ease 0.25s;
+}
+
+.navicon-active:hover span{
+    font-size: 1.1em;
+    transition: all ease 0.25s;
+}
+
+.navicon-active > span{
+    display: none;
+}
+
+
+.navbar-container:hover span{
+    display: block;
+    transition: all ease 0.6s;
+}
+
+.navbar-container:hover{
+    width: 200px;
+    transition: all ease 0.2s;
+}
+
+.navbar-container:not(:hover){
+    width: 84px;
+    transition: all ease 0.2s;
+}
+
+.navbar-container:not(:hover) span{
+    display: none;
+    transition: all ease 0.6s;
+}
+

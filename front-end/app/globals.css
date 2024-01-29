@@ -1,0 +1,20 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  --main-color: rgb(82, 43, 91);
+  --variant-color: #854F6C;
+  --selection-color: rgb(223, 182, 178);
+  --selection-color-variant: rgb(251, 228, 216);
+}
+
+a {
+  text-decoration: none;
+}
+
+body{
+  background: linear-gradient(60deg,var(--variant-color), var(--main-color));
+  background-repeat: no-repeat;
+  height: 100%;
+  background-attachment: fixed ;
+}
