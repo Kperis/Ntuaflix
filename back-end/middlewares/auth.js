@@ -12,6 +12,7 @@ const auth = (req, res, next) => {
         res.sendStatus(400)
       }
       req.user = user
+      console.log("User is:" + user);
       next()
     })
 }

@@ -101,7 +101,7 @@ exports.login = (req, res, next) => {
 
                 if (passwordMatch) {
                     // Passwords match, generate a token
-                    const token = jwt.sign({ userId: user.id, username: user.username }, my_secret_key , { expiresIn: '4h' });
+                    const token = jwt.sign({ userId: user.user_id, username: user.username }, my_secret_key , { expiresIn: '4h' });
                     // When a user logs in successfully, the server generates a token using a secret key. 
                     // The token contains information about the user's identity and authentication status
 

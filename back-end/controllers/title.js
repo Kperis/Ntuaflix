@@ -16,6 +16,10 @@ exports.getTitle = (req, res, next) => {
     }
     
     let titleID = req.params.titleID;
+    // Testing of getting the user ID from the token
+    let userID = req.user.userId;
+    console.log("User ID is:" + userID); 
+    // WORIKING!!!!!
 
     if (titleID.startsWith(':')) {
         titleID = titleID.substring(1);
