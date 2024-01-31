@@ -101,7 +101,7 @@ exports.login = (req, res, next) => {
 
                 if (passwordMatch) {
                     // Passwords match, generate a token
-                    const token = jwt.sign({ userId: user.id, username: user.username }, my_secret_key , { expiresIn: '1h' });
+                    const token = jwt.sign({ userId: user.user_id, username: user.username }, my_secret_key , { expiresIn: '4h' });
                     // When a user logs in successfully, the server generates a token using a secret key. 
                     // The token contains information about the user's identity and authentication status
 
@@ -122,7 +122,7 @@ exports.login = (req, res, next) => {
 };
 
 exports.getRegister = (req,res, next) => {
-    res.status(400).json({
+    res.status(200).json({
         message: "Hello from Sign up"
     });
     // render to register page
@@ -130,7 +130,7 @@ exports.getRegister = (req,res, next) => {
 
 // implementing get requests for login and register
 exports.getLogin = (req, res, next) => {
-    res.status(400).json({ message: 'Hello from Login'});
+    res.status(200).json({ message: 'Hello from Login'});
     // render to login html page
 };
 

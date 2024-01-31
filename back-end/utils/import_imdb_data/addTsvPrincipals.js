@@ -25,7 +25,7 @@ async function addTsvToPrincipals(pool) {
         const values_for_Works = [rows[i][0], rows[i][2], rows[i][3], rows[i][4], rows[i][5], rows[i][6]];
         
         // Execute the query
-        const [result] = await pool.query(insertQuery_Works, values_for_Works);
+        const result = await pool.query(insertQuery_Works, values_for_Works);
 
         //console.log(rows[i][8]);
         //console.log('Row inserted:', result);

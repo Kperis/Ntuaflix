@@ -1,33 +1,57 @@
-const { pool } = require('../utils/database');
+const express = require('express');
+const {pool} = require('../utils/database');
+const {getTitleObject} = require('../middlewares/getTitleObject');
 
 
-exports.getSearchTitle = async (req, res, next) => {
-
+exports.getSearchTitle = (req, res, next) => {
     const titlePart = req.body.titlePart;
-
-    // SQL query with a WHERE clause to filter by titleID
-    const sqlQuery_1 = `
-        SELECT * FROM titleObject WHERE titleObject.original_title LIKE ?
-        `;
-
-    // Execute the query with the titleID as a parameter
-    try {
-        pool.getConnection(( err, connection) => {
+    SQLQuery = `
+        SELECT
+            TitleObject.movie_id AS titleID
+        FROM
+            TitleObject
+        WHERE
+            TitleObject.original_title LIKE ?;`; // Maybe use %? or ?% or %?% instead of ? 
+    
+    pool.getConnection((err, connection) => {
+        if (err) {
+            console.error('Error getting connection:', err);
+            res.sendStatus(500);
+            return;
+        }
+        connection.query(SQLQuery,[`%${titlePart}%`], (err, results) => {
+            //connection.release();
             if (err) {
-                console.error('Error getting connection:', err);
-                return res.status(500).json({ error: 'Internal Server Error' });
+                console.error('Error executing query:', err);
+                res.sendStatus(500);
+                return;
             }
-            connection.query(sqlQuery_1,[`%${titlePart}%`], (error, results) => {
-                if (error) {
-                    connection.release();
-                    console.error('Error executing query:', error);
-                    return res.status(500).json({ error: 'Internal Server Error' });
+
+            const titleIDs = results.map(result => result.titleID);
+            const titleObjects = [];
+
+            if (titleIDs.length === 0) {
+                res.status(204).json(message = 'No data');
+                return;
+            }
+
+            const getTitleObjects = async () => {
+                for (const titleID of titleIDs) {
+                    try {
+                        const response = await getTitleObject(titleID);
+                        titleObjects.push(response);
+                    } catch (error) {
+                        console.error('Error getting title object:', error);
+                        res.sendStatus(500).json({message: 'Internal Server Error'});
+                        return;
+                    }
                 }
-                res.json(results);
-            });
+                res.status(200).json(titleObjects);
+                // Καθώς θέλω να επιστρέψω μια λίστα και όχι ενα json που περιέχει μια λιστα!!
+            };
+
+            getTitleObjects();
+            connection.release();
         });
-    } catch (error) {
-        console.error('Error executing query', error);
-        res.sendStatus(500);
-    }
+    })
 };

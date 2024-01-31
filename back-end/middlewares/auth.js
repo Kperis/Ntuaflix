@@ -9,9 +9,10 @@ const auth = (req, res, next) => {
     jwt.verify(token, my_secret_key, (err, user) => {
       if (err){
         console.log(err)
-        res.sendStatus(400)
+        res.sendStatus(401).json({ message: 'Not Authorized' })
       }
       req.user = user
+      console.log("You are authenticated!");
       next()
     })
 }

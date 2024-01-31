@@ -41,11 +41,11 @@ async function addTsvToTitleObject(pool) {
         }
         
         // Execute the query
-        const [result] = await pool.query(insertQuery_TitleObject, values_for_TitleObject);
+        const result = await pool.query(insertQuery_TitleObject, values_for_TitleObject);
 
         for (let j = 0; j < genres.length; j++) {
             const values_for_Genres = [rows[i][0], genres[j]];
-            const [result] = await pool.query(insertQuery_Genres, values_for_Genres);
+            const result = await pool.query(insertQuery_Genres, values_for_Genres);
         }
         //console.log(rows[i][8]);
         //console.log('Row inserted:', result);

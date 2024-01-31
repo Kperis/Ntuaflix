@@ -25,7 +25,7 @@ async function addTsvToEpisode(pool) {
         const values_for_episodes = [rows[i][0],rows[i][1],rows[i][2],rows[i][3]];
         
         // Execute the query
-        const [result] = await pool.query(insertQuery_Episodes, values_for_episodes);
+        const result = await pool.query(insertQuery_Episodes, values_for_episodes);
 
         //console.log(rows[i][8]);
         //console.log('Row inserted:', result);
