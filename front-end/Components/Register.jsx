@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
+import Link from 'next/link'
 import '@/Styles/register.css'
 
 
@@ -47,7 +48,7 @@ const Register = () => {
             alert('Please fill everything!');
         }
         else{
-            fetch('http://localhost:9876/register', {
+            fetch('http://localhost:9876/ntuaflix_api/auth/register', {
                 method: 'post',
                 headers: {'Content-type':'application/json'},
                 body: JSON.stringify({
@@ -62,12 +63,12 @@ const Register = () => {
             .then(response => response.json())
             .then(response => console.log(response))
 
-            // setUsername("");
-            // setEmail("");
-            // setFirstName("");
-            // setLastName("");
-            // setPassword("");
-            // setBirth("");
+            setUsername("");
+            setEmail("");
+            setFirstName("");
+            setLastName("");
+            setPassword("");
+            setBirth("");
         }
     }
 
@@ -78,6 +79,7 @@ const Register = () => {
                     <h1>
                         Welcome to Ntuaflix!
                     </h1>
+                    <Link className='login-link' href='/signin' >Login</Link>
                 </section>
                 <main>
                     <div className='register-form'>
