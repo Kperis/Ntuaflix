@@ -102,7 +102,7 @@ const getTitleObject = async (titleID) => {
                 return mergedResponse;
             } catch (error) {
                 if (error.status === 404) {
-                    throw { status: 404, message: 'No title found' };
+                    throw { status: 204, message: 'No title found' }; // Message might not be printed!
                 } else {
                     throw { status: 500, message: 'Internal server error' }; // Handle all other errors
                 }

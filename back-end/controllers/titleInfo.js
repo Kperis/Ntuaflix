@@ -1,4 +1,6 @@
 const {pool} = require('../utils/database');
+const { getTitleObject } = require('../middlewares/getTitleObject');
+const { ParserOptions } = require('fast-csv');
 
 
 // The url will be ntuaflix/listsInfo/:titleID
@@ -17,7 +19,7 @@ exports.getListsInfo = async (req, res) => {
 
         const query = `
             SELECT
-                EXISTS(SELECT 1 FROM Favorite_list WHERE user_id = ? AND movie_id = ?) AS isFavorite,
+                EXISTS(SELECT 1 FROM Favorites_list WHERE user_id = ? AND movie_id = ?) AS isFavorite,
                 EXISTS(SELECT 1 FROM Watchlist WHERE user_id = ? AND movie_id = ?) AS isWatchlist
         `;
 
@@ -29,9 +31,11 @@ exports.getListsInfo = async (req, res) => {
                 return res.status(500).json({ error: 'Internal server error' });
             }
 
-            const [favoriteResult, watchlistResult] = results;
-            const isFavorite = favoriteResult.isFavorite === 1;
-            const isWatchlist = watchlistResult.isWatchlist === 1;
+            console.log(results[0].isFavorite);
+            const favoriteResult = results[0].isFavorite;
+            const watchlistResult = results[0].isWatchlist;
+            const isFavorite = favoriteResult === 1;
+            const isWatchlist = watchlistResult === 1;
 
             return res.json({ isFavorite, isWatchlist });
         });
@@ -52,11 +56,10 @@ exports.getSeriesInfo = async (req, res) => {
         }
 
         const SQLQuery = `
-            SELECT parent_id FROM Episode WHERE title_id = ?
+            SELECT parent_id FROM Episode_info WHERE movie_id = ?
         `;
 
-        connection.query(SQLQuery, [titleID], (error, results) => {
-            connection.release();
+        connection.query(SQLQuery, [titleID], async (error, results) => {
 
             if (error) {
                 console.error(error);
@@ -69,7 +72,16 @@ exports.getSeriesInfo = async (req, res) => {
 
             const parent_id = results[0].parent_id;
             // Get and return TitleObject of parent_id
-            return res.json({ parent_id });
+            console.log(parent_id);
+            getTitleObject(parent_id)
+            .then((titleObject) => {
+                console.log(titleObject);
+                res.status(200).json(titleObject);
+            })
+            .catch((error) => {
+                console.error(error);
+                res.status(error.status).json({ message: error.message });
+            });
         });
     });
 };

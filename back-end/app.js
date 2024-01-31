@@ -58,6 +58,6 @@ app.use('/ntuaflix_api/admin', adminRoutes);
 app.use('/ntuaflix_api/auth', authRoutes);
 app.use('/ntuaflix_api', indexRoutes);
 
-app.use((req, res, next) => { res.status(500).json({ message: 'Interval Server Error' }) });
+app.use((req, res, next) => { res.status(400).json({ message: 'Endpoint Not Found' }) });
 
 module.exports = app;

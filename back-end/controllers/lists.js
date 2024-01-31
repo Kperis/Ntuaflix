@@ -2,31 +2,56 @@ const {pool} = require('../utils/database');
 
 exports.postAddToFavorites = async (req, res) => {
     let userID = req.user.userId;
-    // Depending on how the titleID is given
     let titleID = req.params.titleID;
     if (titleID.startsWith(':')) {
         titleID = titleID.substring(1);
     }
-    //
-    let query = `INSERT INTO Favorites_list (user_id, movie_id) VALUES (${userID}, ${titleID})`;
-    pool.getConnection((err, connection) => {
+
+    // Check if titleID exists in TitleObject table
+    const checkTitleQuery = `SELECT * FROM TitleObject WHERE movie_id = '${titleID}'`;
+    pool.query(checkTitleQuery, (err, titleResults) => {
         if (err) {
-            console.error('Error getting connection:', err);
+            console.error('Error executing query:', err);
             res.sendStatus(500);
             return;
         }
-        connection.query(query, (err, results) => {
+
+        if (titleResults.length === 0) {
+            // titleID does not exist in TitleObject table
+            res.status(204).json({ message: 'Title not found' });
+            return;
+        }
+
+        // Check if titleID is already in the Favorite list of the user
+        const checkFavoriteQuery = `SELECT * FROM Favorites_list WHERE user_id = ${userID} AND movie_id = '${titleID}'`;
+        pool.query(checkFavoriteQuery, (err, favoriteResults) => {
             if (err) {
                 console.error('Error executing query:', err);
                 res.sendStatus(500);
                 return;
             }
-            res.status(200).json({message: 'Added to favorites'});
-            connection.release();
-        }
-    )});
 
+            if (favoriteResults.length > 0) {
+                // titleID is already in the Favorite list of the user
+                res.status(204).json({ message: 'Title already in favorites' });
+                return;
+            }
+
+            // Insert titleID into Favorites_list
+            const insertFavoriteQuery = `INSERT INTO Favorites_list (user_id, movie_id) VALUES (${userID}, '${titleID}')`;
+            pool.query(insertFavoriteQuery, (err, insertResult) => {
+                if (err) {
+                    console.error('Error executing query:', err);
+                    res.sendStatus(500);
+                    return;
+                }
+
+                res.status(200).json({ message: 'Title added to favorites' });
+            });
+        });
+    });
 };
+
 
 exports.getFavorites = async (req, res) => {
     let userID = req.user.userId;
@@ -116,28 +141,52 @@ exports.getWatchlist = async (req, res) => {
 
 exports.postAddToWatchlist = async (req, res) => {
     let userID = req.user.userId;
-    // Depending on how the titleID is given
     let titleID = req.params.titleID;
     if (titleID.startsWith(':')) {
         titleID = titleID.substring(1);
     }
-    //
-    let query = `INSERT INTO Watchlist (user_id, movie_id) VALUES (${userID}, ${titleID})`;
-    pool.getConnection((err, connection) => {
+    // Check if titleID exists in TitleObject table
+    const checkTitleQuery = `SELECT * FROM TitleObject WHERE movie_id = '${titleID}'`;
+    pool.query(checkTitleQuery, (err, titleResults) => {
         if (err) {
-            console.error('Error getting connection:', err);
+            console.error('Error executing query:', err);
             res.sendStatus(500);
             return;
         }
-        connection.query(query, (err, results) => {
+
+        if (titleResults.length === 0) {
+            // titleID does not exist in TitleObject table
+            res.status(204).json({ message: 'Title not found' });
+            return;
+        }
+
+        // Check if titleID is already in the Watchlist of the user
+        const checkWatchlistQuery = `SELECT * FROM Watchlist WHERE user_id = ${userID} AND movie_id = '${titleID}'`;
+        pool.query(checkWatchlistQuery, (err, watchlistResults) => {
             if (err) {
                 console.error('Error executing query:', err);
                 res.sendStatus(500);
                 return;
             }
-            res.status(200).json({message: 'Added to watchlist'});
-            connection.release();
-        }
-    )});
+
+            if (watchlistResults.length > 0) {
+                // titleID is already in the Watchlist of the user
+                res.status(204).json({ message: 'Title already in watchlist' });
+                return;
+            }
+
+            // Insert titleID into Watchlist
+            const insertWatchlistQuery = `INSERT INTO Watchlist (user_id, movie_id) VALUES (${userID}, '${titleID}')`;
+            pool.query(insertWatchlistQuery, (err, insertResult) => {
+                if (err) {
+                    console.error('Error executing query:', err);
+                    res.sendStatus(500);
+                    return;
+                }
+
+                res.status(200).json({ message: 'Title added to watchlist' });
+            });
+        });
+    });
 
 }
