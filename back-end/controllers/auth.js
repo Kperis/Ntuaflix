@@ -105,7 +105,7 @@ exports.login = (req, res, next) => {
                     // When a user logs in successfully, the server generates a token using a secret key. 
                     // The token contains information about the user's identity and authentication status
 
-                    return res.status(200).json({ success: true, message: 'Login successful', token });
+                    return res.status(200).json({ success: true, message: 'Login successful', token: token });
                 } else {
                     // Passwords do not match
                     return res.status(401).json({ error: 'Invalid username or password' });
