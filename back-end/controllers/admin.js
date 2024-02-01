@@ -63,7 +63,7 @@ exports.uploadTitleBasics = (req, res) => {
                         
                         connection.query(insertQuery_Genres, values_for_Genres, (error, results) => {
                             if (error) {
-                                console.error('Error executing query');
+                                //console.error('Error executing query');
                             }
                         });
                     }

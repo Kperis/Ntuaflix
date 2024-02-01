@@ -7,13 +7,22 @@ const addTsvToRatings = require('./addTsvRating');
 const addTsvToAkas = require('./addTsvAkas');
 const addTsvToNameBasics = require('./addTsvNameBasics');
 const addTsvToPrincipals = require('./addTsvPrincipals');
-const mysql = require('mysql');
+//const mysql = require('mysql');
+const mysql = require('mysql2/promise');
+
+const database_name = 'ntuaflix_test';
+var N = true;
+if(database_name === 'ntuaflix'){
+    N = true;
+}else{
+    N = false;
+}
 
 async function setupDatabase() {
     const pool = mysql.createPool({
         host: 'localhost',
         user: 'root',
-        database: 'ntuaflix',
+        database: database_name,//'ntuaflix_test',
         password: '',
         port: 3306, // Replace with your actual MySQL port
         waitForConnections: true,
@@ -32,17 +41,17 @@ async function main() {
     pool = await setupDatabase();
 
     // Run specific functionality for adding TSV files to tables
-    await addTsvToTitleObject(pool);
+    await addTsvToTitleObject(pool,N);
     console.log('Done with title object');
-    await addTsvToNameBasics(pool);
+    await addTsvToNameBasics(pool,N);
     console.log('Done with name basics');
-    await addTsvToAkas(pool);
+    await addTsvToAkas(pool,N);
     console.log('Done with akas');
-    await addTsvToEpisode(pool);
+    await addTsvToEpisode(pool,N);
     console.log('Done with episode');
-    await addTsvToRatings(pool);
+    await addTsvToRatings(pool,N);
     console.log('Done with ratings');
-    await addTsvToPrincipals(pool);
+    await addTsvToPrincipals(pool,N);
     console.log('Done with principals');
 
     // await addTsvToTable2(pool);
