@@ -1,7 +1,28 @@
+'use client'
+
 import List from '@/Components/List'
+import Spinner from '@/Components/Spinner'
 import React from 'react'
+import { useRouter } from 'next/navigation'
+import { useState, useEffect } from 'react'
+import { useAuth } from '@/Components/Context'
 
 const page = () => {
+
+
+    const router = useRouter();
+    const {loginStatus, setLoginStatus} = useAuth();
+
+    useEffect(() => {
+        const item = localStorage.getItem('token');
+        if(!item){
+            setLoginStatus(false);
+            router.push('/signin');
+        }
+        else{
+            setLoginStatus(true);
+        }
+    },[])
 
     const actors = [
         {
@@ -47,9 +68,14 @@ const page = () => {
     ]
 
   return (
+    loginStatus
+    ?
     <div>
         <List type='actors' arr={actors} classname='actors-container' />
     </div>
+
+    :
+    <Spinner />
   )
 }
 
