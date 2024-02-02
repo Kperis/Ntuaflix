@@ -26,7 +26,7 @@ async function addTsvToTitleObject(pool) {
         const values_for_TitleObject = [rows[i][0], rows[i][1], rows[i][2], rows[i][3], rows[i][4], rows[i][5], rows[i][6], rows[i][7], rows[i][9]];
         const genres = rows[i][8].split(',');
         console.log(values_for_TitleObject);
-        for (let k = 5; k < values_for_TitleObject.length; k++) {
+        for (let k = 5; k < values_for_TitleObject.length-1; k++) {
             const stringValue = values_for_TitleObject[k];
             const intValue = parseInt(stringValue, 10);
         
@@ -36,7 +36,7 @@ async function addTsvToTitleObject(pool) {
             } else {
                 // Handle the case where the string cannot be converted to an int
                 console.log(`${stringValue} cannot be converted to int`);
-                values_for_TitleObject[k] = '0';
+                values_for_TitleObject[k] = 'NULL';
             }
         }
         

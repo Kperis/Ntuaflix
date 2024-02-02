@@ -28,7 +28,7 @@ const Navbar = () => {
             icon: '/library.png',
             description: 'Library',
             alt: 'Library',
-            href: '/mylibrary',
+            href: '/profile',
             active: 0
         },
         {
