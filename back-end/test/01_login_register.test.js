@@ -13,7 +13,7 @@ let response;
 // TEST FOR [POST]/auth/register
 describe('Register', () => {
     // Register a new user
-    it('should register a new user', (done) => {
+    it('should register a new user if not existed', (done) => {
         request(app)
             .post('/ntuaflix_api/auth/register')
             .send({
@@ -25,8 +25,16 @@ describe('Register', () => {
                 password: "1234"
             })
             .end((err, res) => {
-            //console.log('Response:', res.status, res.body);
-                expect(res.status).to.equal(200); // Update the expected status code if needed
+                //console.log('Response:', res.status, res.body);
+                if (res.status === 400) {
+                    // User already exists in the database
+                    expect(res.status).to.equal(400);
+                    // Check if the error message is correct
+                    expect(res.body.message).to.equal('Email already in use');
+                } else {
+                    // User successfully registered
+                    expect(res.status).to.equal(200);
+                }
                 done();
             });
     });

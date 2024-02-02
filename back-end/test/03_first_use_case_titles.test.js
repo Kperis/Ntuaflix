@@ -9,12 +9,14 @@ chai.use(chaiHttp);
 // Variables
 let token;
 let response;
-let titleID_correct = 'tt0000001';
+let titleID_correct = 'tt123456';
 let titleID_wrong = 'tt0000002';
-let titlePart_correct = 'Avatar';
-let titlePart_wrong = 'Avatar2';
+let titlePart_correct = 'Existing';
+let titlePart_wrong = 'Avatar';
 let genre_correct = 'Action';
-let genre_wrong = 'Action2';
+let genre_wrong = 'Drama';
+// The database contains the following title:
+// tt123456 - Existing Original Title - Action
 
 
 // Titles
@@ -153,7 +155,8 @@ describe('bygenre', () => {
             .get('/ntuaflix_api/bygenre')
             .set('Authorization', 'Bearer ' + token)
             .send({
-                genre: genre_correct
+                qgenre: genre_correct,
+                minrating: 5
             })
             .end((err, res) => {
                 //console.log('Response:', res.status, res.body);
@@ -175,7 +178,8 @@ describe('bygenre', () => {
             .get('/ntuaflix_api/bygenre')
             .set('Authorization', 'Bearer ' + token)
             .send({
-                genre: genre_wrong
+                qgenre: genre_wrong,
+                minrating: 5
             })
             .end((err, res) => {
                 //console.log('Response:', res.status, res.body);

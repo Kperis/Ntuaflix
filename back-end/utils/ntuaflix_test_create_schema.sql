@@ -219,5 +219,58 @@ CREATE TABLE IF NOT EXISTS Favorites_list (
 );
 
 -- Insert the existinguser
-INSERT INTO Users (first_name, last_name, birthdate, email, role) VALUES ('existinguserFN', 'existinguserLN', '1990-01-01', 'existinguser@example.com', 'simple_user');
-INSERT INTO Authentication (user_id, password, username) VALUES (1, 'existinguser', '1234');
+/* INSERT INTO Users (first_name, last_name, birthdate, email, role) VALUES ('existinguserFN', 'existinguserLN', '1990-01-01', 'existinguser@example.com', 'simple_user');
+INSERT INTO Authentication (user_id, password, username) VALUES (1, '1234', 'existinguser');
+ */
+
+-- Insert the existing TitleObject
+INSERT INTO TitleObject (movie_id, original_title, primary_title, start_year, end_year, is_adult, runtime_min, image_url, type)
+VALUES ('tt123456', 'Existing Original Title', 'Existing Primary Title', 2000, 2022, FALSE, 120, 'https://example.com/image.jpg', 'Movie');
+
+-- Insert the existing Akas_info
+INSERT INTO Akas_info (akas_title, region, language, is_original_title, movie_id)
+VALUES ('Existing Aka Title', 'US', 'English', TRUE, 'tt123456');
+
+-- Insert the existing Genres
+INSERT INTO Genres (movie_id, genre)
+VALUES ('tt123456', 'Action');
+
+-- Insert the existing Episode_info
+INSERT INTO Episode_info (movie_id, season_num, episode_num, parent_id)
+VALUES ('tt123456', 1, 1, NULL);
+
+-- Insert the existing Ratings
+INSERT INTO Ratings (movie_id, average_rating, num_votes)
+VALUES ('tt123456', 8.5, 100);
+
+-- Insert the existing Types
+INSERT INTO Types (akas_id, type)
+VALUES (1, 'Feature Film');
+
+-- Insert the existing Attributes
+INSERT INTO Attributes (akas_id, attribute)
+VALUES (1, 'Action');
+
+-- Insert the existing Contributors
+INSERT INTO Contributors (contributor_id, primary_name, birth_year, death_year, image_url)
+VALUES ('nm987654', 'Existing Contributor', 1970, NULL, 'https://example.com/contributor.jpg');
+
+-- Insert the existing Primary_profession
+INSERT INTO Primary_profession (contributor_id, profession)
+VALUES ('nm987654', 'Actor');
+
+-- Insert the existing Works
+INSERT INTO Works (contributor_id, movie_id, category, job, characters, image_url)
+VALUES ('nm987654', 'tt123456', 'Actor', 'Lead', 'Character Name', 'https://example.com/actor.jpg');
+
+-- Insert the existing Known_for
+INSERT INTO Known_for (contributor_id, movie_id)
+VALUES ('nm987654', 'tt123456');
+
+/* -- Insert the existing Watchlist
+INSERT INTO Watchlist (user_id, movie_id)
+VALUES (1, 'tt123456');
+
+-- Insert the existing Favorites_list
+INSERT INTO Favorites_list (user_id, movie_id)
+VALUES (1, 'tt123456'); */

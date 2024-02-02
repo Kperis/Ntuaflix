@@ -9,10 +9,10 @@ chai.use(chaiHttp);
 // Variables
 let token;
 let response;
-let nameID_correct = 'nm0000001';
+let nameID_correct = 'nm987654';
 let nameID_wrong = 'nm0000002';
-let namePart_correct = 'Tom Hanks';
-let namePart_wrong = 'Tom Hanks2';
+let namePart_correct = 'Contributor';
+let namePart_wrong = 'Tom Hanks';
 
 // Names
 // TEST FOR [GET]/name/:nameID
@@ -21,7 +21,7 @@ describe('name', () => {
         request(app)
         .post('/ntuaflix_api/auth/login')
         .send({
-            username: "existinguser",
+            username: "testuser",
             password: "1234"
         })
         .end((err, res) => {
@@ -48,7 +48,7 @@ describe('name', () => {
         request(app)
         .post('/ntuaflix_api/auth/login')
         .send({
-            username: "existinguser",
+            username: "testuser",
             password: "1234"
         })
         .end((err, res) => {
@@ -71,7 +71,7 @@ describe('searchname', () => {
         request(app)
         .post('/ntuaflix_api/auth/login')
         .send({
-            username: "existinguser",
+            username: "testuser",
             password: "1234"
         })
         .end((err, res) => {
@@ -93,7 +93,7 @@ describe('searchname', () => {
         request(app)
         .post('/ntuaflix_api/auth/login')
         .send({
-            username: "existinguser",
+            username: "testuser",
             password: "1234"
         })
         .end((err, res) => {

@@ -57,6 +57,13 @@ const getNameObject = async (nameID) => {
             });
         });
 
+        // Check if the result is empty
+        if (!nameInfo) {
+            const error = new Error('Name not found');
+            error.status = 204;
+            throw error;
+        }
+
         const nameObject = {
             nameID: nameInfo.nameID,
             name: nameInfo.name,
@@ -69,9 +76,14 @@ const getNameObject = async (nameID) => {
 
         return nameObject;
     } catch (error) {
-        console.error(error);
-        error.status = 500;
-        throw error;
+        // Depending on the status code, throw the apropriate error
+        if (error.status === 204) {
+            throw error;
+        } else {
+            const newError = new Error('Internal Server Error');
+            newError.status = 500;
+            throw newError;
+        }
     } finally {
         if (connection) {
             connection.release();

@@ -5,6 +5,8 @@ const multer = require('multer');
 
 const upload = multer({ dest: 'uploads/' });
 
+// const isAdmin = require('../middlewares/isAdmin');
+// router.use(isAdmin); // If the user is not an admin, the middleware will return an error response! (401 Not Authorized)
 router.get('/', adminController.getIndex);
 router.get('/healthcheck', adminController.getHealthcheck);
 router.get('/users/:username', adminController.readUser);//////needs fixing

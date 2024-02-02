@@ -9,10 +9,10 @@ exports.getByGenre = async (req, res, next) => {
         const yearFrom = yrFrom !== undefined ? yrFrom : null;
         const yearTo = yrTo !== undefined ? yrTo : null;
 
-        console.log(qgenre);
-        console.log(minrating);
-        console.log(yearFrom);
-        console.log(yearTo);
+        // console.log(qgenre);
+        // console.log(minrating);
+        // console.log(yearFrom);
+        // console.log(yearTo);
         // res.status(200).json({ message: "OK" }); // Works!
 
         // SQL queries
@@ -49,7 +49,7 @@ exports.getByGenre = async (req, res, next) => {
                     console.error('Error executing query:', err);
                     return res.status(500).json({ error: 'Internal Server Error' });
                 }
-                console.log(results);
+                //console.log(results);
                 const titles = [];
                 if (results.length === 0) {
                     res.status(204).json({ message : "No data" }); // No data
