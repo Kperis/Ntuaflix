@@ -7,6 +7,7 @@ const upload = multer({ dest: 'uploads/' });
 
 router.get('/', adminController.getIndex);
 router.get('/healthcheck', adminController.getHealthcheck);
+router.get('/users/:username', adminController.readUser);//////needs fixing
 router.post('/upload/titlebasics', upload.single('file'), adminController.uploadTitleBasics);
 router.post('/upload/titleakas', upload.single('file'), adminController.uploadTitleAkas);
 router.post('/upload/namebasics', upload.single('file'), adminController.uploadNameBasics);
@@ -14,5 +15,7 @@ router.post('/upload/titleprincipals', upload.single('file'), adminController.up
 router.post('/upload/titleepisode', upload.single('file'), adminController.uploadTitleEpisode);
 router.post('/upload/titleratings', upload.single('file'), adminController.uploadTitleRatings);
 router.post('/resetall', adminController.resetAll);
+//router.post('/reset/titlecrew',upload.single('file'), adminController.resetTitleCrew);
+//to be done i dont know
 
 module.exports = router;

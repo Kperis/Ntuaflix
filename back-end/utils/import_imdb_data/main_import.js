@@ -10,7 +10,7 @@ const addTsvToPrincipals = require('./addTsvPrincipals');
 //const mysql = require('mysql');
 const mysql = require('mysql2/promise');
 
-const database_name = 'ntuaflix_test';
+const database_name = 'ntuaflix';
 var N = true;
 if(database_name === 'ntuaflix'){
     N = true;
