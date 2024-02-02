@@ -1,4 +1,5 @@
 const {pool} = require('../utils/database');
+const { getTitleObject } = require('../middlewares/getTitleObject');
 
 exports.postAddToFavorites = async (req, res) => {
     let userID = req.user.userId;
@@ -47,6 +48,58 @@ exports.postAddToFavorites = async (req, res) => {
                 }
 
                 res.status(200).json({ message: 'Title added to favorites' });
+            });
+        });
+    });
+};
+
+exports.deleteFromFavorites = async (req, res) => {
+    let userID = req.user.userId;
+    let titleID = req.params.titleID;
+    if (titleID.startsWith(':')) {
+        titleID = titleID.substring(1);
+    }
+
+    // Check if titleID exists in TitleObject table
+    const checkTitleQuery = `SELECT * FROM TitleObject WHERE movie_id = '${titleID}'`;
+    pool.query(checkTitleQuery, (err, titleResults) => {
+        if (err) {
+            console.error('Error executing query:', err);
+            res.sendStatus(500);
+            return;
+        }
+
+        if (titleResults.length === 0) {
+            // titleID does not exist in TitleObject table
+            res.status(204).json({ message: 'Title not found' });
+            return;
+        }
+
+        // Check if titleID is in the Favorite list of the user
+        const checkFavoriteQuery = `SELECT * FROM Favorites_list WHERE user_id = ${userID} AND movie_id = '${titleID}'`;
+        pool.query(checkFavoriteQuery, (err, favoriteResults) => {
+            if (err) {
+                console.error('Error executing query:', err);
+                res.sendStatus(500);
+                return;
+            }
+
+            if (favoriteResults.length === 0) {
+                // titleID is not in the Favorite list of the user
+                res.status(204).json({ message: 'Title not in favorites' });
+                return;
+            }
+
+            // Delete titleID from Favorites_list
+            const deleteFavoriteQuery = `DELETE FROM Favorites_list WHERE user_id = ${userID} AND movie_id = '${titleID}'`;
+            pool.query(deleteFavoriteQuery, (err) => {
+                if (err) {
+                    console.error('Error executing query:', err);
+                    res.sendStatus(500);
+                    return;
+                }
+            
+                res.status(200).json({ message: 'Title removed from favorites' });
             });
         });
     });
@@ -190,3 +243,55 @@ exports.postAddToWatchlist = async (req, res) => {
     });
 
 }
+
+exports.deleteFromWatchlist = async (req, res) => {
+    let userID = req.user.userId;
+    let titleID = req.params.titleID;
+    if (titleID.startsWith(':')) {
+        titleID = titleID.substring(1);
+    }
+
+    // Check if titleID exists in TitleObject table
+    const checkTitleQuery = `SELECT * FROM TitleObject WHERE movie_id = '${titleID}'`;
+    pool.query(checkTitleQuery, (err, titleResults) => {
+        if (err) {
+            console.error('Error executing query:', err);
+            res.sendStatus(500);
+            return;
+        }
+
+        if (titleResults.length === 0) {
+            // titleID does not exist in TitleObject table
+            res.status(204).json({ message: 'Title not found' });
+            return;
+        }
+
+        // Check if titleID is in the Favorite list of the user
+        const checkWatchlistQuery = `SELECT * FROM Watchlist WHERE user_id = ${userID} AND movie_id = '${titleID}'`;
+        pool.query(checkWatchlistQuery, (err, watchlistResults) => {
+            if (err) {
+                console.error('Error executing query:', err);
+                res.sendStatus(500);
+                return;
+            }
+
+            if (watchlistResults.length === 0) {
+                // titleID is not in the Favorite list of the user
+                res.status(204).json({ message: 'Title not in Watchlist' });
+                return;
+            }
+
+            // Delete titleID from Favorites_list
+            const deleteWatchlistQuery = `DELETE FROM Watchlist WHERE user_id = ${userID} AND movie_id = '${titleID}'`;
+            pool.query(deleteWatchlistQuery, (err) => {
+                if (err) {
+                    console.error('Error executing query:', err);
+                    res.sendStatus(500);
+                    return;
+                }
+
+                res.status(200).json({ message: 'Title removed from favorites' });
+            });
+        });
+    });
+};
