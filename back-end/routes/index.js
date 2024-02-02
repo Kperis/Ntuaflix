@@ -31,7 +31,10 @@ router.use(authMiddleware);
 // Titles
 router.get('/title/:titleID', titleController.getTitle); // OK - Needs to be tested
 router.get('/searchtitle',searchtitleController.getSearchTitle); // OK - Needs to be tested
+router.post('/searchtitle', searchtitleController.getSearchTitle); // OK - Needs to be tested
 router.get('/bygenre',bygenreController.getByGenre);  // OK - Needs to be tested
+router.post('/bygenre',bygenreController.getByGenre);  // OK - Needs to be tested
+
 router.get('/listsInfo/:titleID', titleInfoController.getListsInfo); // OK - Needs to be tested
 router.get('/seriesInfo/:titleID', titleInfoController.getSeriesInfo); // OK - Needs to be tested
 // Lists (Βοηθητικά γιατι θέλουμε να δείχνουμε στο Frontend να μπορεί να γίνει η εισαγωγή σε λίστες)
@@ -40,6 +43,7 @@ router.post('/addToWatchlist/:titleID', listsController.postAddToWatchlist); // 
 // People
 router.get('/name/:nameID', nameController.getName); // OK - Needs to be tested
 router.get('/searchname', searchnameController.getSearchName); // OK - Needs to be tested
+router.post('/searchname', searchnameController.getSearchName); // OK - Needs to be tested
 
 //
 // Second Use Case: See your watchlist / Edit your watchlist 

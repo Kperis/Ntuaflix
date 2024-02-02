@@ -21,13 +21,13 @@ const List = ({arr, type, classname}) => {
              
 
                 if(type === 'movie'){
-                    dynamicComponent = <Movie poster={item?.poster} title={item?.title} review={item?.review}/>;
+                    dynamicComponent = <Movie id={item.titleID} poster={item?.titlePoster} title={item?.originalTitle} review={item?.rating[0]?.avRating}/>;
                 }
                 else if(type === 'list'){
                     dynamicComponent = <ListContainer name={item?.name} movies={item?.movies} href={item?.href}/>;
                 }
                 else if(type === 'actors'){
-                    dynamicComponent = <Actor name={item?.name} photo={item?.photo}/>
+                    dynamicComponent = <Actor id={item.nameID} name={item?.name} photo={item?.namePoster}/>
                 }
                 else{
                     return(
@@ -36,7 +36,7 @@ const List = ({arr, type, classname}) => {
                 }
 
                 return(
-                    <li key={item?.id}>
+                    <li key={item?.titleID}>
                         {dynamicComponent}
                     </li>
                     );
