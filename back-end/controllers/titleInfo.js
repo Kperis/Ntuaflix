@@ -30,14 +30,19 @@ exports.getListsInfo = async (req, res) => {
                 console.error(error);
                 return res.status(500).json({ error: 'Internal server error' });
             }
-
+            
+            // Might not working
+            if (results.length === 0) {
+                return res.status(204).json({ message: 'No data' });
+            }
+            //
             console.log(results[0].isFavorite);
             const favoriteResult = results[0].isFavorite;
             const watchlistResult = results[0].isWatchlist;
             const isFavorite = favoriteResult === 1;
             const isWatchlist = watchlistResult === 1;
 
-            return res.json({ isFavorite, isWatchlist });
+            return res.status(200).json({ isFavorite, isWatchlist });
         });
     });
 };

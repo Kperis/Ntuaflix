@@ -4,10 +4,15 @@ const bcrypt = require('bcryptjs');
 const my_secret_key = process.env.MY_SECRET_KEY;
 
 exports.register = (req, res, next) => {
-    console.log(req.body); // grab the data from the form and show it to the terminal
+    //console.log(req.body); // grab the data from the form and show it to the terminal
     
     const {firstname, lastname, birthDate, username, email, password} = req.body; //getting the data from the form
     
+    // Check if a value is null
+    if (!firstname || !lastname || !birthDate || !username || !email || !password) {
+        return res.status(400).json({ error: 'Please fill out all fields' });
+    }
+
     pool.getConnection((error, connection) => {
         if (error) {
             console.error('Error getting connection:', error);
@@ -22,7 +27,7 @@ exports.register = (req, res, next) => {
             } 
     
             if(emailResults.length > 0) {
-                return res.status(401).json({ error: 'Email already in use' });
+                return res.status(400).json({ error: 'Email already in use' });
             } else{
                 connection.query('Select username FROM Authentication WHERE username = ?' , [username], async (error, usernameResults) => {
                     if(error) {
@@ -31,7 +36,7 @@ exports.register = (req, res, next) => {
                     } 
             
                     if(usernameResults.length > 0) {
-                        return res.status(401).json({ error: 'Username already in use' });
+                        return res.status(400).json({ error: 'Username already in use' });
                     } else{
                         // Both email and username are unique, proceed with registration logic
     
@@ -67,7 +72,7 @@ exports.register = (req, res, next) => {
 };
 
 exports.login = (req, res, next) => {
-    console.log(req.body);
+    //console.log(req.body);
     const username = req.body.username;
     const password = req.body.password;
 
@@ -108,7 +113,7 @@ exports.login = (req, res, next) => {
                     return res.status(200).json({ success: true, message: 'Login successful', token });
                 } else {
                     // Passwords do not match
-                    return res.status(401).json({ error: 'Invalid username or password' });
+                    return res.status(400).json({ error: 'Invalid username or password' });
                 }
             } catch (bcryptErr) {
                 connection.release();
