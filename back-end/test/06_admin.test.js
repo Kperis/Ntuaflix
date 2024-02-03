@@ -13,8 +13,8 @@ describe('Login',() =>{
         chai.request(app)
             .post('/ntuaflix_api/auth/login')
             .send({
-                username : "DarkForest",
-                password : "DeathEnds"
+                username : "testadmin",
+                password : "1234"
             })
             .end((err, res) => {
                 //console.log('Response:', res.status, res.body);
@@ -32,8 +32,8 @@ describe('search user by username admin route', () => {
         chai.request(app)
         .post('/ntuaflix_api/auth/login')
         .send({
-            username: "DarkForest",
-            password: "DeathEnds"
+            username: "testadmin",
+            password: "1234"
         })
         .end((err, res) => {
             username_correct = "testuser";
@@ -58,8 +58,8 @@ describe('search user by username admin route', () => {
         chai.request(app)
         .post('/ntuaflix_api/auth/login')
         .send({
-            username: "DarkForest",
-            password: "DeathEnds"
+            username: "testadmin",
+            password: "1234"
         })
         .end((err, res) => {
             username_incorrect = "testuser_incorrect";
@@ -78,8 +78,8 @@ describe('search user by username admin route', () => {
         chai.request(app)
         .post('/ntuaflix_api/auth/login')
         .send({
-            username: "DarkForest",
-            password: "DeathEnds"
+            username: "testadmin",
+            password: "1234"
         })
         .end((err, res) => {
             token = res.body.token;

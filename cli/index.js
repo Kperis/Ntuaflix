@@ -11,6 +11,13 @@ const BASE_URL = 'http://localhost:9876'; // Update with your backend server URL
 program
   .version('0.0.1')
   .description('Your CLI Application');
+  
+program
+  .command('se2333')
+  .description('Show a text message for se2333')
+  .action(() => {
+    console.log('Text message for se2333');
+  });
 
 program
   .command('login')

@@ -71,14 +71,15 @@ describe('SeriesInfo', () => {
             .end((err, res) => {
                 console.log('Response:', res.status, res.body);
                 // Check if the response has status 200 or 204
-                if (res.status == 200 ){
+                if (res.status === 200 ){
                     expect(res.status).to.equal(200); 
                 } else {
                     expect(res.status).to.equal(204); 
                 }
+                done();
             });
         })
-    }, 10000);
+    });
     it('should return 204 if the titleID is not valid', (done) => {
         request(app)
         .post('/ntuaflix_api/auth/login')

@@ -17,11 +17,11 @@ describe('Register', () => {
         request(app)
             .post('/ntuaflix_api/auth/register')
             .send({
-                firstname: "testuserFN",
-                lastname: "testuserLN",
+                firstname: "testuserFN_new",
+                lastname: "testuserLN_new",
                 birthDate: "1990-05-15",
-                username: "testuser",
-                email: "testuser@example.com",
+                username: "testuser_new",
+                email: "testuser_new@example.com",
                 password: "1234"
             })
             .end((err, res) => {
