@@ -35,7 +35,7 @@ describe('Test admin healthcheck (GET {baseurl}/admin/healthcheck)', () => {
 
 
 let resonseTitleObjecttsv;
-describe('Test admin import title object (POST {baseurl}/admin//upload/titlebasics', () => {
+describe('Test admin import title object (POST {baseurl}/admin/upload/titlebasics', () => {
     it('should return with status 200', (done) => {
         chai.request(app)
         .post("/ntuaflix_api/admin/upload/titlebasics")
@@ -47,7 +47,7 @@ describe('Test admin import title object (POST {baseurl}/admin//upload/titlebasi
             return;
           }
       
-          console.log('Response:', res.body); // Log the response body
+          //console.log('Response:', res.body); // Log the response body
           resonseTitleObjecttsv = res.body.message;
           expect(res.status).to.equal(200);
           done();

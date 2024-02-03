@@ -2,7 +2,7 @@
 // cli/yourCLIFile.js
 const program = require('commander');
 const axios = require('axios');
-const e = require('express');
+const uploadtitlebasics_route = require('./src/uploadtitlebasics');
 
 const BASE_URL = 'http://localhost:9876'; // Update with your backend server URL
 
@@ -22,6 +22,15 @@ program
     }finally{
         runInteractiveCLI();
     }
+  });
+
+
+program
+  .command('uploadtitlebasics <path>')
+  .description('upload title basics')
+  .action(async (path) => {
+    uploadtitlebasics_route.uploadtitlebasics(path);
+    runInteractiveCLI();
   });
 
 // Add an interactive loop to keep the CLI running
