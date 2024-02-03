@@ -27,7 +27,7 @@ exports.getTitle = (req, res, next) => {
 
     getTitleObject(titleID)
     .then((titleObject) => {
-        console.log(titleObject);
+        //console.log(titleObject);
         res.status(200).json(titleObject);
     })
     .catch((error) => {

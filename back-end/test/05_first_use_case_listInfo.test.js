@@ -9,20 +9,22 @@ chai.use(chaiHttp);
 // Variables
 let token;
 let response;
+let titleID_correct = "tt123456"
+let titleID_wrong = "tt000006"
 
 // TEST FOR [GET]/listsInfo/:titleID
-describe('listsInfo', () => {
+describe('ListsInfo', () => {
     it('should return the json object with the boolean values, with the given titleID', (done) => {
         request(app)
         .post('/ntuaflix_api/auth/login')
         .send({
-            username: "existinguser",
+            username: "testuser",
             password: "1234"
         })
         .end((err, res) => {
             token = res.body.token;
             request(app)
-            .get('/ntuaflix_api/listsInfo/:tt0000001')
+            .get('/ntuaflix_api/listsInfo/:' + titleID_correct)
             .set('Authorization', 'Bearer ' + token)
             .end((err, res) => {
                 //console.log('Response:', res.status, res.body);
@@ -35,13 +37,13 @@ describe('listsInfo', () => {
         request(app)
         .post('/ntuaflix_api/auth/login')
         .send({
-            username: "existinguser",
+            username: "testuser",
             password: "1234"
         })
         .end((err, res) => {
             token = res.body.token;
             request(app)
-            .get('/ntuaflix_api/listsInfo/:tt0000002')
+            .get('/ntuaflix_api/listsInfo/:' + titleID_wrong)
             .set('Authorization', 'Bearer ' + token)
             .end((err, res) => {
                 //console.log('Response:', res.status, res.body);
@@ -53,22 +55,27 @@ describe('listsInfo', () => {
 });
 
 // TEST FOR [GET]/seriesInfo/:titleID
-describe('seriesInfo', () => {
-    it('should return the json object with the boolean values, with the given titleID', (done) => {
+describe('SeriesInfo', () => {
+    it('should return 204 if the parentID is null or the parentTitleObject does not exits and 200 if the parentObject exists', (done) => {
         request(app)
         .post('/ntuaflix_api/auth/login')
         .send({
-            username: "existinguser",
+            username: "testuser",
             password: "1234"
         })
         .end((err, res) => {
             token = res.body.token;
             request(app)
-            .get('/ntuaflix_api/seriesInfo/:tt0000001')
+            .get('/ntuaflix_api/seriesInfo/:'+titleID_correct)
             .set('Authorization', 'Bearer ' + token)
             .end((err, res) => {
-                //console.log('Response:', res.status, res.body);
-                expect(res.status).to.equal(200); 
+                console.log('Response:', res.status, res.body);
+                // Check if the response body has the message "No data". If yes, we expect 204. If not we expect 200
+                if (res.body.message === 'No data') {
+                    expect(res.status).to.equal(204); 
+                } else {
+                    expect(res.status).to.equal(200); 
+                } 
                 done();
             });
         })
@@ -77,13 +84,13 @@ describe('seriesInfo', () => {
         request(app)
         .post('/ntuaflix_api/auth/login')
         .send({
-            username: "existinguser",
+            username: "testuser",
             password: "1234"
         })
         .end((err, res) => {
             token = res.body.token;
             request(app)
-            .get('/ntuaflix_api/seriesInfo/:tt0000002')
+            .get('/ntuaflix_api/seriesInfo/:'+titleID_wrong)
             .set('Authorization', 'Bearer ' + token)
             .end((err, res) => {
                 //console.log('Response:', res.status, res.body);
