@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "cross-env NODE_ENV=test mocha ./test/*.test.js",
-    "test_admin": "cross-env NODE_ENV=test mocha ./test/admin.tests.js",
+    "test_admin": "cross-env NODE_ENV=test mocha ./test/06_admin.test.js",
     "start": "nodemon index.js",
     "dev": "nodemon server"
   },

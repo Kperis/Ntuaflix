@@ -6,11 +6,103 @@ const expect = chai.expect;
 const {pool} = require('../utils/database');
 
 chai.use(chaiHttp);
+let token;
+describe('Login',() =>{
+    // Login with a user that exist
+    it('should login the admin', (done) => {
+        chai.request(app)
+            .post('/ntuaflix_api/auth/login')
+            .send({
+                username : "DarkForest",
+                password : "DeathEnds"
+            })
+            .end((err, res) => {
+                //console.log('Response:', res.status, res.body);
+                token = res.body.token;
+                expect(res.status).to.equal(200); // Update the expected status code if needed
+                done();
+            });
+    });
+    // Login with a user that doesn't exist
+});
+
+
+describe('search user by username admin route', () => {
+    it('should return the users info if the user exists', (done) => {
+        chai.request(app)
+        .post('/ntuaflix_api/auth/login')
+        .send({
+            username: "DarkForest",
+            password: "DeathEnds"
+        })
+        .end((err, res) => {
+            username_correct = "testuser";
+            token = res.body.token;
+            chai.request(app)
+            .get('/ntuaflix_api/admin/users/' + username_correct)
+            .set('Authorization', 'Bearer ' + token)
+            .end((err, res) => {
+                //console.log('Response:', res.status, res.body);
+                expect(res.status).to.equal(200); 
+                // Also expect res to be a json with titleID / type / originalTitle / titlePoster / startYear / endYear / genres / akasInfo / principals / rating
+                expect(res.body.message).to.have.property('first_name');
+                expect(res.body.message).to.have.property('last_name');
+                expect(res.body.message).to.have.property('birthdate');
+                expect(res.body.message).to.have.property('email');
+                expect(res.body.message).to.have.property('role');
+                done();
+            });
+        })
+    });
+    it('should return 204 if the user with this username doesnt exist', (done) => {
+        chai.request(app)
+        .post('/ntuaflix_api/auth/login')
+        .send({
+            username: "DarkForest",
+            password: "DeathEnds"
+        })
+        .end((err, res) => {
+            username_incorrect = "testuser_incorrect";
+            token = res.body.token;
+            chai.request(app)
+            .get('/ntuaflix_api/admin/users/' + username_incorrect)
+            .set('Authorization', 'Bearer ' + token)
+            .end((err, res) => {
+                //console.log('Response:', res.status, res.body);
+                expect(res.status).to.equal(204); 
+                done();
+            });
+        })
+    });
+    it('should return 400 if the username is missing', (done) => {
+        chai.request(app)
+        .post('/ntuaflix_api/auth/login')
+        .send({
+            username: "DarkForest",
+            password: "DeathEnds"
+        })
+        .end((err, res) => {
+            token = res.body.token;
+            chai.request(app)
+            .get('/ntuaflix_api/title/')
+            .set('Authorization', 'Bearer ' + token)
+            .end((err, res) => {
+                //console.log('Response:', res.status, res.body);
+                expect(res.status).to.equal(400); 
+                done();
+            });
+        })
+    });
+})
+
+
+
 let responseHealthcheck;
 describe('Test admin healthcheck (GET {baseurl}/admin/healthcheck)', () => {
     it('should return with status 200', (done) => {
         chai.request(app)
         .get("/ntuaflix_api/admin/healthcheck")
+        .set('Authorization', 'Bearer ' + token)
         .end((err, res) => {
             //console.log('Response:', res.status, res.body);
             responseHealthcheck = res.body.message;
@@ -39,6 +131,7 @@ describe('Test admin import title object (POST {baseurl}/admin/upload/titlebasic
     it('should return with status 200', (done) => {
         chai.request(app)
         .post("/ntuaflix_api/admin/upload/titlebasics")
+        .set('Authorization', 'Bearer ' + token)
         .attach('file', './test/testing_tsvs/truncated_title.basics_10_rows.tsv')
         .end((err, res) => {
           if (err) {
@@ -67,6 +160,7 @@ describe('Test admin import title akas (POST {baseurl}/admin/upload/titleakas)',
     it('should return with status 200', (done) => {
         chai.request(app)
         .post("/ntuaflix_api/admin/upload/titleakas")
+        .set('Authorization', 'Bearer ' + token)
         .attach('file', './test/testing_tsvs/truncated_title.akas_10_rows.tsv')
         .end((err, res) => {
           if (err) {
@@ -95,6 +189,7 @@ describe('Test admin import name basics (POST {baseurl}/admin/upload/namebasics)
     it('should return with status 200', (done) => {
         chai.request(app)
         .post("/ntuaflix_api/admin/upload/namebasics")
+        .set('Authorization', 'Bearer ' + token)
         .attach('file', './test/testing_tsvs/truncated_name.basics_10_rows.tsv')
         .end((err, res) => {
           if (err) {
@@ -123,6 +218,7 @@ describe('Test admin import title principals (POST {baseurl}/admin/upload/titlep
     it('should return with status 200', (done) => {
         chai.request(app)
         .post("/ntuaflix_api/admin/upload/titleprincipals")
+        .set('Authorization', 'Bearer ' + token)
         .attach('file', './test/testing_tsvs/truncated_title.principals_10_rows.tsv')
         .end((err, res) => {
           if (err) {
@@ -150,6 +246,7 @@ describe('Test admin import title episode (POST {baseurl}/admin/upload/titleepis
     it('should return with status 200', (done) => {
         chai.request(app)
         .post("/ntuaflix_api/admin/upload/titleepisode")
+        .set('Authorization', 'Bearer ' + token)
         .attach('file', './test/testing_tsvs/truncated_title.episode_10_rows.tsv')
         .end((err, res) => {
           if (err) {
@@ -178,6 +275,7 @@ describe('Test admin import title ratings (POST {baseurl}/admin/upload/titlerati
     it('should return with status 200', (done) => {
         chai.request(app)
         .post("/ntuaflix_api/admin/upload/titleratings")
+        .set('Authorization', 'Bearer ' + token)
         .attach('file', './test/testing_tsvs/truncated_title.ratings_10_rows.tsv')
         .end((err, res) => {
           if (err) {
@@ -208,6 +306,7 @@ describe('Test admin reset database (POST {baseurl}/admin/resetall)', () => {
     it('should return with status 200', (done) => {
         chai.request(app)
         .post("/ntuaflix_api/admin/resetall")
+        .set('Authorization', 'Bearer ' + token)
         .end((err, res) => {
             console.log('Response:', res.status, res.body);
             responseResetStatus = res.body.status;
