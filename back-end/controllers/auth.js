@@ -9,6 +9,7 @@ exports.register = (req, res, next) => {
     const {firstname, lastname, birthDate, username, email, password} = req.body; //getting the data from the form
     
     // Check if a value is null
+
     if (!firstname || !lastname || !birthDate || !username || !email || !password) {
         return res.status(400).json({ message: 'Please fill out all fields' });
     }
@@ -115,6 +116,9 @@ exports.login = (req, res, next) => {
                     return res.status(200).json({ success: true, message: 'Login successful', token });
                 } else {
                     // Passwords do not match
+                    console.log(passwordMatch);
+                    console.log(password);
+                    console.log(user.password);
                     return res.status(400).json({ message: 'Invalid username or password' });
                 }
             } catch (bcryptErr) {

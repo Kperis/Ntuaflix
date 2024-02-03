@@ -405,7 +405,8 @@ exports.resetAll = (req, res) => {
 exports.readUser = (req, res, next) => {//needs fixing
     const username = req.params.username;
     const query = 'SELECT * FROM Users\
-                WHERE username = ?';
+                INNER JOIN Authentication ON Users.user_id = Authentication.user_id\
+                WHERE Authentication.username = ?';
     pool.getConnection((err, connection) => {
         if (err) {
             console.error(err);
@@ -417,7 +418,12 @@ exports.readUser = (req, res, next) => {//needs fixing
                 console.error(err);
                 return res.status(500).json({ status: 'failed', message: 'Error executing connection query' });
             }
-            res.status(200).json({ status: 'OK', message: result });
+            if (result.length === 0) {
+                return res.status(204).json({ status: 'failed', message: 'User not found' });
+            }
+            else{
+                res.status(200).json({ status: 'OK', message: result });
+            }
         });
     });
 };
