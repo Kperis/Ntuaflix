@@ -5,6 +5,10 @@ const axios = require('axios');
 const upload_route = require('./src/uploadtsvfile');
 const login = require('./src/login');
 const searchtitle_fun = require('./src/title');
+const searchuser_fun = require('./src/user');
+const healthcheck_route = require('./src/healthcheck');
+const resetall_route = require('./src/resetall');
+const { reset } = require('nodemon');
 
 const BASE_URL = 'http://localhost:9876'; // Update with your backend server URL
 
@@ -90,6 +94,27 @@ program
     console.log(filepath);
     upload_route.uploadtsvs(filepath,"titleratings");
   });
+
+program
+  .command('user')
+  .description('searching user by username')
+  .option('--username [username]', 'Username')
+  .action( function(o) { 
+    searchuser_fun(o) 
+  } )
+
+program 
+  .command("healthcheck")
+  .description("Check the health of the server")
+  .action(function(){
+    healthcheck_route.healthcheck()
+  })
+program
+  .command('resetall')
+  .description('Reset all tables')
+  .action(function() {
+    resetall_route.resetall();
+  })
 
 
 program.parse(process.argv);

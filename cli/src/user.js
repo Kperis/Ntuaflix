@@ -9,14 +9,14 @@ module.exports = function(o) {
     
     isWrong = false;
 
-    if (o.titleID == undefined || o.titleID == '') {
+    if (o.username == undefined || o.username == '') {
         isWrong = true;
     }
 
     if (!isWrong) {
 
-        //var url = constructURL('/title/', o.titleID);
-        var url = "http://localhost:9876/ntuaflix_api/title/" + o.titleID;
+        //var url = constructURL('/admin/', o.username);
+        var url = "http://localhost:9876/ntuaflix_api/admin/users/" + o.username;
         fs.readFile('../cli/softeng23_33.token', 'utf8', (error, data) => {
             if (error) {
                 console.log(chalk.red('Not authorized user!'))
@@ -33,13 +33,13 @@ module.exports = function(o) {
                     console.log(res.data);
                 })
                 .catch(err => {
-                    errorHandler(err, 'User could not be created or modified!');
+                    errorHandler(err);
                 })
             }
         })
     }
     else{
         console.log(chalk.red('Error: mandatory parameters omitted\n'));
-        console.log(chalk.yellow('Mandatory Parameters: \n --titleID [titleID] \n'));
+        console.log(chalk.yellow('Mandatory Parameters: \n --username [username] \n'));
     }
 }
