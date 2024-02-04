@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS Users (
 -- create a table Authentication whith attributes auth_id(primary key),password,username and add to the User table a foreign key auth_id to Authentication
 CREATE TABLE IF NOT EXISTS Authentication (
     user_id INT NOT NULL,
-    password VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
     username VARCHAR(255) NOT NULL UNIQUE,
     PRIMARY KEY (user_id),
     CONSTRAINT fk_user_id_auth_id
@@ -222,6 +222,16 @@ CREATE TABLE IF NOT EXISTS Favorites_list (
 /* INSERT INTO Users (first_name, last_name, birthdate, email, role) VALUES ('existinguserFN', 'existinguserLN', '1990-01-01', 'existinguser@example.com', 'simple_user');
 INSERT INTO Authentication (user_id, password, username) VALUES (1, '1234', 'existinguser');
  */
+
+-- Insert the testAdmin
+INSERT INTO Users (first_name, last_name, birthdate, email, role) VALUES ('testadminFN', 'testadminLN', '1990-01-01', 'testadmin@example.com', 'admin');
+INSERT INTO Authentication (user_id, password, username) VALUES (1, '$2a$08$NRJ0rUt2NnGosoWtgu3vyuSZQDZhRcGNBOmhuBpthqLsb8efR2rjS', 'testadmin');
+-- passw = 1234
+
+-- Insert the testUser
+INSERT INTO Users (first_name, last_name, birthdate, email) VALUES ('testuserFN', 'testuserLN', '1990-01-01', 'testuser@example.com');
+INSERT INTO Authentication (user_id, password, username) VALUES (2, '$2a$08$NRJ0rUt2NnGosoWtgu3vyuSZQDZhRcGNBOmhuBpthqLsb8efR2rjS', 'testuser');
+-- passw = 1234
 
 -- Insert the existing TitleObject
 INSERT INTO TitleObject (movie_id, original_title, primary_title, start_year, end_year, is_adult, runtime_min, image_url, type)

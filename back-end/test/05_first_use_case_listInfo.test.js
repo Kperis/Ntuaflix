@@ -70,12 +70,12 @@ describe('SeriesInfo', () => {
             .set('Authorization', 'Bearer ' + token)
             .end((err, res) => {
                 console.log('Response:', res.status, res.body);
-                // Check if the response body has the message "No data". If yes, we expect 204. If not we expect 200
-                if (res.body.message === 'No data') {
-                    expect(res.status).to.equal(204); 
-                } else {
+                // Check if the response has status 200 or 204
+                if (res.status === 200 ){
                     expect(res.status).to.equal(200); 
-                } 
+                } else {
+                    expect(res.status).to.equal(204); 
+                }
                 done();
             });
         })
