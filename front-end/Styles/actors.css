@@ -7,10 +7,12 @@
     flex-wrap: wrap;
     
     width: 100%;
-    padding: 8rem;
+    padding: 2rem 8rem;
     list-style: none;
     gap: 4rem;
 }
+
+
 
 .actor{
     display: flex;
@@ -19,10 +21,20 @@
     justify-content: center;
     color: rgb(93, 9, 122);
     font-size: 1.5em;
-
     cursor: pointer;
     transition: all ease 0.2s;
-    
+    width: 220px;
+}
+
+.actor-photo-circular{
+    border: none;
+    border-radius: 200px;
+
+    transition: transform ease 0.1s;
+}
+
+.actor-photo-circular:hover{
+    transform: scale(1.02);
 }
 
 .actor-photo{
@@ -35,9 +47,26 @@
     width: 100%;
     background: linear-gradient(90deg, var(--selection-color), var(--selection-color-variant));
     text-align: center;
-    padding: 0.6rem;
+    padding: 0.4rem;
+    font-size: 0.8em;
 }
 
 .actor:hover{
     transform: rotate(1deg);
+}
+
+.actors-circular{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    
+    width: 100%;
+    padding: 2rem;
+    gap: 1rem;
+    list-style: none;
+}
+
+.actors-circular li{
+    padding: 0.5rem;
 }

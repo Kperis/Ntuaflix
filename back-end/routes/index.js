@@ -12,7 +12,9 @@ const titleInfoController = require('../controllers/titleInfo');
 // People
 const nameController = require('../controllers/name');
 const searchnameController = require('../controllers/searchname');
-
+// users
+const userProfileController = require('../controllers/userProfile');
+const updateProfileController = require('../controllers/updateUserProfile')
 //Middlewares
 const authMiddleware = require('../middlewares/auth');
 
@@ -33,21 +35,30 @@ router.use(authMiddleware);
 // Titles
 router.get('/title/:titleID', titleController.getTitle); // OK - Needs to be tested
 router.get('/searchtitle',searchtitleController.getSearchTitle); // OK - Needs to be tested
+router.post('/searchtitle', searchtitleController.getSearchTitle); // OK - Needs to be tested
 router.get('/bygenre',bygenreController.getByGenre);  // OK - Needs to be tested
+router.post('/bygenre',bygenreController.getByGenre);  // OK - Needs to be tested
+
 router.get('/listsInfo/:titleID', titleInfoController.getListsInfo); // OK - Needs to be tested
 router.get('/seriesInfo/:titleID', titleInfoController.getSeriesInfo); // OK - Needs to be tested
 // Lists (Βοηθητικά γιατι θέλουμε να δείχνουμε στο Frontend να μπορεί να γίνει η εισαγωγή σε λίστες)
 router.post('/addToFavorites/:titleID', listsController.postAddToFavorites); // OK - Needs to be tested
-router.post('/addToWatchlist/:titleID', listsController.postAddToWatchlist); // OK - Needs to be tested
+router.post('/addToWatchlist/:titleID', listsController.postAddToWatchlist);
+
 // People
 router.get('/name/:nameID', nameController.getName); // OK - Needs to be tested
 router.get('/searchname', searchnameController.getSearchName); // OK - Needs to be tested
+router.post('/searchname', searchnameController.getSearchName); // OK - Needs to be tested
 
 //
 // Second Use Case: See your watchlist / Edit your watchlist 
 //
+router.get('/profile', userProfileController.getUserInfo);
+router.put('/updateProfile', updateProfileController.updateProfile);
 router.get('/watchlist', listsController.getWatchlist); // OK - Needs to be tested
 router.get('/favorites', listsController.getFavorites); // OK - Needs to be tested
+router.delete('/deleteFromFavorites/:titleID', listsController.deleteFromFavorites); 
+router.delete('/deleteFromWatchlist/:titleID', listsController.deleteFromWatchlist); 
 
 
 

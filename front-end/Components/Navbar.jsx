@@ -1,10 +1,10 @@
-'use client';
+'use client'
 
 import React from 'react'
+import { useState } from 'react'
 import NavIcon from './NavIcon'
 import '@/Styles/navbar.css'
-import Image from 'next/image'
-import { useState } from 'react'
+import { useAuth } from './Context'
 
 const Navbar = () => {
 
@@ -25,17 +25,10 @@ const Navbar = () => {
             active: 0
         },
         {
-            icon: '/friends.png',
-            description: 'Friends',
-            alt: 'Friends',
-            href: '/friends',
-            active: 0
-        },
-        {
             icon: '/library.png',
             description: 'Library',
             alt: 'Library',
-            href: '/mylibrary',
+            href: '/profile',
             active: 0
         },
         {
@@ -47,26 +40,25 @@ const Navbar = () => {
         },        
     ]
 
-    const [overlay, setOverlay] = useState(true);
+    const { loginStatus, setLoginStatus } = useAuth();
+    // const [overlay, setOverlay] = useState(false);
     const [route, setRoute] = useState('Home');
 
     const changeRoute = (title) =>{
         if(title === 'Logout'){
-            setOverlay(false);
+            setRoute('Home');
+            setLoginStatus(false);
         }
-        else if(title === 'Home'){
-            setOverlay(true);
-        }
-
-        setRoute(title);
-
+        else setRoute(title);
     }
     
     return (
         <div>
             {
             
-            overlay ?
+            loginStatus 
+            
+            ?
 
             <nav className='navbar-container'>
                 <ul className='navbar-items'>

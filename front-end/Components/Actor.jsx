@@ -1,13 +1,27 @@
 import React from 'react'
 import Image from 'next/image'
 import '@/Styles/actors.css'
+import Link from 'next/link'
 
-const Actor = ({photo, name}) => {
+const Actor = ({id, photo, name, w, h}) => {
+
   return (
-    <div className='actor'>
-        <Image src={photo} alt='actor-photo' width={200} height={270} className='actor-photo'/>
-        <span>{name}</span>
-    </div>
+      <Link href={`/contributors/${id}`}>
+        {w !==90
+        ? <div className='actor'>
+          {
+            photo === '\\N'
+              ? <Image src='/no-image.png' alt='actor-photo' width={w} height={h} className='actor-photo'/>
+              : <Image src={photo.replace('{width_variable}', 'w185')} unoptimized alt='actor-photo' width={w} height={h} className='actor-photo'/>
+          }
+            <span>{name}</span>
+          
+          </div>
+        : photo === '\\N'
+            ? <Image src='/no-image.png' alt='actor-photo' width={w} height={w} className='actor-photo-circular'/>
+            : <Image src={photo.replace('{width_variable}', 'w185')} unoptimized alt='actor-photo' width={w} height={w} className='actor-photo-circular'/>
+      }
+      </Link>
   )
 }
 
