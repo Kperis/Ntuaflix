@@ -99,7 +99,7 @@ exports.deleteFromFavorites = async (req, res) => {
                     return;
                 }
             
-                res.status(200).json({ message: 'Title removed from favorites' });
+                res.status(200).json({ message: 'Title removed from favorites' }); // it works, ok!!
             });
         });
     });
@@ -141,7 +141,11 @@ exports.getFavorites = async (req, res) => {
                     }
                 }
                 // Returns the list of title objects!
+                res.status(200).json({
+                    message: "Hello Watchlist"
+                });
                 res.status(200).json(titleObjects);
+                
             };
             getTitleObjects();
             connection.release();
@@ -290,7 +294,7 @@ exports.deleteFromWatchlist = async (req, res) => {
                     return;
                 }
 
-                res.status(200).json({ message: 'Title removed from favorites' });
+                res.status(200).json({ message: 'Title removed from Watchlist' }); // it works, ok!!
             });
         });
     });

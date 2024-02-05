@@ -13,7 +13,7 @@ const nameController = require('../controllers/name');
 const searchnameController = require('../controllers/searchname');
 // users
 const userProfileController = require('../controllers/userProfile');
-const updateUserProfileController = require('../controllers/updateUserProfile')
+const updateProfileController = require('../controllers/updateUserProfile')
 //Middlewares
 const authMiddleware = require('../middlewares/auth');
 
@@ -48,7 +48,7 @@ router.get('/searchname', searchnameController.getSearchName); // OK - Needs to 
 // Second Use Case: See your watchlist / Edit your watchlist 
 //
 router.get('/profile', userProfileController.getUserInfo);
-//router.put('/update_info', updateUserProfileController.updateUserProfile);
+router.put('/updateProfile', updateProfileController.updateProfile);
 router.get('/watchlist', listsController.getWatchlist); // OK - Needs to be tested
 router.get('/favorites', listsController.getFavorites); // OK - Needs to be tested
 router.delete('/deleteFromFavorites/:titleID', listsController.deleteFromFavorites); 
