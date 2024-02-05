@@ -9,6 +9,7 @@ const page = () => {
 
     const [loading, setLoading] = useState(true);
     const id = useParams().movieID;
+    const [movieData, setMovieData] = useState({});
     
     useEffect(() => {
       fetch('http://localhost:9876/ntuaflix_api/title/'+id ,{
@@ -17,21 +18,23 @@ const page = () => {
       })
       .then(response => response.json())
       .then(data => {
-        console.log(data);
+        setMovieData(data);
         setLoading(false);
       })
     }, [])
 
-    const movie = {
-      poster: '/interstellar.jpg',
-      review: '4.9',
-      title: 'Interstellar'    
-    }
-
   return (
     loading
     ?   <Spinner />
-    :    <MoviePage title={movie.title} poster={movie.poster}/>
+    :    <MoviePage akas={movieData?.akasInfo} 
+          title={movieData?.originalTitle} 
+          contributors={movieData?.principals} 
+          rating={movieData?.rating}
+          poster={movieData?.titlePoster}
+          id={movieData?.titleID}
+          year={movieData?.startYear}
+          type={movieData?.type}
+          />
   )
 }
 

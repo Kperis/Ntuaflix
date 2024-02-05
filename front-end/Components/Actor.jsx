@@ -3,19 +3,24 @@ import Image from 'next/image'
 import '@/Styles/actors.css'
 import Link from 'next/link'
 
-const Actor = ({id, photo, name}) => {
+const Actor = ({id, photo, name, w, h}) => {
 
   return (
       <Link href={`/contributors/${id}`}>
-        <div className='actor'>
-            {
-              photo === '\\N'
-              ? <Image src='/no-image.png' alt='actor-photo' width={220} height={270} className='actor-photo'/>
-              : <Image src={photo.replace('{width_variable}', 'w185')} unoptimized alt='actor-photo' width={220} height={270} className='actor-photo'/>
-
-            }
+        {w !==90
+        ? <div className='actor'>
+          {
+            photo === '\\N'
+              ? <Image src='/no-image.png' alt='actor-photo' width={w} height={h} className='actor-photo'/>
+              : <Image src={photo.replace('{width_variable}', 'w185')} unoptimized alt='actor-photo' width={w} height={h} className='actor-photo'/>
+          }
             <span>{name}</span>
-        </div>
+          
+          </div>
+        : photo === '\\N'
+            ? <Image src='/no-image.png' alt='actor-photo' width={w} height={w} className='actor-photo-circular'/>
+            : <Image src={photo.replace('{width_variable}', 'w185')} unoptimized alt='actor-photo' width={w} height={w} className='actor-photo-circular'/>
+      }
       </Link>
   )
 }

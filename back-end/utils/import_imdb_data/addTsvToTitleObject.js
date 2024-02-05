@@ -36,7 +36,7 @@ async function addTsvToTitleObject(pool) {
             } else {
                 // Handle the case where the string cannot be converted to an int
                 console.log(`${stringValue} cannot be converted to int`);
-                values_for_TitleObject[k] = 'NULL';
+                values_for_TitleObject[k] = '0';
             }
         }
         
