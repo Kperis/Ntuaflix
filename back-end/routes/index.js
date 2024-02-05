@@ -11,7 +11,9 @@ const titleInfoController = require('../controllers/titleInfo');
 // People
 const nameController = require('../controllers/name');
 const searchnameController = require('../controllers/searchname');
-
+// users
+const userProfileController = require('../controllers/userProfile');
+const updateProfileController = require('../controllers/updateUserProfile')
 //Middlewares
 const authMiddleware = require('../middlewares/auth');
 
@@ -39,7 +41,8 @@ router.get('/listsInfo/:titleID', titleInfoController.getListsInfo); // OK - Nee
 router.get('/seriesInfo/:titleID', titleInfoController.getSeriesInfo); // OK - Needs to be tested
 // Lists (Βοηθητικά γιατι θέλουμε να δείχνουμε στο Frontend να μπορεί να γίνει η εισαγωγή σε λίστες)
 router.post('/addToFavorites/:titleID', listsController.postAddToFavorites); // OK - Needs to be tested
-router.post('/addToWatchlist/:titleID', listsController.postAddToWatchlist); // OK - Needs to be tested
+router.post('/addToWatchlist/:titleID', listsController.postAddToWatchlist);
+
 // People
 router.get('/name/:nameID', nameController.getName); // OK - Needs to be tested
 router.get('/searchname', searchnameController.getSearchName); // OK - Needs to be tested
@@ -48,8 +51,12 @@ router.post('/searchname', searchnameController.getSearchName); // OK - Needs to
 //
 // Second Use Case: See your watchlist / Edit your watchlist 
 //
+router.get('/profile', userProfileController.getUserInfo);
+router.put('/updateProfile', updateProfileController.updateProfile);
 router.get('/watchlist', listsController.getWatchlist); // OK - Needs to be tested
 router.get('/favorites', listsController.getFavorites); // OK - Needs to be tested
+router.delete('/deleteFromFavorites/:titleID', listsController.deleteFromFavorites); 
+router.delete('/deleteFromWatchlist/:titleID', listsController.deleteFromWatchlist); 
 
 
 
