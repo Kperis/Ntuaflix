@@ -12,6 +12,8 @@ let response;
 let titleID_correct = "tt123456"
 let titleID_wrong = "tt000006"
 
+// These Tests concern the file: back-end/controllers/titleInfo.js
+
 // TEST FOR [GET]/listsInfo/:titleID
 describe('ListsInfo', () => {
     it('should return the json object with the boolean values, with the given titleID', (done) => {

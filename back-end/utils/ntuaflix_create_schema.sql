@@ -179,6 +179,7 @@ CREATE TABLE IF NOT EXISTS Works (
 );
 
 -- create table Known_for whith attributes contributor_id(primary key and foreign key to Contributors(contributor_id)) and movie_id(foreign key to TitleObject(movie_id))
+
 CREATE TABLE IF NOT EXISTS Known_for (
     contributor_id VARCHAR(20) NOT NULL,
     movie_id VARCHAR(20) NOT NULL,
@@ -187,12 +188,12 @@ CREATE TABLE IF NOT EXISTS Known_for (
         FOREIGN KEY (contributor_id) 
         REFERENCES Contributors(contributor_id)
         ON UPDATE RESTRICT
-        ON DELETE CASCADE,
-    CONSTRAINT fk_movie_id_known_for
+        ON DELETE CASCADE
+    /* CONSTRAINT fk_movie_id_known_for
         FOREIGN KEY (movie_id) 
         REFERENCES TitleObject(movie_id)
         ON UPDATE RESTRICT
-        ON DELETE CASCADE
+        ON DELETE CASCADE */ 
 );
 
 -- create table Watchlist whith attributes user_id(primary key and foreign key to Users(user_id)) and movie_id(foreign key to TitleObject(movie_id))

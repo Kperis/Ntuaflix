@@ -44,8 +44,8 @@ async function main() {
     // Run specific functionality for adding TSV files to tables
     await addTsvToTitleObject(pool,N);
     console.log('Done with title object');
-    //await addTsvToNameBasics(pool,N);
-    // console.log('Done with name basics');
+    await addTsvToNameBasics(pool,N);
+    console.log('Done with name basics');
     // await addTsvToAkas(pool,N);
     // console.log('Done with akas');
     // await addTsvToEpisode(pool,N);

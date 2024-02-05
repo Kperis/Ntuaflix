@@ -44,7 +44,7 @@ async function addTsvToTitleObject(pool,N) {
             } else {
                 // Handle the case where the string cannot be converted to an int
                 //console.log(`${stringValue} cannot be converted to int`);
-                values_for_TitleObject[k] = 'NULL';
+                values_for_TitleObject[k] = '0';
             }
         }
         
@@ -58,6 +58,7 @@ async function addTsvToTitleObject(pool,N) {
         //console.log(rows[i][8]);
         //console.log('Row inserted:', result);
         } catch (error) {
+        console.log('Row not inserted:', rows[i]);
         console.error('Error inserting row:', error);
         // Close the database connection pool on error
         //pool.end();
