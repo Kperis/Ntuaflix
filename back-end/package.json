@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "cross-env NODE_ENV=test mocha ./test/*.test.js",
-    "test_admin": "cross-env NODE_ENV=test mocha ./test/06_admin.test.js",
+    "data": "node ./utils/import_imdb_data/main_import.js",
     "start": "nodemon index.js",
     "dev": "nodemon server"
   },

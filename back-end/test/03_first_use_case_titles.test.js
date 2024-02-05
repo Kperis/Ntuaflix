@@ -18,6 +18,30 @@ let genre_wrong = 'Drama';
 // The database contains the following title:
 // tt123456 - Existing Original Title - Action
 
+// Home
+// TEST FOR [GET]/home
+describe('home', () => {
+    it('should return 200 OK and some random titles from the database', (done) => {
+        request(app)
+        .post('/ntuaflix_api/auth/login')
+        .send({
+            username: "testuser",
+            password: "1234"
+        })
+        .end((err, res) => {
+            token = res.body.token;
+            request(app)
+            .get('/ntuaflix_api/home')
+            .set('Authorization', 'Bearer ' + token)
+            .end((err, res) => {
+                //console.log('Response:', res.status, res.body);
+                expect(res.status).to.equal(200); 
+                expect(res.body).to.be.an('array');
+                done();
+            });
+        });
+    });
+});
 
 // Titles
 // TEST FOR [GET]/title/:titleID
