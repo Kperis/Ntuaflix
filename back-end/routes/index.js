@@ -2,6 +2,7 @@ const express = require('express');
 
 const indexController = require('../controllers/index');
 const authController = require('../controllers/auth');
+//const homeController = require('../controllers/home');
 // TitleObjects
 const titleController = require('../controllers/title');
 const searchtitleController = require('../controllers/searchtitle');
@@ -30,6 +31,7 @@ router.use(authMiddleware);
 //
 // First Use Case: Search for a title / Search for a person / Search for a genre
 //
+//router.get('/home', indexController.getHome); 
 // Titles
 router.get('/title/:titleID', titleController.getTitle); // OK - Needs to be tested
 router.get('/searchtitle',searchtitleController.getSearchTitle); // OK - Needs to be tested

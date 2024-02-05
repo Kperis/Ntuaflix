@@ -4,10 +4,16 @@ const bcrypt = require('bcryptjs');
 const my_secret_key = process.env.MY_SECRET_KEY;
 
 exports.register = (req, res, next) => {
-    console.log(req.body); // grab the data from the form and show it to the terminal
+    //console.log(req.body); // grab the data from the form and show it to the terminal
     
     const {firstname, lastname, birthDate, username, email, password} = req.body; //getting the data from the form
     
+    // Check if a value is null
+
+    if (!firstname || !lastname || !birthDate || !username || !email || !password) {
+        return res.status(400).json({ message: 'Please fill out all fields' });
+    }
+
     pool.getConnection((error, connection) => {
         if (error) {
             console.error('Error getting connection:', error);
@@ -18,20 +24,20 @@ exports.register = (req, res, next) => {
         connection.query('Select email FROM Users WHERE email = ?' , [email], async (error, emailResults) => {
             if(error) {
                 console.log(error);
-                return res.status(500).json({ error: 'Internal Server Error 2' });
+                return res.status(500).json({ message: 'Internal Server Error 2' });
             } 
     
             if(emailResults.length > 0) {
-                return res.status(401).json({ error: 'Email already in use' });
+                return res.status(400).json({ message: 'Email already in use' });
             } else{
                 connection.query('Select username FROM Authentication WHERE username = ?' , [username], async (error, usernameResults) => {
                     if(error) {
                         console.log(error)
-                        return res.status(500).json({ error: 'Internal Server Error 3' });
+                        return res.status(500).json({ message: 'Internal Server Error 3' });
                     } 
             
                     if(usernameResults.length > 0) {
-                        return res.status(401).json({ error: 'Username already in use' });
+                        return res.status(400).json({ message: 'Username already in use' });
                     } else{
                         // Both email and username are unique, proceed with registration logic
     
@@ -42,14 +48,14 @@ exports.register = (req, res, next) => {
                         connection.query('INSERT INTO Users (first_name, last_name, birthdate, email) VALUES (?, ?, ?, ?)', [firstname, lastname, birthDate, email], (error, insertUserResults) => {
                             if (error) {
                                 console.log(error);
-                                return res.status(500).json({ error: 'Internal Server Error 4' });
+                                return res.status(500).json({ message: 'Internal Server Error 4' });
                             } else { //need to change password to hashedpassword, havent completed yet hashing logic
                                 const userId = insertUserResults.insertId; // Get the auto-generated user_id
                                 console.log("User ID:", userId);
                                 connection.query('INSERT INTO Authentication (user_id, username, password) VALUES (?,?,?)', [userId, username, hashedPassword], (error, insertAuthResults) => {
                                     if (error) {
                                         console.log(error);
-                                        return res.status(500).json({ error: 'Registration failed' });
+                                        return res.status(500).json({ message: 'Registration failed' });
                                     } else {
                                         console.log(insertAuthResults);
                                         return res.status(200).json({ message: 'Registration Completed. Please login'});
@@ -67,53 +73,58 @@ exports.register = (req, res, next) => {
 };
 
 exports.login = (req, res, next) => {
-    console.log(req.body);
+    //console.log(req.body);
     const username = req.body.username;
     const password = req.body.password;
 
-    const query = 'SELECT * FROM Authentication WHERE username = ?';
+    // I want to select all info for the user from the tables Authentication and Users
+    const query =  `SELECT a.user_id, a.username, a.password, u.first_name, u.last_name, u.birthdate, u.email, u.role
+                    FROM Authentication a
+                    JOIN Users u ON a.user_id = u.user_id
+                    WHERE a.username = ?`;
 
     pool.getConnection((err, connection) => {
         if (err) {
             console.error('Error getting connection:', err);
-            return res.status(500).json({ error: 'Internal Server Error' });
+            return res.status(500).json({ message: 'Internal Server Error' });
         }
 
         connection.query(query, [username], async (err, results) => {
             if (err) {
                 connection.release();
                 console.error('Error executing query:', err);
-                return res.status(500).json({ error: 'Internal Server Error' });
+                return res.status(500).json({ message: 'Internal Server Error' });
             }
 
             if (results.length === 0) {
                 connection.release();
-                return res.status(401).json({ error: 'Invalid username or password' });
+                return res.status(401).json({ message: 'Invalid username or password' });
             }
 
-
-            /// ΔΕΝ ΕΧΩ ΕΛΕΓΧΕΙ ΑΝ ΑΠΟ ΕΔΩ ΚΑΙ ΚΑΤΩ ΕΙΝΑΙ ΣΩΣΤΟ. θΕΛΕΙ ΔΕΔΟΜΈΝΑ ΣΤΗΝ ΒΆΣΗ
-
             const user = results[0];
+            //console.log(user);
             // Compare the provided password with the hashed password stored in the database
             try {
                 const passwordMatch = await bcrypt.compare(password, user.password);
 
                 if (passwordMatch) {
                     // Passwords match, generate a token
-                    const token = jwt.sign({ userId: user.user_id, username: user.username }, my_secret_key , { expiresIn: '4h' });
+                    const token = jwt.sign({ userId: user.user_id, username: user.username , role: user.role}, my_secret_key , { expiresIn: '4h' });
                     // When a user logs in successfully, the server generates a token using a secret key. 
                     // The token contains information about the user's identity and authentication status
 
                     return res.status(200).json({ success: true, message: 'Login successful', token: token });
                 } else {
                     // Passwords do not match
-                    return res.status(401).json({ error: 'Invalid username or password' });
+                    console.log(passwordMatch);
+                    console.log(password);
+                    console.log(user.password);
+                    return res.status(400).json({ message: 'Invalid username or password' });
                 }
             } catch (bcryptErr) {
                 connection.release();
                 console.error('Error comparing passwords:', bcryptErr);
-                return res.status(500).json({ error: 'Internal Server Error' });
+                return res.status(500).json({ message: 'Internal Server Error' });
             } finally {
                 connection.release();
             }

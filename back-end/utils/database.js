@@ -1,12 +1,25 @@
 const mysql = require('mysql');
-//dotenv.config({path: './.env'});
+require('dotenv').config();
+let databasename;
+console.log("NODE_ENV: " + process.env.NODE_ENV);
+if (process.env.NODE_ENV === 'undefined') {
+    process.env.NODE_ENV = 'run';
+    databasename = process.env.DB;
+}
+if (process.env.NODE_ENV === 'test') {
+    databasename = process.env.DB_TEST;
+}
 
-const pool = mysql.createPool({
+const poolConfig = {
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
     user: process.env.DB_USER,
     password: process.env.DB_PASS,
-    database: process.env.DB,
-});
+    database: databasename,
+};
 
+const pool = mysql.createPool(poolConfig);
+
+console.log("NODE_ENV: " + process.env.NODE_ENV);
+console.log("Database: " + poolConfig.database); // Log the database property from poolConfig
 module.exports = { pool };

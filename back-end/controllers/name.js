@@ -7,7 +7,7 @@ exports.getName = async (req, res, next) => {
     if (Object.keys(req.params).length > 1) {
         return res.status(400).send('Bad Request');
     }
-    console.log(req.params);
+    //console.log(req.params);
     let nameID = req.params.nameID;
 
     if (nameID.startsWith(':')) {
@@ -16,12 +16,12 @@ exports.getName = async (req, res, next) => {
 
     getNameObject(nameID)
     .then((nameObject) => {
-        console.log(nameObject);
+        //console.log(nameObject);
         res.status(200).json(nameObject);
     })
     .catch((error) => {
         console.error(error);
         res.status(error.status).json({ message: error.message });
     });
-    console.log(nameID);
+    //console.log(nameID);
 };

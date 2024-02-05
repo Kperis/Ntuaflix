@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const pool = require('../database'); // Assuming you export the setupDatabase function
 
-async function addTsvToAkas(pool) {
+async function addTsvToAkas(pool,N) {
     const currentDir = __dirname;
     console.log(currentDir);
 
@@ -21,8 +21,13 @@ async function addTsvToAkas(pool) {
     const insertQuery_attributes = 'INSERT INTO Attributes (akas_id,attribute) VALUES (?, ?)';
     // Iterate over the rows and execute the database query
     //for (let i = 1; i < rows.length; i++) {\
-
-    for (let i = 1 ; i < rows.length ; i++) {
+    var number = 0;
+    if (N){
+        number = rows.length;
+    }else{
+        number = 10;
+    }
+    for (let i = 1 ; i < number ; i++) {
         try {
         // Adjust the values based on your TSV columns
         const values_for_Akas_info = [rows[i][0], rows[i][2], rows[i][3], rows[i][4], rows[i][7]];

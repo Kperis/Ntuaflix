@@ -4,8 +4,9 @@
   "description": "New npm folder",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server",
+    "test": "cross-env NODE_ENV=test mocha ./test/*.test.js",
+    "test_admin": "cross-env NODE_ENV=test mocha ./test/06_admin.test.js",
+    "start": "nodemon index.js",
     "dev": "nodemon server"
   },
   "repository": {
@@ -35,7 +36,14 @@
     "multer": "^1.4.5-lts.1",
     "mysql": "^2.18.1",
     "mysql2": "^3.9.0",
-    "nodemon": "^3.0.2",
     "promise": "^8.3.0"
+  },
+  "devDependencies": {
+    "chai": "^4.3.4",
+    "chai-http": "^4.4.0",
+    "cross-env": "^7.0.3",
+    "mocha": "^10.2.0",
+    "nodemon": "^3.0.3",
+    "supertest": "^6.3.4"
   }
 }

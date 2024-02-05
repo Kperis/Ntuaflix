@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const pool = require('../database'); // Assuming you export the setupDatabase function
 
-async function addTsvToNameBasics(pool) {
+async function addTsvToNameBasics(pool,N) {
     const currentDir = __dirname;
     console.log(currentDir);
 
@@ -21,7 +21,13 @@ async function addTsvToNameBasics(pool) {
     const insertQuery_KnownForTitles = 'INSERT INTO Known_for (contributor_id,movie_id) VALUES (?, ?)';
     // Iterate over the rows and execute the database query
     //for (let i = 1; i < rows.length; i++) {
-    for (let i = 1 ; i < rows.length ; i++) {
+    var number = 0;
+    if (N){
+        number = rows.length;
+    }else{
+        number = 10;
+    }
+    for (let i = 1 ; i < number ; i++) {
         try {
         // Adjust the values based on your TSV columns
         const values_for_Contributors = [rows[i][0], rows[i][1], rows[i][2], rows[i][3], rows[i][6]];
