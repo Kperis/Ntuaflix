@@ -1,16 +1,8 @@
 #!/usr/bin/env node
 // cli/yourCLIFile.js
 const program = require('commander');
-const axios = require('axios');
 const upload_route = require('./src/uploadtsvfile');
-const login = require('./src/login');
-const searchtitle_fun = require('./src/title');
-const searchuser_fun = require('./src/user');
-const healthcheck_route = require('./src/healthcheck');
-const resetall_route = require('./src/resetall');
-const { reset } = require('nodemon');
-
-const BASE_URL = 'http://localhost:9876'; // Update with your backend server URL
+const generalfun = require('./src/general_function');
 
 program
   .version('0.0.1')
@@ -33,14 +25,17 @@ program
   .description('User/Admin log in')
   .option('-u, --username [username]', 'Username')
   .option('-p, --password [password]', 'Password')
-  .action( function(o) { login(o) } )
+  .action( function(o) { 
+    console.log("Logging in...");
+    generalfun('login',o) 
+  } )
 
 program
   .command('title')
   .alias('st')
   .description('searching title by titleid')
   .option('-t, --titleID [titleid]', 'TitleID')
-  .action( function(titleid) { searchtitle_fun(titleid) } )
+  .action( function(o) { generalfun('title',o) } )
 
 program
   .command('newtitles')
@@ -111,21 +106,38 @@ program
   .description('searching user by username')
   .option('--username [username]', 'Username')
   .action( function(o) { 
-    searchuser_fun(o) 
+    generalfun('user',o)
+  } )
+
+program
+  .command('name')
+  .description('searching name by nameid')
+  .option('--nameid [nameid]', 'NameID')
+  .action( function(o) { 
+    generalfun('name',o)
   } )
 
 program 
   .command("healthcheck")
   .description("Check the health of the server")
-  .action(function(){
-    healthcheck_route.healthcheck()
+  .action(function(o){
+    console.log("parameters are ",o);
+    generalfun('healthcheck',o);
   })
 program
   .command('resetall')
   .description('Reset all tables')
-  .action(function() {
-    resetall_route.resetall();
+  .action(function(o) {
+    generalfun('resetall',o);
   })
+
+program
+  .command('searchtitle')
+  .description('searching title by a part of the title')
+  .option('--titlepart [titlepart]', 'TitlePart')
+  .action( function(o) { 
+    generalfun('searchtitle',o) 
+  } )
 
 
 program.parse(process.argv);

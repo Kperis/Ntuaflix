@@ -34,7 +34,7 @@ router.use(authMiddleware);
 //router.get('/home', indexController.getHome); 
 // Titles
 router.get('/title/:titleID', titleController.getTitle); // OK - Needs to be tested
-router.get('/searchtitle',searchtitleController.getSearchTitle); // OK - Needs to be tested
+router.get('/searchtitle/:titlePart',searchtitleController.getSearchTitle); // OK - Needs to be tested
 router.post('/searchtitle', searchtitleController.getSearchTitle); // OK - Needs to be tested
 router.get('/bygenre',bygenreController.getByGenre);  // OK - Needs to be tested
 router.post('/bygenre',bygenreController.getByGenre);  // OK - Needs to be tested

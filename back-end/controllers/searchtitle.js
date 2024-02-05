@@ -4,7 +4,8 @@ const {getTitleObject} = require('../middlewares/getTitleObject');
 
 
 exports.getSearchTitle = (req, res, next) => {
-    const titlePart = req.body.titlePart;
+    const titlePart = req.params.titlePart;
+    console.log(titlePart);
     SQLQuery = `
         SELECT
             TitleObject.movie_id AS titleID
