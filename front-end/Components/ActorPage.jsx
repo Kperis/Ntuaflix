@@ -22,7 +22,7 @@ const ActorPage = ({name, poster, birth, death, profession, movies}) => {
             {
                 movies.map((movie) =>{
                     return(
-                        <Movie key={movie.titleID} id={movie.titleID} title={movie.originalTitle} review={movie.rating[0].avRating}/>
+                        <Movie key={movie.titleID} id={movie.titleID} title={movie.originalTitle} review={movie.rating[0].avRating} poster={movie?.titlePoster}/>
                     )
                 })
             }   

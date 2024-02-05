@@ -26,14 +26,6 @@ const page = () => {
         }
         else{
             setLoginStatus(true);
-            fetch('http://localhost:9876/ntuaflix_api/name/nm0000019',{
-                method: 'get',
-                headers: {
-                    'authorization': 'Bearer ' + localStorage.getItem('token')
-                }
-            })
-            .then(response => response.json())
-            .then(data => console.log(data))
         }
     },[])
 
@@ -60,7 +52,7 @@ const page = () => {
     ?
     <div>
         <SearchBox setList={setActors} titleOnly={true} onSearch={onSearch} title={title} setTitle={setTitle}/>
-        <List type='actors' arr={actors} classname='actors-container' />
+        <List type='actors' arr={actors} classname='actors-container' w={220} h={270}/>
     </div>
 
     :

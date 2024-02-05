@@ -7,11 +7,11 @@ import '@/Styles/library.css'
 import '@/Styles/actors.css'
 
 
-const List = ({arr, type, classname}) => {
+const List = ({arr, type, classname, w, h}) => {
 
 
   return (
-    <div>
+    <>
         <ul className={classname}>
         {
             
@@ -27,7 +27,7 @@ const List = ({arr, type, classname}) => {
                     dynamicComponent = <ListContainer name={item?.name} movies={item?.movies} href={item?.href}/>;
                 }
                 else if(type === 'actors'){
-                    dynamicComponent = <Actor id={item.nameID} name={item?.name} photo={item?.namePoster}/>
+                    dynamicComponent = <Actor id={item.nameID} name={item?.name} photo={item?.namePoster} w={w} h={h}/>
                 }
                 else{
                     return(
@@ -43,7 +43,7 @@ const List = ({arr, type, classname}) => {
             })
         }
         </ul>
-    </div>
+    </>
   )
 }
 

@@ -1,13 +1,36 @@
 'use client'
 
-import React, { useState } from 'react'
-import Image from 'next/image'
+import React, { useEffect, useState } from 'react'
 import Heart from './Heart'
 import '@/Styles/moviepage.css'
+import List from './List'
 
-const MoviePage = ({poster, title, actors}) => {
+const MoviePage = ({id, poster, title, contributors, akas, year, type, rating}) => {
 
   const [heart, setHeart] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [actors, setActors] = useState([]);
+
+  useEffect(()=> {
+    fetchphotos();
+  }, [])
+
+  const fetchphotos = async () =>{
+    const arr = await Promise.all(contributors.map( async (contributor) => {
+      const res = await fetch('http://localhost:9876/ntuaflix_api/name/'+contributor?.nameID ,{
+          method: 'get',
+          headers: {'authorization': 'Bearer ' + localStorage.getItem('token')}
+      });
+      const data = await res.json();
+      return data;
+    }));
+
+    
+
+    setActors(arr);
+    console.log(arr);
+    setLoading(false);
+  }
 
 
   const onHeartClick = () =>{
@@ -16,20 +39,25 @@ const MoviePage = ({poster, title, actors}) => {
 
 
   return (
-    <div className='moviepage-container' style={{backgroundImage: `url(${poster})`}}>
+    <div className='moviepage-container' style={{backgroundImage: `url(${poster.replace('{width_variable}', 'original')})`}}>
         <main className='details'>
-          <div>
-            <h1>{title}</h1>
-            <span>Action</span>
-          </div>
-          <div className='seperation'></div>
-          <section>Lorem ipsum dolor sit amet consectetur adipisicing elit.
-             Pariatur suscipit deleniti, repellat voluptatum porro necessitatibus deserunt magnam asperiores numquam modi ullam!
-            Eius eum nam omnis deleniti tempore perferendis fugiat eveniet.
-          </section>
           <section>
-            <span>{`Cast: ${actors}`}</span>
-            <span>Director: Christopher Nolan</span>
+            <h1>{title}</h1>
+            <p>{akas.map((item) => {return item?.genreTitle+', '})}</p>
+          </section>
+          <div className='seperation'></div>
+          <section>
+            <p>Year: {year}</p>
+            <p>Type: {type}</p>
+            <p>Rating: {rating.avRating ? rating.avRating : 'No data'}</p>
+          </section>
+          <section className='contributors'>
+            <p>Contributors: </p>
+            {
+              contributors.length === 0 || loading
+              ? <span>Cast: No Data</span>
+              : <List type='actors' arr={actors} classname='actors-circular' w={90} h={135} />
+            }
           </section>
           <div className='addtolist-container'>
             <button>
