@@ -10,6 +10,10 @@ chai.use(chaiHttp);
 let token;
 let response;
 
+// The ntuaflix_test database contains:
+// 1. A user with username "testuser" and password "1234"
+// 2. A user with username "testadmin" and password "1234" with role "admin"
+
 // TEST FOR [POST]/auth/register
 describe('Register', () => {
     // Register a new user

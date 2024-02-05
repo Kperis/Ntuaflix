@@ -22,7 +22,7 @@ const auth = (req, res, next) => {
         res.sendStatus(401).json({ message: 'Not Authorized' })
       }
       req.user = user
-      console.log("You are authenticated!");
+      console.log("AuthMiddleware: You are authenticated!");
       next()
     })
 }

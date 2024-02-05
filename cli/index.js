@@ -1,4 +1,4 @@
-
+#!/usr/bin/env node
 // cli/yourCLIFile.js
 const program = require('commander');
 const axios = require('axios');
@@ -14,13 +14,17 @@ const BASE_URL = 'http://localhost:9876'; // Update with your backend server URL
 
 program
   .version('0.0.1')
-  .description('Your CLI Application');
+  .description('Your CLI Application')
+  .action(() => {
+    console.log('Welcome to the CLI Application');
+    console.log('Type se2333 --help for a list of commands');
+  });
   
 program
-  .command('se2333')
-  .description('Show a text message for se2333')
+  .command('format')
+  .description('Learn the format of a command')
   .action(() => {
-    console.log('Text message for se2333');
+    console.log('Format of a command: se2333 scope --param1 value1 [--param2 value2] --format fff');
   });
 
 program

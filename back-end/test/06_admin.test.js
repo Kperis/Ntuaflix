@@ -45,11 +45,11 @@ describe('search user by username admin route', () => {
                 //console.log('Response:', res.status, res.body);
                 expect(res.status).to.equal(200); 
                 // Also expect res to be a json with titleID / type / originalTitle / titlePoster / startYear / endYear / genres / akasInfo / principals / rating
-                expect(res.body.message).to.have.property('first_name');
-                expect(res.body.message).to.have.property('last_name');
-                expect(res.body.message).to.have.property('birthdate');
-                expect(res.body.message).to.have.property('email');
-                expect(res.body.message).to.have.property('role');
+                expect(res.body).to.have.property('first_name');
+                expect(res.body).to.have.property('last_name');
+                expect(res.body).to.have.property('birthdate');
+                expect(res.body).to.have.property('email');
+                expect(res.body).to.have.property('role');
                 done();
             });
         })

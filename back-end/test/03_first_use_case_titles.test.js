@@ -66,7 +66,7 @@ describe('title', () => {
             .set('Authorization', 'Bearer ' + token)
             .end((err, res) => {
                 //console.log('Response:', res.status, res.body);
-                expect(res.status).to.equal(204); 
+                expect(res.status).to.equal(204);
                 done();
             });
         })
@@ -112,6 +112,9 @@ describe('searchtitle', () => {
             .end((err, res) => {
                 //console.log('Response:', res.status, res.body);
                 expect(res.status).to.equal(200); 
+                expect(res.body).to.be.an('array');
+                // also expect to not be an empty array
+                expect(res.body).to.not.be.empty;
                 done();
             });
         })

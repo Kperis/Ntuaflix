@@ -7,7 +7,7 @@ const constructURL = require('../lib/construct_url');
 const error_handler = require('../lib/error_handler');
 
 module.exports = function (o) {
-
+    console.log(chalk.yellow('Logging in...'));
     isWrong = false;
     if (o.username === undefined || o.password === undefined)
         isWrong = true;

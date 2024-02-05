@@ -67,7 +67,7 @@ describe('name', () => {
 
 // TEST FOR [GET]/searchname
 describe('searchname', () => {
-    it('should return the names with the given namePart', (done) => {
+    it('should return an array of nameObjects with the given namePart', (done) => {
         request(app)
         .post('/ntuaflix_api/auth/login')
         .send({
@@ -85,6 +85,8 @@ describe('searchname', () => {
             .end((err, res) => {
                 //console.log('Response:', res.status, res.body);
                 expect(res.status).to.equal(200);
+                // Expect an array of nameObjects
+                expect(res.body).to.be.an('array');
                 done();
             });
         })

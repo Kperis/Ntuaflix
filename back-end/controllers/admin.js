@@ -422,7 +422,18 @@ exports.readUser = (req, res, next) => {//needs fixing
                 return res.status(204).json({ status: 'failed', message: 'User not found' });
             }
             else{
-                res.status(200).json({ status: 'OK', message: result });
+                //console.log(result[0]);
+                userObject = {
+                    user_id: result[0].user_id,
+                    username: result[0].username,
+                    email: result[0].email,
+                    first_name: result[0].first_name,
+                    last_name: result[0].last_name,
+                    birthdate: result[0].birthdate,
+                    role: result[0].role,
+                };
+                //console.log(userObject);
+                res.status(200).json(userObject);
             }
         });
     });

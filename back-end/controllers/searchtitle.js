@@ -31,7 +31,7 @@ exports.getSearchTitle = (req, res, next) => {
             const titleObjects = [];
 
             if (titleIDs.length === 0) {
-                res.status(204).json(message = 'No data');
+                res.status(204).send(); // 204 response must not have a body
                 return;
             }
 

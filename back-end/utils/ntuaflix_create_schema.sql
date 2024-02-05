@@ -31,6 +31,11 @@ CREATE TABLE IF NOT EXISTS Authentication (
 --INSERT INTO Authentication (user_id, password, username) VALUES (1, '$2a$08$NRJ0rUt2NnGosoWtgu3vyuSZQDZhRcGNBOmhuBpthqLsb8efR2rjS', 'admin');
 -- passw = 1234
 
+-- Insert Simple User
+INSERT INTO Users (first_name, last_name, birthdate, email, role) VALUES ('userFN', 'userLN', '1990-01-01', 'user@example.com', 'simple_user');
+INSERT INTO Authentication (user_id, password, username) VALUES (1, '$2a$08$NRJ0rUt2NnGosoWtgu3vyuSZQDZhRcGNBOmhuBpthqLsb8efR2rjS', 'user');
+-- passw = 1234
+
 
 -- create table TitleObject whit attributes movie_id,original_title,primary_title,start_year,end_year,is_adult,runtime_min,image_url,type
 CREATE TABLE IF NOT EXISTS TitleObject (
