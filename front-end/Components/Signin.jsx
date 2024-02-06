@@ -59,6 +59,7 @@ const Signin = () => {
         if(response){
           setLoginStatus(true);
           localStorage.setItem("token", response.token);
+          console.log(response);
           setUsername('');
           setPassword('');
           router.push('/');

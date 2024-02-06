@@ -6,11 +6,11 @@ import '@/Styles/library.css'
 
 const ListContainer = ({name, href}) => {
   return (
-    <div className='libraryList-container'>
-        <Link href={href} className='libraryList'>
-            <h1>{`${name}`}</h1>
-        </Link>
-    </div>
+    <Link href={href} className='libraryList'>
+      <div className='libraryList-container'>
+        <h1>{`${name}`}</h1>
+      </div>
+    </Link>
   )
 }
 
