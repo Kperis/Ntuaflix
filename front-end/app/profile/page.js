@@ -5,6 +5,7 @@ const page = () => {
 
   const MovieLists = [
     {
+        id: 1,
         name: 'WatchLater',
         movies: [
             {
@@ -13,10 +14,11 @@ const page = () => {
                 title: 'John Wick 3'  
             }
         ],
-        href: '/mylibrary/watchlater'
+        href: '/profile/watchlater'
     },
     {
-        name: 'Favourites',
+        id: 2,
+        name: 'Favorites',
         movies: [
             {
                 poster: '/interstellar.jpg',
@@ -29,7 +31,7 @@ const page = () => {
                 title: 'Spider-Man: Into the spider verse' 
             }
         ],
-        href: '/mylibrary/favourites'
+        href: '/profile/favorites'
     }
 ]
 

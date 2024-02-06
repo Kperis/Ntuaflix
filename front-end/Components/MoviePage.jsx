@@ -37,6 +37,10 @@ const MoviePage = ({id, poster, title, contributors, akas, year, type, rating}) 
     setHeart(!heart);
   }
 
+  const addToWatchLater = () =>{
+    
+  }
+
 
   return (
     <div className='moviepage-container' style={{backgroundImage: `url(${poster.replace('{width_variable}', 'original')})`}}>
@@ -60,7 +64,7 @@ const MoviePage = ({id, poster, title, contributors, akas, year, type, rating}) 
             }
           </section>
           <div className='addtolist-container'>
-            <button>
+            <button onClick={addToWatchLater}>
               Watch Later
             </button>
             <Heart active={heart} func={onHeartClick} />
