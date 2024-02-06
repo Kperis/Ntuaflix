@@ -7,6 +7,7 @@ const addTsvToRatings = require('./addTsvRating');
 const addTsvToAkas = require('./addTsvAkas');
 const addTsvToNameBasics = require('./addTsvNameBasics');
 const addTsvToPrincipals = require('./addTsvPrincipals');
+const addTsvToCrew = require('./addTsvCrew');
 
 //const mysql = require('mysql');
 const mysql = require('mysql2/promise');
@@ -54,6 +55,8 @@ async function main() {
     console.log('Done with ratings');
     await addTsvToPrincipals(pool,N);
     console.log('Done with principals');
+    await addTsvToCrew(pool,N);
+    console.log('Done with crew');
 
     // await addTsvToTable2(pool);
   } catch (error) {

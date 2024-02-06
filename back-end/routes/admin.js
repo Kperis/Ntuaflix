@@ -21,7 +21,7 @@ router.post('/upload/titleprincipals', upload.single('file'), adminController.up
 router.post('/upload/titleepisode', upload.single('file'), adminController.uploadTitleEpisode);
 router.post('/upload/titleratings', upload.single('file'), adminController.uploadTitleRatings);
 router.post('/resetall', adminController.resetAll);
-//router.post('/reset/titlecrew',upload.single('file'), adminController.resetTitleCrew);
+router.post('/upload/titlecrew',upload.single('file'), adminController.uploadTitleCrew);
 //to be done i dont know
 
 module.exports = router;

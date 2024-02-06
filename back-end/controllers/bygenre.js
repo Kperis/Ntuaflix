@@ -14,7 +14,6 @@ exports.getByGenre = async (req, res, next) => {
         // console.log(yearFrom);
         // console.log(yearTo);
         // res.status(200).json({ message: "OK" }); // Works!
-
         // SQL queries
         let sqlQuery;
         if (yearFrom !== null && yearTo !== null) {

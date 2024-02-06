@@ -6,27 +6,7 @@ const axios = require('axios');
 const fs = require('fs');
 const error_handler = require('../lib/error_handler');
 
-exports.resetall = async () => {
-    // try{
-    //     const token = await fs.readFile('../cli/softeng23_33.token', 'utf8');
-
-    //     const url = "http://localhost:9876/ntuaflix_api/admin/resetall";
-    //     console.log(url);
-    //     const config = {
-    //         method: 'post',
-    //         url: url,
-    //         headers: {
-    //             'Authorization': 'Bearer ' + token,
-    //         },
-    //         httpsAgent: new https.Agent({ rejectUnauthorized: false }), 
-    //     };
-
-    //     const response = await axios(config);
-    //     console.log(response.data);
-    // } catch (error) {
-    //     console.log("an error occured");
-    //     errorHandler.generalerrors(error);
-    // }
+exports.resetall = async (url) => {
     
     fs.readFile('../cli/softeng23_33.token', 'utf8', (error, data) => {
         if (error) {
@@ -35,7 +15,7 @@ exports.resetall = async () => {
         }
         else {
                 //var url = constructURL('/auth/', 'login');
-                const url = "http://localhost:9876/ntuaflix_api/admin/resetall";
+                //const url = "http://localhost:9876/ntuaflix_api/admin/resetall";
                 console.log(url);
                 const config = {
                     method: 'post',

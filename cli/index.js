@@ -26,7 +26,7 @@ program
   .option('-u, --username [username]', 'Username')
   .option('-p, --password [password]', 'Password')
   .action( function(o) { 
-    console.log("Logging in...");
+    //console.log("Logging in...");
     generalfun('login',o) 
   } )
 
@@ -35,6 +35,7 @@ program
   .alias('st')
   .description('searching title by titleid')
   .option('-t, --titleID [titleid]', 'TitleID')
+  .option('--format [format]', 'Output format (e.g., json, csv)')
   .action( function(o) { generalfun('title',o) } )
 
 program
@@ -65,14 +66,14 @@ program
   });
 
 
-// program
-//   .command('newcrew')
-//   .description('upload akas info tsv')
-//   .option('-upl,--filename [filepath]','FilePath')
-//   .action(async (filepath) => {
-//     console.log(filepath);
-//     uploadtitlebasics_route.uploadtitlebasics(filepath);
-//   });
+program
+  .command('newcrew')
+  .description('upload akas info tsv')
+  .option('-upl,--filename [filepath]','FilePath')
+  .action(async (filepath) => {
+    console.log(filepath);
+    uploadtitlebasics_route.uploadtitlebasics(filepath);
+  });
 
 program
   .command('newepisode')
@@ -105,6 +106,7 @@ program
   .command('user')
   .description('searching user by username')
   .option('--username [username]', 'Username')
+  .option('--format [format]', 'Output format (e.g., json, csv)')
   .action( function(o) { 
     generalfun('user',o)
   } )
@@ -113,6 +115,7 @@ program
   .command('name')
   .description('searching name by nameid')
   .option('--nameid [nameid]', 'NameID')
+  .option('--format [format]', 'Output format (e.g., json, csv)')
   .action( function(o) { 
     generalfun('name',o)
   } )
@@ -120,8 +123,9 @@ program
 program 
   .command("healthcheck")
   .description("Check the health of the server")
+  .option('--format [format]', 'Output format (e.g., json, csv)')
   .action(function(o){
-    console.log("parameters are ",o);
+    //console.log("parameters are ",o);
     generalfun('healthcheck',o);
   })
 program
@@ -135,9 +139,30 @@ program
   .command('searchtitle')
   .description('searching title by a part of the title')
   .option('--titlepart [titlepart]', 'TitlePart')
+  .option('--format [format]', 'Output format (e.g., json, csv)')
   .action( function(o) { 
     generalfun('searchtitle',o) 
   } )
 
+program
+  .command('bygenre')
+  .description('searching title by genre and other filters')
+  .option('--genre [genre]', 'Genre')
+  .option('--min [minrating]', 'Minimum Rating')
+  .option('--from [yrFrom]', 'Year From')
+  .option('--to [yrTo]', 'Year To')
+  .option('--format [format]', 'Output format (e.g., json, csv)')
+  .action( function(o) { 
+    generalfun('bygenre',o) 
+  } )
+
+program
+  .command('searchname')
+  .description('searching contributor by a part of the name')
+  .option('--name [namepart]', 'NamePart')
+  .option('--format [format]', 'Output format (e.g., json, csv)')
+  .action( function(o) { 
+    generalfun('searchname',o) 
+  } )
 
 program.parse(process.argv);
