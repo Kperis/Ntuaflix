@@ -108,21 +108,25 @@ exports.deleteFromFavorites = async (req, res) => {
 
 exports.getFavorites = async (req, res) => {
     let userID = req.user.userId;
-    let query = `SELECT movie_id as titleID FROM Favorites_list WHERE user_id = ${userID}`;
+    let query = `SELECT movie_id as titleID FROM Favorites_list WHERE user_id = ?`;
     pool.getConnection((err, connection) => {
         if (err) {
             console.error('Error getting connection:', err);
             res.sendStatus(500);
             return;
         }
-        connection.query(query, (err, results) => {
+        connection.query(query, [userID],(err, results) => {
             if (err) {
                 console.error('Error executing query:', err);
                 res.sendStatus(500);
                 return;
             }
+            console.log("Results from Favorites: "+results.length);
             const titleIDs = results.map(result => result.movie_id);
             const titleObjects = [];
+            console.log("TitleIDs from Favorites: "+titleIDs.length);
+            console.log("userID: "+userID);
+            console.log("TitleIDs: "+titleIDs);
             if (titleIDs.length === 0) {
                 // No title has been added to Favorites!
                 res.status(204).json(message = 'No data');
