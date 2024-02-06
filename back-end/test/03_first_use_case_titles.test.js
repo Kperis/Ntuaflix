@@ -8,15 +8,17 @@ chai.use(chaiHttp);
 
 // Variables
 let token;
-let response;
 let titleID_correct = 'tt123456';
 let titleID_wrong = 'tt0000002';
 let titlePart_correct = 'Existing';
 let titlePart_wrong = 'Avatar';
 let genre_correct = 'Action';
 let genre_wrong = 'Drama';
+
 // The database contains the following title:
 // tt123456 - Existing Original Title - Action
+// The database contains the following user:
+// testuser - 1234
 
 // Home
 // TEST FOR [GET]/home
@@ -95,7 +97,7 @@ describe('title', () => {
             });
         })
     });
-    it('should return 400 if the titleID is missing', (done) => {
+    it('should return 404 if the titleID is missing (endpoint needs titleID)', (done) => {
         request(app)
         .post('/ntuaflix_api/auth/login')
         .send({
@@ -109,7 +111,7 @@ describe('title', () => {
             .set('Authorization', 'Bearer ' + token)
             .end((err, res) => {
                 //console.log('Response:', res.status, res.body);
-                expect(res.status).to.equal(400); 
+                expect(res.status).to.equal(404); 
                 done();
             });
         })

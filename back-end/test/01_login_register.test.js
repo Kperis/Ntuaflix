@@ -8,11 +8,63 @@ chai.use(chaiHttp);
 
 // Variables
 let token;
-let response;
+let random = Math.floor(Math.random() * 1000);
+new_user = {
+    firstname: "testuserFN_new" + random,
+    lastname: "testuserLN_new" + random,
+    birthDate: "1990-05-15",
+    username: "testuser_new" + random,
+    email: "testuser_new" + random + "@example.com",
+    password: "1234"
+}
+new_user_sameemail = {
+    firstname: "testuserFN_new2" + random,
+    lastname: "testuserLN_new2" + random,
+    birthDate: "1990-05-15",
+    username: "testuser_new2" + random,
+    email: "testuser_new" + random + "@example.com",
+    password: "1234"
+}
+new_user_sameusername = {
+    firstname: "testuserFN_new3" + random,
+    lastname: "testuserLN_new3" + random,
+    birthDate: "1990-05-15",
+    username: "testuser_new" + random,
+    email: "testuser_new3" + random + "@example.com",
+    password: "1234"
+}
+new_user_noemail = {
+    firstname: "testuserFN_new4" + random,
+    lastname: "testuserLN_new4" + random,
+    birthDate: "1990-05-15",
+    username: "testuser_new4" + random,
+    password: "1234"
+}
+new_user_login = {
+    username: "testuser_new" + random,
+    password: "1234"
+}
+new_user_wronglogin = {
+    username: "testuser_new" + random,
+    password: "12345"
+}
 
 // The ntuaflix_test database contains:
 // 1. A user with username "testuser" and password "1234"
 // 2. A user with username "testadmin" and password "1234" with role "admin"
+
+// TEST FOR WRONG ENDPOINT
+describe('Wrong Endpoint', () => {
+    it('should return 404', (done) => {
+        request(app)
+            .get('/wrongendpoint')
+            .end((err, res) => {
+                console.log('Response:', res.status, res.body);
+                expect(res.status).to.equal(404); // Update the expected status code if needed
+                done();
+            });
+    });
+});
 
 // TEST FOR [POST]/auth/register
 describe('Register', () => {
@@ -20,25 +72,11 @@ describe('Register', () => {
     it('should register a new user if not existed', (done) => {
         request(app)
             .post('/ntuaflix_api/auth/register')
-            .send({
-                firstname: "testuserFN_new",
-                lastname: "testuserLN_new",
-                birthDate: "1990-05-15",
-                username: "testuser_new",
-                email: "testuser_new@example.com",
-                password: "1234"
-            })
+            .send(new_user)
             .end((err, res) => {
                 //console.log('Response:', res.status, res.body);
-                if (res.status === 400) {
-                    // User already exists in the database
-                    expect(res.status).to.equal(400);
-                    // Check if the error message is correct
-                    expect(res.body.message).to.equal('Email already in use');
-                } else {
-                    // User successfully registered
-                    expect(res.status).to.equal(200);
-                }
+                // User successfully registered
+                expect(res.status).to.equal(200);
                 done();
             });
     });
@@ -46,14 +84,7 @@ describe('Register', () => {
     it('should return 400 if the username already exists', (done) => {
         request(app)
             .post('/ntuaflix_api/auth/register')
-            .send({
-                firstname: "testuserFN_sameusername",
-                lastname: "testuserLN_sameusername",
-                birthDate: "1990-05-15",
-                username: "testuser",
-                email: "testuser_sameusername@example.com",
-                password: "1234"
-            })
+            .send(new_user_sameusername)
             .end((err, res) => {
                 //console.log('Response:', res.status, res.body);
                 expect(res.status).to.equal(400); // Update the expected status code if needed
@@ -64,13 +95,7 @@ describe('Register', () => {
     it('should not register a new user with missing email' , (done) => {
         request(app)
             .post('/ntuaflix_api/auth/register')
-            .send({
-                firstname: "testuserFN2_noemail",
-                lastname: "testuserLN_noemail",
-                birthDate: "1990-05-15",
-                username: "testuser_noemail",
-                password: "1234"
-            })
+            .send(new_user_noemail)
             .end((err, res) => {
                 //console.log('Response:', res.status, res.body);
                 expect(res.status).to.equal(400); // Update the expected status code if needed
@@ -81,14 +106,7 @@ describe('Register', () => {
     it('should not register a new user with the same email as another user' , (done) => {
         request(app)
             .post('/ntuaflix_api/auth/register')
-            .send({
-                firstname: "testuserFN_sameemail",
-                lastname: "testuserLN_sameemail",
-                birthDate: "1990-05-15",
-                username: "testuser_sameemail",
-                email: "testuser@example.com",
-                password: "1234"
-            })
+            .send(new_user_sameemail)
             .end((err, res) => {
                 //console.log('Response:', res.status, res.body);
                 expect(res.status).to.equal(400); // Update the expected status code if needed
@@ -103,10 +121,7 @@ describe('Login',() =>{
     it('should login a user', (done) => {
         chai.request(app)
             .post('/ntuaflix_api/auth/login')
-            .send({
-                username : "testuser",
-                password : "1234"
-            })
+            .send(new_user_login)
             .end((err, res) => {
                 //console.log('Response:', res.status, res.body);
                 token = res.body.token;
@@ -118,10 +133,7 @@ describe('Login',() =>{
     it('should not login with invalid credentials', (done) => {
         chai.request(app)
             .post('/ntuaflix_api/auth/login')
-            .send({
-                username : "testuser",
-                password : "12345"
-            })
+            .send(new_user_wronglogin)
             .end((err, res) => {
                 //console.log('Response:', res.status, res.body);
                 expect(res.status).to.equal(400); // Update the expected status code if needed

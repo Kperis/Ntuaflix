@@ -2,16 +2,14 @@
 const { getTitleObject } = require('../middlewares/getTitleObject');
 const { pool } = require('../utils/database');
 
-// Possible Status Codes:
-// 200 OK - OK
-// 400 Bad Request - OK
-// 404 Not Found - OK
-// 500 Internal Server Error - OK
-
 
 exports.getTitle = (req, res, next) => {
     // Check for Bad Request -> 400 status code
     if (Object.keys(req.params).length > 1) {
+        return res.status(400).send('Bad Request');
+    }
+    // Check if the titleID is empty
+    if (req.params.titleID === '') {
         return res.status(400).send('Bad Request');
     }
     

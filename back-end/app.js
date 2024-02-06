@@ -6,9 +6,6 @@ const { pool } = require('./utils/database');
 
 const app = express();
 
-// lines 17-26 ensure frontend-backend connection 
-//const publicDirectory = path.join(__dirname, './public');
-//app.use(express.static(publicDirectory));
 app.use(cors());
 // Parse url-encoded bodies (as sent by HTML forms, for example signup)- get data from forms
 app.use(express.urlencoded({ extended: false}));
@@ -46,18 +43,15 @@ checkDatabaseConnection()
 
 ////
 /* Import routes */
-// Εδώ φορτώνουμε τα routes files που θα χρειαστούμε για κάθε endpoint
 const indexRoutes = require('./routes/index');
 const adminRoutes = require('./routes/admin');
 const authRoutes = require('./routes/auth');
-//const { pool } = require('undici-types');
 
 /* Routes used */
-// Εδώ γίνεται ένα αρχικό indexing
 app.use('/ntuaflix_api/admin', adminRoutes);
 app.use('/ntuaflix_api/auth', authRoutes);
 app.use('/ntuaflix_api', indexRoutes);
 
-app.use((req, res, next) => { res.status(400).json({ message: 'Endpoint Not Found' }) });
+app.use((req, res, next) => { res.status(404).json({ message: 'Endpoint Not Found' }) }); 
 
 module.exports = app;
