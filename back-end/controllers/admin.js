@@ -1,6 +1,8 @@
 const {pool} = require('../utils/database');
 const csvParser = require('csv-parser');
 const fs = require('fs');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 
 
 exports.getIndex = (req, res, next) => {
@@ -361,12 +363,12 @@ exports.uploadTitleCrew = (req, res) => {
         ////
 
         for (let i = 1; i < rows.length; i++) {
+            try{
             ////
             const values_for_Works = [rows[i][0], rows[i][2], rows[i][3]];
             ////
             const nameid_directors = rows[i][1].split(',');
             const nameid_wirters = rows[i][2].split(',');
-            
 
             pool.getConnection((err, connection) => {
                 if (err) {
@@ -384,7 +386,9 @@ exports.uploadTitleCrew = (req, res) => {
                     );
                     } catch (error) {
                         //console.error("Error in genres");
+                        continue;
                     }
+                }
                 for(let j = 0; j < nameid_wirters.length; j++){
                     try{
                     const values_for_works_2 = [rows[i][0],nameid_wirters[j],'writer'];
@@ -395,20 +399,23 @@ exports.uploadTitleCrew = (req, res) => {
                     }
                     );
                     } catch (error) {
+                        continue;
                         //console.error("Error in genres");
                     }
                 }
                 connection.release();
-                }
+                
             });
-        
+            }catch (error) {
+                continue;
+                //console.error("Error in genres");
+            }
         }
         fs.unlinkSync(tsvFilePath);
 
         // Send a response
         res.status(200).json({ message: 'File uploaded and processed successfully.' });
     } catch (error) {
-        //console.error(error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 
@@ -502,4 +509,71 @@ exports.readUser = (req, res, next) => {//needs fixing
             }
         });
     });
+};
+
+
+exports.addUser = (req, res, next) => {
+    //console.log(req.body); // grab the data from the form and show it to the terminal
+    
+    const password = req.params.password; //getting the data from the form
+    const username = req.params.username
+    
+    pool.getConnection((error, connection) => {
+        if (error) {
+            console.error('Error getting connection:', error);
+            return res.status(500).json({
+                error: 'Internal Server Error 1'
+            });
+        }
+
+        connection.query('Select username FROM Authentication WHERE username = ?' , [username], async (error, usernameResults) => {
+            if(error) {
+                console.log(error)
+                return res.status(500).json({ message: 'Internal Server Error 3' });
+            } 
+    
+            if(usernameResults.length > 0) {
+                let hashedPassword = await bcrypt.hash(password, 8);
+                console.log(hashedPassword);
+                connection.query(`UPDATE Authentication\
+                SET password = ?\
+                WHERE username = ?;`,[hashedPassword,username],(error) =>{
+                    if (error) {
+                        console.log(error);
+                        return res.status(500).json({ message: 'Internal Server Error 4' });
+                    }else{
+                        return res.status(200).json({ message: 'Password Updated'});
+                    }
+                })
+                // return res.status(400).json({ message: 'Username already in use' });
+            } else{
+                // Both email and username are unique, proceed with registration logic
+
+                // Hash the password (you should use a proper hashing library in production)
+                let hashedPassword = await bcrypt.hash(password, 8);
+                console.log(hashedPassword);
+
+                connection.query('INSERT INTO Users (first_name, last_name, birthdate, email) VALUES (default, default, default, default)',  (error, insertUserResults) => {
+                    if (error) {
+                        console.log(error);
+                        return res.status(500).json({ message: 'Internal Server Error 4' });
+                    } else { //need to change password to hashedpassword, havent completed yet hashing logic
+                        const userId = insertUserResults.insertId; // Get the auto-generated user_id
+                        console.log("User ID:", userId);
+                        connection.query('INSERT INTO Authentication (user_id, username, password) VALUES (?,?,?)', [userId, username, hashedPassword], (error, insertAuthResults) => {
+                            if (error) {
+                                console.log(error);
+                                return res.status(500).json({ message: 'Registration failed' });
+                            } else {
+                                console.log(insertAuthResults);
+                                return res.status(200).json({ message: 'Registration Completed. Please login'});
+                            }
+                        })                          
+                    }
+                });
+            }  
+        
+        });
+    });
+          
 };

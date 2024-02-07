@@ -42,9 +42,9 @@ program
   .command('newtitles')
   .description('upload title basics')
   .option('-upl,--filename [filepath]','FilePath')
-  .action(async (filepath) => {
-    console.log(filepath);
-    upload_route.uploadtsvs(filepath,"titlebasics");
+  .action(async (o) => {
+    //console.log(o);
+    upload_route.uploadtsvs(o,"newtitles",null);
   });
 
 program
@@ -52,8 +52,8 @@ program
   .description('upload akas info tsv')
   .option('-upl,--filename [filepath]','FilePath')
   .action(async (filepath) => {
-    console.log(filepath);
-    upload_route.uploadtsvs(filepath,"titleakas");
+    //console.log(filepath);
+    upload_route.uploadtsvs(filepath,"newakas",null);
   });
 
 program
@@ -61,8 +61,8 @@ program
   .description('upload new namebasics tsv')
   .option('-upl,--filename [filepath]','FilePath')
   .action(async (filepath) => {
-    console.log(filepath);
-    upload_route.uploadtsvs(filepath,"namebasics");
+    //console.log(filepath);
+    upload_route.uploadtsvs(filepath,"newnames",null);
   });
 
 
@@ -71,8 +71,8 @@ program
   .description('upload akas info tsv')
   .option('-upl,--filename [filepath]','FilePath')
   .action(async (filepath) => {
-    console.log(filepath);
-    uploadtitlebasics_route.uploadtitlebasics(filepath);
+    //console.log(filepath);
+    upload_route.uploadtsvs(filepath,"newcrew",null);
   });
 
 program
@@ -80,8 +80,8 @@ program
   .description('upload new episodeinfo tsv')
   .option('-upl,--filename [filepath]','FilePath')
   .action(async (filepath) => {
-    console.log(filepath);
-    upload_route.uploadtsvs(filepath,"titleepisode");
+    //console.log(filepath);
+    upload_route.uploadtsvs(filepath,"newepisode",null);
   });
 
 program
@@ -89,8 +89,8 @@ program
   .description('upload new principals info tsv')
   .option('-upl,--filename [filepath]','FilePath')
   .action(async (filepath) => {
-    console.log(filepath);
-    upload_route.uploadtsvs(filepath,"titleprincipals");
+    //console.log(filepath);
+    upload_route.uploadtsvs(filepath,"newprincipals",null);
   });
 
 program
@@ -98,8 +98,8 @@ program
   .description('upload new principals info tsv')
   .option('-upl,--filename [filepath]','FilePath')
   .action(async (filepath) => {
-    console.log(filepath);
-    upload_route.uploadtsvs(filepath,"titleratings");
+    //console.log(filepath);
+    upload_route.uploadtsvs(filepath,"newratings",null);
   });
 
 program
@@ -163,6 +163,16 @@ program
   .option('--format [format]', 'Output format (e.g., json, csv)')
   .action( function(o) { 
     generalfun('searchname',o) 
+  } )
+
+  program
+  .command('adduser')
+  .description('adduser by username or update password if exists')
+  .option('--username [username]', 'NamePart')
+  .option('--password [password]', 'Password')
+  .option('--format [format]', 'Output format (e.g., json, csv)')
+  .action( function(o) { 
+    generalfun('adduser',o) 
   } )
 
 program.parse(process.argv);

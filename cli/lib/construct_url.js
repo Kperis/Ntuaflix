@@ -19,5 +19,21 @@ exports.urlconstructor = (name,parameters) => {
         return "http://localhost:9876/ntuaflix_api/searchtitle";
     }else if( name == 'searchname'){
         return "http://localhost:9876/ntuaflix_api/searchname";
+    }else if(name == 'newtitles'){
+        return "http://localhost:9876/ntuaflix_api/admin/upload/titlebasics";
+    }else if(name == 'newnames'){
+        return "http://localhost:9876/ntuaflix_api/admin/upload/namebasics";
+    }else if (name == 'newakas'){
+        return "http://localhost:9876/ntuaflix_api/admin/upload/titleakas";
+    }else if (name == 'newcrew'){
+        return "http://localhost:9876/ntuaflix_api/admin/upload/titlecrew";
+    }else if(name == 'newepisode'){
+        return "http://localhost:9876/ntuaflix_api/admin/upload/titleepisode";
+    }else if(name == 'newprincipals'){
+        return "http://localhost:9876/ntuaflix_api/admin/upload/titleprincipals";
+    }else if(name == 'newratings'){
+        return "http://localhost:9876/ntuaflix_api/admin/upload/titleratings";
+    }else if(name == "adduser"){
+        return "http://localhost:9876/ntuaflix_api/admin/usermod/"+parameters.username+"/"+parameters.password;
     }
 }

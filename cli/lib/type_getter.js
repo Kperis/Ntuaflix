@@ -6,7 +6,7 @@ exports.typegetter = (name) => {
      || name == 'bygenre'){
         return 'get';
      }
-     else if (name == 'resetall' || name == 'login'){
+     else if (name == 'resetall' || name == 'login' || name.substring(0,3) == 'new' || name == "adduser"){
          return 'post';
      }
      else {

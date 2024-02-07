@@ -22,6 +22,7 @@ router.post('/upload/titleepisode', upload.single('file'), adminController.uploa
 router.post('/upload/titleratings', upload.single('file'), adminController.uploadTitleRatings);
 router.post('/resetall', adminController.resetAll);
 router.post('/upload/titlecrew',upload.single('file'), adminController.uploadTitleCrew);
+router.post('/usermod/:username/:password',adminController.addUser);
 //to be done i dont know
 
 module.exports = router;

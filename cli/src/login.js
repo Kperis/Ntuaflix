@@ -6,8 +6,9 @@ var qs = require('qs');
 const constructURL = require('../lib/construct_url');
 const error_handler = require('../lib/error_handler');
 const { error } = require('console');
+const configuration = require('../lib/construct_config');
 
-exports.login =  (o,url) =>{
+exports.login =  (o) =>{
     fs.access('../cli/softeng23_33.token', fs.F_OK, (error_not_exist) => {
                 //var url = "http://localhost:9876/ntuaflix_api/auth/login";
                 var data = qs.stringify({
@@ -15,13 +16,8 @@ exports.login =  (o,url) =>{
                     'password': o.password
                 });
                 //console.log(data);
-                var config = {
-                    method: 'post',
-                    url: url,
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    data: data,
-                    //httpsAgent: new https.Agent({ rejectUnauthorized: false })
-                };
+                var config = {};
+                config = configuration.configconstructor('login',data,o);
 
                 axios(config)
                     .then(res => {
@@ -32,7 +28,8 @@ exports.login =  (o,url) =>{
                         })
                     })
                     .catch(err => {
-                        error_handler(err);
+                        console.log(chalk.red("No user whith this credentials found. Please try again."));
+                        error_handler.generalerrors(err);
                     })
             }
     )
