@@ -75,14 +75,16 @@ describe('Load User profile', () => {
             });
         })
     });
-    it('should return 204 if the user does not exist', (done) => {
+    it('should return 401 if the user does not exist', (done) => {
         request(app)
         .post('/ntuaflix_api/auth/login')
         .send({
             username: "nonexistentuser",
             password: "1234"
         })
-        .end((err, res) => {done();});
+        .end((err, res) => {
+            expect(res.status).to.equal(401);
+            done();});
     })
 });
 
