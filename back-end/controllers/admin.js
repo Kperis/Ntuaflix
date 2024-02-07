@@ -438,3 +438,122 @@ exports.readUser = (req, res, next) => {//needs fixing
         });
     });
 };
+
+
+// Inserts user with null characteristics. We need these characteristics for the second usecase!
+exports.usermod = (req, res, next) => {
+    const username = req.params.username;
+    const password = req.body.password;
+
+    if (!username || !password) {
+        return res.status(400).json({ message: 'Invalid input' });
+    }
+    pool.getConnection((err, connection) => {
+        if (err) {
+            console.error('Error getting connection:', err);
+            return res.status(500).json({ message: 'Internal Server Error' });
+        }
+        connection.query('SELECT user_id FROM Authentication WHERE username = ?', [username], async (error, results) => {
+            if (error) {
+                connection.release();
+                console.error('Error executing query:', error);
+                return res.status(500).json({ message: 'Internal Server Error' });
+            }
+            if (results.length !== 0) {
+                // Username exists -> Change password
+                const userId = results[0].user_id;
+                let new_password_hashed = await bcrypt.hashSync(password, 8);
+                connection.query('UPDATE Authentication SET password = ? WHERE user_id = ?', [new_password_hashed, userId], (error, results) => {
+                    connection.release();
+                    if (error) {
+                        console.error('Error executing query:', error);
+                        return res.status(500).json({ message: 'Internal Server Error' });
+                    }
+                    res.status(200).json({ message: 'Password updated successfully' });
+                });
+            }
+            const userId = results[0].user_id;
+            // Username does not exist -> Create new user
+            // Insert into Authentication table
+            // Insert into Users table
+            let hashedPassword = await bcrypt.hash(password, 8);
+            [firstname, lastname, birthDate, email] = [null, null, null, null];
+            connection.query('INSERT INTO Users (first_name, last_name, birthdate, email) VALUES (?, ?, ?, ?)', [firstname, lastname, birthDate, email], (error, insertUserResults) => {
+                if (error) {
+                    console.log(error);
+                    return res.status(500).json({ message: 'Internal Server Error 4' });
+                } else { //need to change password to hashedpassword, havent completed yet hashing logic
+                    const userId = insertUserResults.insertId; // Get the auto-generated user_id
+                    console.log("User ID:", userId);
+                    connection.query('INSERT INTO Authentication (user_id, username, password) VALUES (?,?,?)', [userId, username, hashedPassword], (error, insertAuthResults) => {
+                        if (error) {
+                            console.log(error);
+                            return res.status(500).json({ message: 'Registration failed' });
+                        } else {
+                            console.log(insertAuthResults);
+                            return res.status(200).json({ message: 'Registration Completed. Please login'});
+                        }
+                    })                          
+                }
+            });
+        });
+    });
+};
+
+exports.adminmod = (req, res, next) => {
+    const username = req.params.username;
+    const password = req.body.password;
+
+    if (!username || !password) {
+        return res.status(400).json({ message: 'Invalid input' });
+    }
+    pool.getConnection((err, connection) => {
+        if (err) {
+            console.error('Error getting connection:', err);
+            return res.status(500).json({ message: 'Internal Server Error' });
+        }
+        connection.query('SELECT user_id FROM Authentication WHERE username = ?', [username], async (error, results) => {
+            if (error) {
+                connection.release();
+                console.error('Error executing query:', error);
+                return res.status(500).json({ message: 'Internal Server Error' });
+            }
+            if (results.length !== 0) {
+                // Username exists -> Change password
+                const userId = results[0].user_id;
+                let new_password_hashed = await bcrypt.hashSync(password, 8);
+                connection.query('UPDATE Authentication SET password = ? WHERE user_id = ?', [new_password_hashed, userId], (error, results) => {
+                    connection.release();
+                    if (error) {
+                        console.error('Error executing query:', error);
+                        return res.status(500).json({ message: 'Internal Server Error' });
+                    }
+                    res.status(200).json({ message: 'Password updated successfully' });
+                });
+            }
+            const userId = results[0].user_id;
+            // Username does not exist -> Create new user
+            // Insert into Authentication table
+            // Insert into Users table
+            let hashedPassword = await bcrypt.hash(password, 8);
+            [firstname, lastname, birthDate, email] = [null, null, null, null];
+            connection.query('INSERT INTO Users (first_name, last_name, birthdate, email,role) VALUES (?, ?, ?, ?,"admin")', [firstname, lastname, birthDate, email], (error, insertUserResults) => {
+                if (error) {
+                    console.log(error);
+                    return res.status(500).json({ message: 'Internal Server Error 4' });
+                } else { //need to change password to hashedpassword, havent completed yet hashing logic
+                    const userId = insertUserResults.insertId; // Get the auto-generated user_id
+                    console.log("User ID:", userId);
+                    connection.query('INSERT INTO Authentication (user_id, username, password) VALUES (?,?,?)', [userId, username, hashedPassword], (error, insertAuthResults) => {
+                        if (error) {
+                            console.log(error);
+                            return res.status(500).json({ message: 'Registration failed' });
+                        }
+                        console.log(insertAuthResults);
+                        return res.status(200).json({ message: 'Registration Completed. Please login'});
+                    });
+                }
+            });
+        });
+    });
+};

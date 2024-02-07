@@ -34,7 +34,7 @@ describe('home', () => {
             token = res.body.token;
             request(app)
             .get('/ntuaflix_api/home')
-            .set('Authorization', 'Bearer ' + token)
+            .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
                 //console.log('Response:', res.status, res.body);
                 expect(res.status).to.equal(200); 
@@ -59,7 +59,7 @@ describe('title', () => {
             token = res.body.token;
             request(app)
             .get('/ntuaflix_api/title/:' + titleID_correct)
-            .set('Authorization', 'Bearer ' + token)
+            .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
                 //console.log('Response:', res.status, res.body);
                 expect(res.status).to.equal(200); 
@@ -89,7 +89,7 @@ describe('title', () => {
             token = res.body.token;
             request(app)
             .get('/ntuaflix_api/title/:' + titleID_wrong)
-            .set('Authorization', 'Bearer ' + token)
+            .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
                 //console.log('Response:', res.status, res.body);
                 expect(res.status).to.equal(204);
@@ -108,7 +108,7 @@ describe('title', () => {
             token = res.body.token;
             request(app)
             .get('/ntuaflix_api/title/')
-            .set('Authorization', 'Bearer ' + token)
+            .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
                 //console.log('Response:', res.status, res.body);
                 expect(res.status).to.equal(404); 
@@ -131,7 +131,7 @@ describe('searchtitle', () => {
             token = res.body.token;
             request(app)
             .get('/ntuaflix_api/searchtitle')
-            .set('Authorization', 'Bearer ' + token)
+            .set('X-OBSERVATORY-AUTH', token)
             .send({
                 titlePart: titlePart_correct
             })
@@ -156,7 +156,7 @@ describe('searchtitle', () => {
             token = res.body.token;
             request(app)
             .get('/ntuaflix_api/searchtitle')
-            .set('Authorization', 'Bearer ' + token)
+            .set('X-OBSERVATORY-AUTH', token)
             .send({
                 titlePart: titlePart_wrong
             })
@@ -182,7 +182,7 @@ describe('bygenre', () => {
             token = res.body.token;
             request(app)
             .get('/ntuaflix_api/bygenre')
-            .set('Authorization', 'Bearer ' + token)
+            .set('X-OBSERVATORY-AUTH', token)
             .send({
                 qgenre: genre_correct,
                 minrating: 5
@@ -205,7 +205,7 @@ describe('bygenre', () => {
             token = res.body.token;
             request(app)
             .get('/ntuaflix_api/bygenre')
-            .set('Authorization', 'Bearer ' + token)
+            .set('X-OBSERVATORY-AUTH', token)
             .send({
                 qgenre: genre_wrong,
                 minrating: 5

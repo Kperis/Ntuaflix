@@ -28,7 +28,7 @@ describe('name', () => {
             token = res.body.token;
             request(app)
             .get('/ntuaflix_api/name/:' + nameID_correct)
-            .set('Authorization', 'Bearer ' + token)
+            .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
                 //console.log('Response:', res.status, res.body);
                 expect(res.status).to.equal(200);
@@ -55,7 +55,7 @@ describe('name', () => {
             token = res.body.token;
             request(app)
             .get('/ntuaflix_api/name/:' + nameID_wrong)
-            .set('Authorization', 'Bearer ' + token)
+            .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
                 //console.log('Response:', res.status, res.body);
                 expect(res.status).to.equal(204);
@@ -78,7 +78,7 @@ describe('searchname', () => {
             token = res.body.token;
             request(app)
             .get('/ntuaflix_api/searchname')
-            .set('Authorization', 'Bearer ' + token)
+            .set('X-OBSERVATORY-AUTH', token)
             .send({
                 namePart: namePart_correct
             })
@@ -102,7 +102,7 @@ describe('searchname', () => {
             token = res.body.token;
             request(app)
             .get('/ntuaflix_api/searchname')
-            .set('Authorization', 'Bearer ' + token)
+            .set('X-OBSERVATORY-AUTH', token)
             .send({
                 namePart: namePart_wrong
             })

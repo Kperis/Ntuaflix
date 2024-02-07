@@ -61,7 +61,7 @@ describe('Load User profile', () => {
             token = res.body.token;
             request(app)
             .get('/ntuaflix_api/profile')
-            .set('Authorization', 'Bearer ' + token)
+            .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
                 console.log('Response:', res.status, res.body);
                 expect(res.status).to.equal(200);
@@ -102,7 +102,7 @@ describe('Add to Favorites', () => {
             token = res.body.token;
             request(app)
             .post('/ntuaflix_api/addToFavorites/:' + titleID_correct)
-            .set('Authorization', 'Bearer ' + token)
+            .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
                 console.log('Response:', res.status, res.body);
                 expect(res.status).to.equal(200);
@@ -121,7 +121,7 @@ describe('Add to Favorites', () => {
             token = res.body.token;
             request(app)
             .post('/ntuaflix_api/addToFavorites/:' + titleID_correct)
-            .set('Authorization', 'Bearer ' + token)
+            .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
                 console.log('Response:', res.status, res.body);
                 expect(res.status).to.equal(204); // Γιατί οχι 400;
@@ -140,7 +140,7 @@ describe('Add to Favorites', () => {
             token = res.body.token;
             request(app)
             .post('/ntuaflix_api/addToFavorites/:' + titleID_wrong)
-            .set('Authorization', 'Bearer ' + token)
+            .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
                 console.log('Response:', res.status, res.body);
                 expect(res.status).to.equal(400);
@@ -163,7 +163,7 @@ describe('Add to WatchList', () => {
             token = res.body.token;
             request(app)
             .post('/ntuaflix_api/addToWatchlist/:' + titleID_correct)
-            .set('Authorization', 'Bearer ' + token)
+            .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
                 console.log('Response:', res.status, res.body);
                 expect(res.status).to.equal(200);
@@ -182,7 +182,7 @@ describe('Add to WatchList', () => {
             token = res.body.token;
             request(app)
             .post('/ntuaflix_api/addToWatchlist/:' + titleID_correct)
-            .set('Authorization', 'Bearer ' + token)
+            .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
                 console.log('Response:', res.status, res.body);
                 expect(res.status).to.equal(400);
@@ -201,7 +201,7 @@ describe('Add to WatchList', () => {
             token = res.body.token;
             request(app)
             .post('/ntuaflix_api/addToWatchlist/:' + titleID_wrong)
-            .set('Authorization', 'Bearer ' + token)
+            .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
                 console.log('Response:', res.status, res.body);
                 expect(res.status).to.equal(400);
@@ -225,7 +225,7 @@ describe('Load favorites', () => {
             token = res.body.token;
             request(app)
             .get('/ntuaflix_api/favorites')
-            .set('Authorization', 'Bearer ' + token)
+            .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
                 console.log('Response:', res.status, res.body);
                 expect(res.status).to.equal(204);
@@ -245,7 +245,7 @@ describe('Load favorites', () => {
             token = res.body.token;
             request(app)
             .get('/ntuaflix_api/favorites')
-            .set('Authorization', 'Bearer ' + token)
+            .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
                 console.log('Response:', res.status, res.body);
                 expect(res.status).to.equal(200);
@@ -271,7 +271,7 @@ describe('Load Watchlist', () => {
             token = res.body.token;
             request(app)
             .get('/ntuaflix_api/watchlist')
-            .set('Authorization', 'Bearer ' + token)
+            .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
                 console.log('Response:', res.status, res.body);
                 expect(res.status).to.equal(204);
@@ -291,7 +291,7 @@ describe('Load Watchlist', () => {
             token = res.body.token;
             request(app)
             .get('/ntuaflix_api/watchlist')
-            .set('Authorization', 'Bearer ' + token)
+            .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
                 console.log('Response:', res.status, res.body);
                 expect(res.status).to.equal(200);
@@ -316,7 +316,7 @@ describe('Remove a title from Favorites', () => {
             token = res.body.token;
             request(app)
             .delete('/ntuaflix_api/deleteFromFavorites/:' + titleID_correct)
-            .set('Authorization', 'Bearer ' + token)
+            .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
                 console.log('Response:', res.status, res.body);
                 expect(res.status).to.equal(200);
@@ -335,7 +335,7 @@ describe('Remove a title from Favorites', () => {
             token = res.body.token;
             request(app)
             .delete('/ntuaflix_api/deleteFromFavorites/:' + titleID_correct)
-            .set('Authorization', 'Bearer ' + token)
+            .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
                 console.log('Response:', res.status, res.body);
                 expect(res.status).to.equal(400);
@@ -354,7 +354,7 @@ describe('Remove a title from Favorites', () => {
             token = res.body.token;
             request(app)
             .delete('/ntuaflix_api/deleteFromFavorites/:' + titleID_wrong)
-            .set('Authorization', 'Bearer ' + token)
+            .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
                 console.log('Response:', res.status, res.body);
                 expect(res.status).to.equal(400);
@@ -377,7 +377,7 @@ describe('Remove a title from Watchlist', () => {
             token = res.body.token;
             request(app)
             .delete('/ntuaflix_api/deleteFromWatchlist/:' + titleID_correct)
-            .set('Authorization', 'Bearer ' + token)
+            .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
                 console.log('Response:', res.status, res.body);
                 expect(res.status).to.equal(200);
@@ -396,7 +396,7 @@ describe('Remove a title from Watchlist', () => {
             token = res.body.token;
             request(app)
             .delete('/ntuaflix_api/deleteFromWatchlist/:' + titleID_correct)
-            .set('Authorization', 'Bearer ' + token)
+            .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
                 console.log('Response:', res.status, res.body);
                 expect(res.status).to.equal(400);
@@ -415,7 +415,7 @@ describe('Remove a title from Watchlist', () => {
             token = res.body.token;
             request(app)
             .delete('/ntuaflix_api/deleteFromWatchlist/:' + titleID_wrong)
-            .set('Authorization', 'Bearer ' + token)
+            .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
                 console.log('Response:', res.status, res.body);
                 expect(res.status).to.equal(400);
@@ -441,7 +441,7 @@ describe('Update Profile', () => {
             token = res.body.token;
             request(app)
             .put('/ntuaflix_api/updateProfile') // updateUserProfile.js
-            .set('Authorization', 'Bearer ' + token)
+            .set('X-OBSERVATORY-AUTH', token)
             .send({
                 username: "testuser" // This username already exists!
             })
@@ -465,7 +465,7 @@ describe('Update Profile', () => {
     //         token = res.body.token;
     //         request(app)
     //         .put('/ntuaflix_api/updateProfile')
-    //         .set('Authorization', 'Bearer ' + token)
+    //         .set('X-OBSERVATORY-AUTH', token)
     //         .send({
     //             username: _username_changed
     //         })

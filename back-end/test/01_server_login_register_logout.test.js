@@ -53,6 +53,7 @@ new_user_wronglogin = {
 // 1. A user with username "testuser" and password "1234"
 // 2. A user with username "testadmin" and password "1234" with role "admin"
 
+
 // TEST FOR WRONG ENDPOINT
 describe('Wrong Endpoint', () => {
     it('should return 404', (done) => {
@@ -119,7 +120,7 @@ describe('Register', () => {
 describe('Login',() =>{
     // Login with a user that exist
     it('should login a user', (done) => {
-        chai.request(app)
+        request(app)
             .post('/ntuaflix_api/auth/login')
             .send(new_user_login)
             .end((err, res) => {
@@ -131,12 +132,45 @@ describe('Login',() =>{
     });
     // Login with a user that doesn't exist
     it('should not login with invalid credentials', (done) => {
-        chai.request(app)
+        request(app)
             .post('/ntuaflix_api/auth/login')
             .send(new_user_wronglogin)
             .end((err, res) => {
                 //console.log('Response:', res.status, res.body);
                 expect(res.status).to.equal(400); // Update the expected status code if needed
+                done();
+            });
+    });
+});
+
+// TEST FOR [POST]/auth/logout
+describe('Logout',() =>{
+    // Logout a user
+    it('should logout a user', (done) => {
+        request(app)
+            .post('/ntuaflix_api/auth/login')
+            .send(new_user_login)
+            .end((err, res) => {
+                //console.log('Response:', res.status, res.body);
+                token = res.body.token;
+                request(app)
+                    .post('/ntuaflix_api/auth/logout')
+                    .set('X-OBSERVATORY-AUTH', token)
+                    .end((err, res) => {
+                        //console.log('Response:', res.status, res.body);
+                        expect(res.status).to.equal(200); // Update the expected status code if needed
+                        done();
+                    });
+            });
+    });
+    it('should not allow a user to login with a deactivated Token', (done) => {
+        request(app)
+            .get('/ntuaflix_api/home')
+            .set('X-OBSERVATORY-AUTH', token)
+            .end((err, res) => {
+                //console.log('Response:', res.status, res.body);
+                expect(res.status).to.equal(401); // Update the expected status code if needed
+                expect(res.body.message).to.equal('You are logged out. Try logging in'); // Update the expected message if needed
                 done();
             });
     });

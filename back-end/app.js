@@ -3,14 +3,15 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const mysql = require('mysql');
 const { pool } = require('./utils/database');
-
 const app = express();
 
 app.use(cors());
-// Parse url-encoded bodies (as sent by HTML forms, for example signup)- get data from forms
+// Parse url-encoded bodies (as sent by HTML forms, for example signup)- get data from forms 
 app.use(express.urlencoded({ extended: false}));
 // Parse JSON bodies (as sent by API clients), ensure that data from forms comes as jsons
 app.use(express.json()); 
+// We are aslo going to implement csv format
+app.use(express.text());
 
 app.set('view engine', 'hbs'); 
 

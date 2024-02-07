@@ -26,6 +26,13 @@ CREATE TABLE IF NOT EXISTS Authentication (
         ON DELETE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS TokenBlacklist (
+    token VARCHAR(255) NOT NULL,
+    expiration_date DATETIME NOT NULL,
+    PRIMARY KEY (token)
+);
+
+
 -- Insert Admin
 --INSERT INTO Users (first_name, last_name, birthdate, email, role) VALUES ('adminFN', 'adminLN', '1990-01-01', 'admin@example.com', 'admin');
 --INSERT INTO Authentication (user_id, password, username) VALUES (1, '$2a$08$NRJ0rUt2NnGosoWtgu3vyuSZQDZhRcGNBOmhuBpthqLsb8efR2rjS', 'admin');
@@ -229,3 +236,12 @@ CREATE TABLE IF NOT EXISTS Favorites_list (
         ON UPDATE RESTRICT
         ON DELETE CASCADE
 );
+
+-- When expiration time passes the token is deleted from the table
+DELIMITER $$
+CREATE EVENT IF NOT EXISTS deleteExpiredTokens
+ON SCHEDULE EVERY 1 DAY
+DO
+    DELETE FROM TokenBlacklist WHERE expiration_date < NOW();
+$$
+DELIMITER ;

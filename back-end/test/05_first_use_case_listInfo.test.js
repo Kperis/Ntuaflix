@@ -27,7 +27,7 @@ describe('ListsInfo', () => {
             token = res.body.token;
             request(app)
             .get('/ntuaflix_api/listsInfo/:' + titleID_correct)
-            .set('Authorization', 'Bearer ' + token)
+            .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
                 //console.log('Response:', res.status, res.body);
                 expect(res.status).to.equal(200); 
@@ -46,7 +46,7 @@ describe('ListsInfo', () => {
             token = res.body.token;
             request(app)
             .get('/ntuaflix_api/listsInfo/:' + titleID_wrong)
-            .set('Authorization', 'Bearer ' + token)
+            .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
                 //console.log('Response:', res.status, res.body);
                 expect(res.status).to.equal(204); 
@@ -69,7 +69,7 @@ describe('SeriesInfo', () => {
             token = res.body.token;
             request(app)
             .get('/ntuaflix_api/seriesInfo/:'+titleID_correct)
-            .set('Authorization', 'Bearer ' + token)
+            .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
                 console.log('Response:', res.status, res.body);
                 // Check if the response has status 200 or 204
@@ -93,7 +93,7 @@ describe('SeriesInfo', () => {
             token = res.body.token;
             request(app)
             .get('/ntuaflix_api/seriesInfo/:'+titleID_wrong)
-            .set('Authorization', 'Bearer ' + token)
+            .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
                 //console.log('Response:', res.status, res.body);
                 expect(res.status).to.equal(204); 

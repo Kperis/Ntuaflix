@@ -1,6 +1,7 @@
 
 const { getTitleObject } = require('../middlewares/getTitleObject');
 const { pool } = require('../utils/database');
+const json2csv = require('json2csv').parse;
 
 
 exports.getTitle = (req, res, next) => {
@@ -26,7 +27,14 @@ exports.getTitle = (req, res, next) => {
     getTitleObject(titleID)
     .then((titleObject) => {
         //console.log(titleObject);
-        res.status(200).json(titleObject);
+        if(req.query.format === 'csv') {
+            const csv = json2csv(titleObject);
+            res.setHeader('Content-disposition', 'attachment; filename=Title.csv');
+            res.set('Content-Type', 'text/csv');
+            res.status(200).send(csv);
+            return;
+        }
+        return res.status(200).json(titleObject);
     })
     .catch((error) => {
         console.error(error);

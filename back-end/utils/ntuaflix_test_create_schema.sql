@@ -26,6 +26,12 @@ CREATE TABLE IF NOT EXISTS Authentication (
         ON DELETE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS TokenBlacklist (
+    token VARCHAR(255) NOT NULL,
+    expiration_date DATETIME NOT NULL,
+    PRIMARY KEY (token)
+);
+
 -- create table TitleObject whit attributes movie_id,original_title,primary_title,start_year,end_year,is_adult,runtime_min,image_url,type
 CREATE TABLE IF NOT EXISTS TitleObject (
     movie_id VARCHAR(20) NOT NULL ,
@@ -217,6 +223,17 @@ CREATE TABLE IF NOT EXISTS Favorites_list (
         ON UPDATE RESTRICT
         ON DELETE CASCADE
 );
+
+--- 
+-- When expiration time passes the token is deleted from the table
+DELIMITER $$
+CREATE EVENT IF NOT EXISTS deleteExpiredTokens
+ON SCHEDULE EVERY 1 DAY
+DO
+    DELETE FROM TokenBlacklist WHERE expiration_date < NOW();
+$$
+DELIMITER ;
+
 
 -- Insert the existinguser
 /* INSERT INTO Users (first_name, last_name, birthdate, email, role) VALUES ('existinguserFN', 'existinguserLN', '1990-01-01', 'existinguser@example.com', 'simple_user');

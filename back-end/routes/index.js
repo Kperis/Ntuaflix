@@ -25,12 +25,12 @@ const authMiddleware = require('../middlewares/auth');
 /* Define the routes */
 const router = express.Router();
 
-// General Routes
+// General Routes -> Δεν νομίζω οτι χρειάζονται!
 router.get('/', indexController.getIndex);
 router.get('/register', authController.getRegister);
 router.get('/login', authController.getLogin);
 
-// Time for authentication!! // After the login always check if the user is authenticated using the authMiddleware
+// Time for authentication!! // Always check if the user is authenticated using the authMiddleware
 router.use(authMiddleware); 
 
 /*

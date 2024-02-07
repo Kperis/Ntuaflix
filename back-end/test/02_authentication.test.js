@@ -15,7 +15,7 @@ describe('Authentication Middleware not valid', () => {
     it('should return 401 if the token is not valid', (done) => {
         request(app)
         .get('/ntuaflix_api/home')
-        .set('Authorization', 'Bearer ' + token_incorrect)
+        .set('X-OBSERVATORY-AUTH', token_incorrect)
         .end((err, res) => {
             //console.log('Response:', res.status, res.body);
             expect(res.status).to.equal(401); 
@@ -49,7 +49,7 @@ describe('Authentication Middleware valid', () => {
             token = res.body.token;
             request(app)
             .get('/ntuaflix_api/title/:' + titleID_correct)
-            .set('authorization', 'Bearer ' + token)
+            .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
                 //console.log('Response:', res.status, res.body);
                 expect(res.status).to.equal(200); 

@@ -40,7 +40,7 @@ describe('search user by username admin route', () => {
             token = res.body.token;
             chai.request(app)
             .get('/ntuaflix_api/admin/users/' + username_correct)
-            .set('Authorization', 'Bearer ' + token)
+            .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
                 //console.log('Response:', res.status, res.body);
                 expect(res.status).to.equal(200); 
@@ -66,7 +66,7 @@ describe('search user by username admin route', () => {
             token = res.body.token;
             chai.request(app)
             .get('/ntuaflix_api/admin/users/' + username_incorrect)
-            .set('Authorization', 'Bearer ' + token)
+            .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
                 //console.log('Response:', res.status, res.body);
                 expect(res.status).to.equal(204); 
@@ -85,7 +85,7 @@ describe('search user by username admin route', () => {
             token = res.body.token;
             chai.request(app)
             .get('/ntuaflix_api/title/')
-            .set('Authorization', 'Bearer ' + token)
+            .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
                 //console.log('Response:', res.status, res.body);
                 expect(res.status).to.equal(400); 
@@ -102,7 +102,7 @@ describe('Test admin healthcheck (GET {baseurl}/admin/healthcheck)', () => {
     it('should return with status 200', (done) => {
         chai.request(app)
         .get("/ntuaflix_api/admin/healthcheck")
-        .set('Authorization', 'Bearer ' + token)
+        .set('X-OBSERVATORY-AUTH', token)
         .end((err, res) => {
             //console.log('Response:', res.status, res.body);
             responseHealthcheck = res.body.message;
@@ -131,7 +131,7 @@ describe('Test admin import title object (POST {baseurl}/admin/upload/titlebasic
     it('should return with status 200', (done) => {
         chai.request(app)
         .post("/ntuaflix_api/admin/upload/titlebasics")
-        .set('Authorization', 'Bearer ' + token)
+        .set('X-OBSERVATORY-AUTH', token)
         .attach('file', './test/testing_tsvs/truncated_title.basics_10_rows.tsv')
         .end((err, res) => {
           if (err) {
@@ -160,7 +160,7 @@ describe('Test admin import title akas (POST {baseurl}/admin/upload/titleakas)',
     it('should return with status 200', (done) => {
         chai.request(app)
         .post("/ntuaflix_api/admin/upload/titleakas")
-        .set('Authorization', 'Bearer ' + token)
+        .set('X-OBSERVATORY-AUTH', token)
         .attach('file', './test/testing_tsvs/truncated_title.akas_10_rows.tsv')
         .end((err, res) => {
           if (err) {
@@ -189,7 +189,7 @@ describe('Test admin import name basics (POST {baseurl}/admin/upload/namebasics)
     it('should return with status 200', (done) => {
         chai.request(app)
         .post("/ntuaflix_api/admin/upload/namebasics")
-        .set('Authorization', 'Bearer ' + token)
+        .set('X-OBSERVATORY-AUTH', token)
         .attach('file', './test/testing_tsvs/truncated_name.basics_10_rows.tsv')
         .end((err, res) => {
           if (err) {
@@ -218,7 +218,7 @@ describe('Test admin import title principals (POST {baseurl}/admin/upload/titlep
     it('should return with status 200', (done) => {
         chai.request(app)
         .post("/ntuaflix_api/admin/upload/titleprincipals")
-        .set('Authorization', 'Bearer ' + token)
+        .set('X-OBSERVATORY-AUTH', token)
         .attach('file', './test/testing_tsvs/truncated_title.principals_10_rows.tsv')
         .end((err, res) => {
           if (err) {
@@ -246,7 +246,7 @@ describe('Test admin import title episode (POST {baseurl}/admin/upload/titleepis
     it('should return with status 200', (done) => {
         chai.request(app)
         .post("/ntuaflix_api/admin/upload/titleepisode")
-        .set('Authorization', 'Bearer ' + token)
+        .set('X-OBSERVATORY-AUTH', token)
         .attach('file', './test/testing_tsvs/truncated_title.episode_10_rows.tsv')
         .end((err, res) => {
           if (err) {
@@ -275,7 +275,7 @@ describe('Test admin import title ratings (POST {baseurl}/admin/upload/titlerati
     it('should return with status 200', (done) => {
         chai.request(app)
         .post("/ntuaflix_api/admin/upload/titleratings")
-        .set('Authorization', 'Bearer ' + token)
+        .set('X-OBSERVATORY-AUTH', token)
         .attach('file', './test/testing_tsvs/truncated_title.ratings_10_rows.tsv')
         .end((err, res) => {
           if (err) {
@@ -306,7 +306,7 @@ describe('Test admin import title ratings (POST {baseurl}/admin/upload/titlerati
 //     it('should return with status 200', (done) => {
 //         chai.request(app)
 //         .post("/ntuaflix_api/admin/resetall")
-//         .set('Authorization', 'Bearer ' + token)
+//         .set('X-OBSERVATORY-AUTH', token)
 //         .end((err, res) => {
 //             console.log('Response:', res.status, res.body);
 //             responseResetStatus = res.body.status;

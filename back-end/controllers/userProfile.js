@@ -22,7 +22,7 @@ exports.getUserInfo = (req, res, next) => {
         }
 
         connection.query(SQLQuery, [userID], (err, results) => {
-            connection.release(); // Release the connection
+            connection.release(); 
 
             if (err) {
                 console.error(err);
