@@ -16,6 +16,7 @@ const poolConfig = {
     user: process.env.DB_USER,
     password: process.env.DB_PASS,
     database: databasename,
+    connectionLimit: 100,
 };
 
 const pool = mysql.createPool(poolConfig);

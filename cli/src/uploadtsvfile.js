@@ -25,7 +25,7 @@ exports.uploadtsvs = async (path,name,o) => {
         const response = await axios(config);
         console.log("status : ",response.status ,"message : ",response.data.message);
     } catch (error) {
-        console.log("an error occured");
+        console.log("an error occurred");
         errorHandler.generalerrors(error, 'File could not be uploaded!');
     }
 };

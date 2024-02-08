@@ -2,6 +2,7 @@ const {pool} = require('../utils/database');
 const {getTitleObject} = require('../middlewares/getTitleObject');
 
 exports.getByGenre = async (req, res, next) => {
+    console.log("Request to get titles by genre");
     try {
         const { qgenre, minrating, yrFrom, yrTo } = req.body;
         

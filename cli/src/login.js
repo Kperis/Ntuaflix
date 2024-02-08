@@ -28,7 +28,7 @@ exports.login =  (o) =>{
                         })
                     })
                     .catch(err => {
-                        console.log(chalk.red("No user whith this credentials found. Please try again."));
+                        console.log(chalk.red("No user with this credentials found. Please try again."));
                         error_handler.generalerrors(err);
                     })
             }
