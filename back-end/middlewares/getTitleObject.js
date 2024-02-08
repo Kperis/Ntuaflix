@@ -61,6 +61,7 @@ const getTitleObject = async (titleID) => {
                     pool.getConnection((err, conn) => {
                         if (err) {
                             console.error('Error getting connection:', err);
+                            res.sendStatus(500);
                             reject(err);
                         } else {
                             resolve(conn);
@@ -102,7 +103,7 @@ const getTitleObject = async (titleID) => {
                 return mergedResponse;
             } catch (error) {
                 if (error.status === 404) {
-                    throw { status: 204, message: 'No title found' }; // Message might not be printed!
+                    throw { status: 404, message: 'No title found' }; // not found, thus 404
                 } else {
                     throw { status: 500, message: 'Internal server error' }; // Handle all other errors
                 }
@@ -118,6 +119,7 @@ const executeQuery = (connection, query, params) => {
         connection.query(query, params, (error, results) => {
             if (error) {
                 console.error('Error executing query:', error);
+                res.sendStatus(500);
                 reject(error);
             } else {
                 resolve(results);

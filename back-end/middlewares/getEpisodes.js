@@ -19,6 +19,8 @@ const getEpisodes = async (titleID) => {
         connection = await new Promise((resolve, reject) => {
             pool.getConnection((error, connection) => {
                 if (error) {
+                    console.error('Error getting connection:', error);
+                    res.sendStatus(500);
                     reject(error);
                 }
                 resolve(connection);

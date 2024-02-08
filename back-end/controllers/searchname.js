@@ -27,7 +27,7 @@ exports.getSearchName = async (req, res, next) => {
             const nameObjects = [];
 
             if (nameIDs.length === 0) {
-                res.status(204).json(message = 'No data');
+                res.status(404).json(message = 'No data');
                 return;
             }
             const getNameObjects = async () => {

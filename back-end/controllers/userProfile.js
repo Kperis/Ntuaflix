@@ -30,7 +30,7 @@ exports.getUserInfo = (req, res, next) => {
             }
 
             if (results.length === 0) {
-                return res.status(204).json({ message: "User not found" });
+                return res.status(204);
             }
 
             const userInfo = results[0];

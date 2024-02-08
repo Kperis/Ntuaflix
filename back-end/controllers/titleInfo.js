@@ -27,7 +27,7 @@ exports.getListsInfo = async (req, res) => {
 
             if (titleResults.length === 0) {
                 // titleID does not exist in TitleObject table
-                return res.status(204).json({ message: 'Title not found' });
+                return res.status(204);
             }
 
             const query = `
@@ -82,7 +82,7 @@ exports.getSeriesInfo = async (req, res) => {
             }
 
             if (results.length === 0 || results[0].parent_id === null) {
-                return res.status(204).json({ message: 'No data' });
+                return res.status(204);
             }
 
             const parent_id = results[0].parent_id;

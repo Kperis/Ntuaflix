@@ -64,7 +64,7 @@ exports.register = (req, res, next) => {
                                         return res.status(500).json({ message: 'Registration failed' });
                                     } else {
                                         console.log(insertAuthResults);
-                                        return res.status(200).json({ message: 'Registration Completed. Please login'});
+                                        return res.status(201).json({ message: 'Registration Completed. Please login'});
                                     }
                                 })                          
                             }
@@ -120,13 +120,13 @@ exports.login = (req, res, next) => {
                     // When a user logs in successfully, the server generates a token using a secret key. 
                     // The token contains information about the user's identity and authentication status
 
-                    return res.status(200).json({ success: true, message: 'Login successful', token: token });
+                    return res.status(201).json({ success: true, message: 'Login successful', token: token });
                 } else {
                     // Passwords do not match
                     console.log(passwordMatch);
                     console.log(password);
                     console.log(user.password);
-                    return res.status(400).json({ message: 'Invalid username or password' });
+                    return res.status(401).json({ message: 'Invalid username or password' });
                 }
             } catch (bcryptErr) {
                 connection.release();
@@ -160,7 +160,7 @@ exports.logout = (req, res, next) => {
                 console.log(error);
                 return res.status(500).json({ message: 'Internal Server Error 2' });
             }
-            return res.status(200).json({ message: 'Logout successful' });
+            return res.status(201).json({ message: 'Logout successful' });
         });
     });
 };
@@ -175,5 +175,5 @@ exports.getRegister = (req,res, next) => {
 // implementing get requests for login and register
 exports.getLogin = (req, res, next) => {
     res.status(200).json({ message: 'Hello from Login'});
-    // render to login html page
+    // render to login page
 };

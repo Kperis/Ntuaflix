@@ -59,6 +59,7 @@ exports.uploadTitleBasics = (req, res) => {
 
                 connection.query(insertQuery_TitleObject,values_for_TitleObject, (error, results) => {
                     if (error) {
+                        return res.status(500).json({ error: 'Error executing query' });
                         //console.error('Error executing query');
                     }
                 });
@@ -69,12 +70,14 @@ exports.uploadTitleBasics = (req, res) => {
                         
                         connection.query(insertQuery_Genres, values_for_Genres, (error, results) => {
                             if (error) {
+                                return res.status(500).json({ error: 'Error executing query' });
                                 //console.error('Error executing query');
                             }
                         });
                     }
                 } catch (error) {
-                    //console.error("Error in genres");
+                    
+                    return res.status(500).json({ error: 'Internal Server Error' });
                 }
                 connection.release();
             });
@@ -82,7 +85,7 @@ exports.uploadTitleBasics = (req, res) => {
         fs.unlinkSync(tsvFilePath);
 
         // Send a response
-        res.status(200).json({ message: 'File uploaded and processed successfully.' });
+        res.status(201).json({ message: 'File uploaded and processed successfully.' });
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Internal Server Error' });
@@ -113,8 +116,8 @@ exports.uploadTitleAkas = (req, res) => {
                     //connection.release();
         
                     if (error) {
-                        //console.error('Error executing query:', error);
-                        return;  // return early if there's an error
+                        return res.status(500).json({ error: 'Error executing query' });
+                        
                     }
                     const akas_id = results.insertId;   
                     try {
@@ -126,7 +129,7 @@ exports.uploadTitleAkas = (req, res) => {
         
                             connection.query(insertQuery_types, values_for_Types, (error, results) => {
                                 if (error) {
-                                    //console.error('Error executing query:', error);
+                                    return res.status(500).json({ error: 'Error executing query' });
                                 }
                             });
                         }
@@ -136,13 +139,14 @@ exports.uploadTitleAkas = (req, res) => {
         
                             connection.query(insertQuery_attributes, values_for_attributes, (error, results) => {
                                 if (error) {
-                                    //console.error('Error executing query:', error);
+                                    return res.status(500).json({ error: 'Error executing query' });
                                 }
                             });
                         }
                         connection.release();
                     } catch (error) {
-                        //console.error("Error in genres:", error);
+                        
+                        return res.status(500).json({ error: 'Internal Server Error' });
                     }
                 });
             });
@@ -151,7 +155,7 @@ exports.uploadTitleAkas = (req, res) => {
         fs.unlinkSync(tsvFilePath);
 
         // Send a response
-        res.status(200).json({ message: 'File uploaded and processed successfully.' });
+        res.status(201).json({ message: 'File uploaded and processed successfully.' });
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Internal Server Error' });
@@ -181,7 +185,7 @@ exports.uploadNameBasics = (req, res) => {
 
                 connection.query(insertQuery_Contributors,values_for_Contributors, (error, results) => {
                     if (error) {
-                        //console.error('Error executing query Contributor');
+                        return res.status(500).json({ error: 'Error executing query' });
                     }
                 
                     try{
@@ -192,7 +196,7 @@ exports.uploadNameBasics = (req, res) => {
                             
                             connection.query(insertQuery_Professions, values_for_pri_prof, (error, results) => {
                                 if (error) {
-                                    // console.error('Error executing query');
+                                    return res.status(500).json({ error: 'Internal Server Error' });
                                 }
                             });
                         }
@@ -201,12 +205,12 @@ exports.uploadNameBasics = (req, res) => {
                             
                             connection.query(insertQuery_KnownForTitles, values_for_known_for, (error, results) => {
                                 if (error) {
-                                    // console.error('Error executing query');
+                                    return res.status(500).json({ error: 'Internal Server Error' });
                                 }
                             });
                         }
                     } catch (error) {
-                        //console.error("Error in genres");
+                        return res.status(500).json({ error: 'Internal Server Error' });
                     }
                 });
                 connection.release();
@@ -215,7 +219,7 @@ exports.uploadNameBasics = (req, res) => {
         fs.unlinkSync(tsvFilePath);
 
         // Send a response
-        res.status(200).json({ message: 'File uploaded and processed successfully.' });
+        res.status(201).json({ message: 'File uploaded and processed successfully.' });
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Internal Server Error' });
@@ -247,7 +251,7 @@ exports.uploadTitlePrincipals = (req, res) => {
 
                 connection.query(insertQuery_Works,values_for_Works, (error, results) => {
                     if (error) {
-                        //console.error('Error executing query Contributor');
+                        return res.status(500).json({ error: 'Error executing query' });
                     }
                 
                 });
@@ -257,7 +261,7 @@ exports.uploadTitlePrincipals = (req, res) => {
         fs.unlinkSync(tsvFilePath);
 
         // Send a response
-        res.status(200).json({ message: 'File uploaded and processed successfully.' });
+        res.status(201).json({ message: 'File uploaded and processed successfully.' });
     } catch (error) {
         //console.error(error);
         res.status(500).json({ error: 'Internal Server Error' });
@@ -288,7 +292,7 @@ exports.uploadTitleEpisode = (req, res) => {
 
                 connection.query(insertQuery_Episodes,values_for_episodes, (error, results) => {
                     if (error) {
-                        //console.error('Error executing query Episode');
+                        return res.status(500).json({ error: 'Error executing query' });
                     }
                 
                 });
@@ -298,7 +302,7 @@ exports.uploadTitleEpisode = (req, res) => {
         fs.unlinkSync(tsvFilePath);
 
         // Send a response
-        res.status(200).json({ message: 'File uploaded and processed successfully.' });
+        res.status(201).json({ message: 'File uploaded and processed successfully.' });
     } catch (error) {
         //console.error(error);
         res.status(500).json({ error: 'Internal Server Error' });
@@ -331,7 +335,7 @@ exports.uploadTitleRatings = (req, res) => {
 
                 connection.query(insertQuery_Ratings,values_for_ratings, (error, results) => {
                     if (error) {
-                        //console.error('Error executing query Rating');
+                        return res.status(500).json({ error: 'Error executing query' });
                     }
                 
                 });
@@ -341,7 +345,7 @@ exports.uploadTitleRatings = (req, res) => {
         fs.unlinkSync(tsvFilePath);
 
         // Send a response
-        res.status(200).json({ message: 'File uploaded and processed successfully.' });
+        res.status(201).json({ message: 'File uploaded and processed successfully.' });
     } catch (error) {
         //console.error(error);
         res.status(500).json({ error: 'Internal Server Error' });
@@ -390,7 +394,7 @@ exports.resetAll = (req, res) => {
                     if (index === reset_query.length - 1) {
                         // If it's the last query, release the connection and send the response
                         connection.release();
-                        res.status(200).json({ "status": "OK" });
+                        res.status(201).json({ "status": "OK" });
                     }
                 });
             });

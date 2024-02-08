@@ -31,7 +31,7 @@ exports.getSearchTitle = (req, res, next) => {
             const titleObjects = [];
 
             if (titleIDs.length === 0) {
-                res.status(204).send(); // 204 response must not have a body
+                res.status(404).send(); 
                 return;
             }
 
@@ -48,6 +48,7 @@ exports.getSearchTitle = (req, res, next) => {
                 }
                 res.status(200).json(titleObjects);
                 // Καθώς θέλω να επιστρέψω μια λίστα και όχι ενα json που περιέχει μια λιστα!!
+                // 200 και οχι 201 (παρ'οτι post) γιατι δεν δημιουργουμε-ανανεωνουμε καποιο resource
             };
 
             getTitleObjects();
