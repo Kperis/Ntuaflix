@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS Users (
     birthdate DATE NOT NULL,
     email VARCHAR(255) NOT NULL,
     role ENUM('simple_user', 'admin') DEFAULT 'simple_user',
+    favorite_genre VARCHAR(255) DEFAULT NULL,
     PRIMARY KEY (user_id)
 );
 

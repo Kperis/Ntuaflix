@@ -11,12 +11,6 @@ const titleInfoController = require('../controllers/titleInfo');
 // Contributors / NameObjects
 const nameController = require('../controllers/name');
 const searchnameController = require('../controllers/searchname');
-// Users - Profile
-const createProfileController = require('../controllers/createProfile');
-const userProfileController = require('../controllers/userProfile');
-const updateProfileController = require('../controllers/updateUserProfile')
-// Lists
-const listsController = require('../controllers/lists');
 
 
 /* Import Middlewares*/
@@ -52,20 +46,5 @@ router.get('/seriesInfo/:titleID', titleInfoController.getSeriesInfo);
 router.get('/name/:nameID', nameController.getName); 
 router.get('/searchname', searchnameController.getSearchName); 
 router.post('/searchname', searchnameController.getSearchName); 
-
-/*
-// Second Use Case: User Profile / See your watchlist / Edit your watchlist 
-*/
-// User Profile
-router.put('/createProfile', createProfileController.createProfile);
-router.get('/profile', userProfileController.getUserInfo);
-router.put('/updateProfile', updateProfileController.updateProfile);
-// User Lists 
-router.post('/addToFavorites/:titleID', listsController.postAddToFavorites); 
-router.post('/addToWatchlist/:titleID', listsController.postAddToWatchlist);
-router.get('/watchlist', listsController.getWatchlist); 
-router.get('/favorites', listsController.getFavorites); 
-router.delete('/deleteFromFavorites/:titleID', listsController.deleteFromFavorites); 
-router.delete('/deleteFromWatchlist/:titleID', listsController.deleteFromWatchlist); 
 
 module.exports = router;

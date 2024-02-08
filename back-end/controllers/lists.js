@@ -122,14 +122,12 @@ exports.getFavorites = async (req, res) => {
                 return;
             }
             console.log("Results from Favorites: "+results.length);
-            const titleIDs = results.map(result => result.movie_id);
+            const titleIDs = results.map(result => result.titleID);
             const titleObjects = [];
-            console.log("TitleIDs from Favorites: "+titleIDs.length);
-            console.log("userID: "+userID);
-            console.log("TitleIDs: "+titleIDs);
             if (titleIDs.length === 0) {
                 // No title has been added to Favorites!
-                res.status(204);
+                //console.log("No title has been added to Favorites!");
+                res.status(204).send();
                 // Maybe return an empty list instead of a message?
                 return;
             }
@@ -170,11 +168,11 @@ exports.getWatchlist = async (req, res) => {
                 res.sendStatus(500);
                 return;
             }
-            const titleIDs = results.map(result => result.movie_id);
+            const titleIDs = results.map(result => result.titleID);
             const titleObjects = [];
             if (titleIDs.length === 0) {
                 // No title has been added to Watchlist!
-                res.status(204);
+                res.status(204).send();
                 // Maybe return an empty list instead of a message?
                 return;
             }
