@@ -300,26 +300,36 @@ describe('Test admin import title ratings (POST {baseurl}/admin/upload/titlerati
 
 
 
-// describe('Test admin reset database (POST {baseurl}/admin/resetall)', () => {
-//     let responseResetStatus;
+describe('Test admin reset database (POST {baseurl}/admin/resetall)', () => {
+    let responseResetStatus;
 
-//     it('should return with status 200', (done) => {
-//         chai.request(app)
-//         .post("/ntuaflix_api/admin/resetall")
-//         .set('X-OBSERVATORY-AUTH', token)
-//         .end((err, res) => {
-//             console.log('Response:', res.status, res.body);
-//             responseResetStatus = res.body.status;
-//             expect(res.status).to.equal(200); // Update the expected status code if needed
-//             done();
-//         });
-    
-//     });
+    it('should return with status 200', function(done) {
+        this.timeout(10000); // Set the timeout to 10 seconds
 
-//     it('should return message: Database reset', (done) => {
-//         // Wait for the responseResetStatus to be set before making the assertion
-//         expect(responseResetStatus).to.equal('OK');
-//         done();
-//     });
-// });
+        chai.request(app)
+        .post("/ntuaflix_api/auth/login")
+        .send({
+            username: "testadmin",
+            password: "1234"
+        })
+        .end((err, res) => {
+            token = res.body.token;
+            request(app)
+            .post("/ntuaflix_api/admin/resetall")
+            .set('X-OBSERVATORY-AUTH', token)
+            .end((err, res) => {
+                console.log('Response:', res.status, res.body);
+                responseResetStatus = res.body.status;
+                expect(res.status).to.equal(200); // Update the expected status code if needed
+                done();
+            });
+        });
+    });
+
+    it('should return message: Database reset', (done) => {
+        // Wait for the responseResetStatus to be set before making the assertion
+        expect(responseResetStatus).to.equal('OK');
+        done();
+    });
+});
 

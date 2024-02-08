@@ -30,12 +30,32 @@ async function addTsvToEpisode(pool,N) {
         // Adjust the values based on your TSV columns
         const values_for_episodes = [rows[i][0],rows[i][1],rows[i][2],rows[i][3]];
         
+        // Make null values 0
+        for (let k = 2; k < values_for_episodes.length; k++) {
+            const stringValue = values_for_episodes[k];
+            const intValue = parseInt(stringValue, 10);
+        
+            if (!isNaN(intValue)) {
+                // Handle the case where the string can be converted to an int
+                //console.log(`${stringValue} can be converted to int: ${intValue}`);
+            } else {
+                // Handle the case where the string cannot be converted to an int
+                //console.log(`${stringValue} cannot be converted to int`);
+                values_for_episodes[k] = '0';
+            }
+        }
+
         // Execute the query
         const result = await pool.query(insertQuery_Episodes, values_for_episodes);
 
         //console.log(rows[i][8]);
         //console.log('Row inserted:', result);
         } catch (error) {
+        // Check if it is the last row and if it is blank
+        if (i == rows.length-1 && rows[i] == ''){
+            console.log('Error in last row (blank row)');
+            continue;
+        }
         console.error('Error inserting row:', error);
         // Close the database connection pool on error
         //pool.end();

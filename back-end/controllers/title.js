@@ -28,10 +28,10 @@ exports.getTitle = (req, res, next) => {
     .then((titleObject) => {
         //console.log(titleObject);
         if(req.query.format === 'csv') {
-            const csv = json2csv(titleObject);
-            res.setHeader('Content-disposition', 'attachment; filename=Title.csv');
-            res.set('Content-Type', 'text/csv');
-            res.status(200).send(csv);
+            const csvObject = json2csv(titleObject);
+            // res.setHeader('Content-disposition', 'attachment; filename=Title.csv');
+            res.set('Content-Type', 'text/csv; charset=utf-8');
+            res.status(200).send(csvObject);
             return;
         }
         return res.status(200).json(titleObject);

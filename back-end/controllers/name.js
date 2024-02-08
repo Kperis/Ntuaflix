@@ -17,6 +17,12 @@ exports.getName = async (req, res, next) => {
     getNameObject(nameID)
     .then((nameObject) => {
         //console.log(nameObject);
+        if(req.query.format === 'csv') {
+            const csv = json2csv(nameObject);
+            res.set('Content-Type', 'text/csv; charset=utf-8');
+            res.status(200).send(csv);
+            return;
+        }
         res.status(200).json(nameObject);
     })
     .catch((error) => {

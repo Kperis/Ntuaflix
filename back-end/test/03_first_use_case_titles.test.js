@@ -78,6 +78,26 @@ describe('title', () => {
             });
         })
     });
+    it('should return 200 and a csv if the format is csv', (done) => {
+        request(app)
+        .post('/ntuaflix_api/auth/login')
+        .send({
+            username: "testuser",
+            password: "1234"
+        })
+        .end((err, res) => {
+            token = res.body.token;
+            request(app)
+            .get('/ntuaflix_api/title/:' + titleID_correct + '?format=csv')
+            .set('X-OBSERVATORY-AUTH', token)
+            .end((err, res) => {
+                //console.log('Response:', res.status, res.body);
+                expect(res.status).to.equal(200);
+                expect(res.header['content-type']).to.equal('text/csv; charset=utf-8');
+                done();
+            });
+        })
+    });
     it('should return 204 if the titleID is not valid', (done) => {
         request(app)
         .post('/ntuaflix_api/auth/login')
@@ -190,6 +210,30 @@ describe('bygenre', () => {
             .end((err, res) => {
                 //console.log('Response:', res.status, res.body);
                 expect(res.status).to.equal(200); 
+                done();
+            });
+        })
+    });
+    it('should return 200 and a csv if the genre is valid and the format is csv', (done) => {
+        request(app)
+        .post('/ntuaflix_api/auth/login')
+        .send({
+            username: "testuser",
+            password: "1234"
+        })
+        .end((err, res) => {
+            token = res.body.token;
+            request(app)
+            .get('/ntuaflix_api/bygenre?format=csv')
+            .set('X-OBSERVATORY-AUTH', token)
+            .send({
+                qgenre: genre_correct,
+                minrating: 5,
+            })
+            .end((err, res) => {
+                //console.log('Response:', res.status, res.body);
+                expect(res.status).to.equal(200); 
+                expect(res.header['content-type']).to.equal('text/csv; charset=utf-8');
                 done();
             });
         })

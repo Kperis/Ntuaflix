@@ -34,6 +34,8 @@ async function addTsvToAkas(pool,N) {
         const types = rows[i][4].split(',');
         const attributes = rows[i][5].split(',');
         
+        
+
         // Execute the query
         const [result] = await pool.query(insertQuery_Akas, values_for_Akas_info);
         const akas_id = result.insertId;
@@ -50,6 +52,11 @@ async function addTsvToAkas(pool,N) {
         //console.log(rows[i][8]);
         //console.log('Row inserted:', result);
         } catch (error) {
+        // Check if it is the last row and if it is blank
+        if (i == rows.length-1 && rows[i] == ''){
+            console.log('Error in last row (blank row)');
+            continue;
+        }
         console.error('Error inserting row:', error);
         // Close the database connection pool on error
         //pool.end();

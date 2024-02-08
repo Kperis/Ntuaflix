@@ -10,13 +10,14 @@ CREATE TABLE IF NOT EXISTS Users (
     birthdate DATE NOT NULL,
     email VARCHAR(255) NOT NULL,
     role ENUM('simple_user', 'admin') DEFAULT 'simple_user',
+    favorite_genre VARCHAR(255) DEFAULT NULL,
     PRIMARY KEY (user_id)
 );
 
 -- create a table Authentication whith attributes auth_id(primary key),password,username and add to the User table a foreign key auth_id to Authentication
 CREATE TABLE IF NOT EXISTS Authentication (
     user_id INT NOT NULL,
-    password VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL ,
     username VARCHAR(255) NOT NULL UNIQUE,
     PRIMARY KEY (user_id),
     CONSTRAINT fk_user_id_auth_id
@@ -34,13 +35,13 @@ CREATE TABLE IF NOT EXISTS TokenBlacklist (
 
 
 -- Insert Admin
---INSERT INTO Users (first_name, last_name, birthdate, email, role) VALUES ('adminFN', 'adminLN', '1990-01-01', 'admin@example.com', 'admin');
---INSERT INTO Authentication (user_id, password, username) VALUES (1, '$2a$08$NRJ0rUt2NnGosoWtgu3vyuSZQDZhRcGNBOmhuBpthqLsb8efR2rjS', 'admin');
+INSERT INTO Users (first_name, last_name, birthdate, email, role) VALUES ('adminFN', 'adminLN', '1990-01-01', 'admin@example.com', 'admin');
+INSERT INTO Authentication (user_id, password, username) VALUES (1, '$2a$08$NRJ0rUt2NnGosoWtgu3vyuSZQDZhRcGNBOmhuBpthqLsb8efR2rjS', 'admin');
 -- passw = 1234
 
 -- Insert Simple User
 INSERT INTO Users (first_name, last_name, birthdate, email, role) VALUES ('userFN', 'userLN', '1990-01-01', 'user@example.com', 'simple_user');
-INSERT INTO Authentication (user_id, password, username) VALUES (1, '$2a$08$NRJ0rUt2NnGosoWtgu3vyuSZQDZhRcGNBOmhuBpthqLsb8efR2rjS', 'user');
+INSERT INTO Authentication (user_id, password, username) VALUES (2, '$2a$08$NRJ0rUt2NnGosoWtgu3vyuSZQDZhRcGNBOmhuBpthqLsb8efR2rjS', 'user');
 -- passw = 1234
 
 

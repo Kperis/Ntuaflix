@@ -12,6 +12,7 @@ const titleInfoController = require('../controllers/titleInfo');
 const nameController = require('../controllers/name');
 const searchnameController = require('../controllers/searchname');
 // Users - Profile
+const createProfileController = require('../controllers/createProfile');
 const userProfileController = require('../controllers/userProfile');
 const updateProfileController = require('../controllers/updateUserProfile')
 // Lists
@@ -56,6 +57,7 @@ router.post('/searchname', searchnameController.getSearchName);
 // Second Use Case: User Profile / See your watchlist / Edit your watchlist 
 */
 // User Profile
+router.put('/createProfile', createProfileController.createProfile);
 router.get('/profile', userProfileController.getUserInfo);
 router.put('/updateProfile', updateProfileController.updateProfile);
 // User Lists 

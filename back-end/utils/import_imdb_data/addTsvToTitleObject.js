@@ -58,6 +58,11 @@ async function addTsvToTitleObject(pool,N) {
         //console.log(rows[i][8]);
         //console.log('Row inserted:', result);
         } catch (error) {
+        // Check if it is the last row and if it is blank
+        if (i == rows.length-1 && rows[i] == ''){
+            console.log('Error in last row (blank row)');
+            continue;
+        }
         console.log('Row not inserted:', rows[i]);
         console.error('Error inserting row:', error);
         // Close the database connection pool on error

@@ -356,7 +356,6 @@ exports.resetAll = (req, res) => {
             'SET FOREIGN_KEY_CHECKS=0',
             'TRUNCATE TABLE Akas_info',
             'TRUNCATE TABLE Attributes',
-            'TRUNCATE TABLE Authentication',
             'TRUNCATE TABLE Contributors',
             'TRUNCATE TABLE Episode_info',
             'TRUNCATE TABLE Favorites_list',
@@ -366,7 +365,6 @@ exports.resetAll = (req, res) => {
             'TRUNCATE TABLE Ratings',
             'TRUNCATE TABLE TitleObject',
             'TRUNCATE TABLE Types',
-            'TRUNCATE TABLE Users',
             'TRUNCATE TABLE Watchlist',
             'TRUNCATE TABLE Works',
             'SET FOREIGN_KEY_CHECKS=1'

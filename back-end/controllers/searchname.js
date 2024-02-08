@@ -1,5 +1,6 @@
 const {pool} = require('../utils/database');
 const { getNameObject } = require('../middlewares/getNameObject');
+const json2csv = require('json2csv').parse;
 
 exports.getSearchName = async (req, res, next) => {
     const namePart = req.body.namePart;
@@ -37,6 +38,18 @@ exports.getSearchName = async (req, res, next) => {
                         nameObjects.push(response);
                     } catch (error) {
                         console.error('Error getting name object:', error);
+                        res.sendStatus(500).json({message: 'Internal Server Error'});
+                        return;
+                    }
+                }
+                if (req.query.format === 'csv') {
+                    try {
+                        const csv = json2csv(nameObjects);
+                        res.set('Content-Type', 'text/csv; charset=utf-8');
+                        res.status(200).send(csv);
+                        return;
+                    } catch (error) {
+                        console.error('Error converting to CSV:', error);
                         res.sendStatus(500).json({message: 'Internal Server Error'});
                         return;
                     }
