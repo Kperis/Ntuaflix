@@ -27,7 +27,7 @@ exports.getHome = (req, res, next) => {
             const titleIDs = results.map(result => result.titleID);
             const titleObjects = [];
             if (titleIDs.length === 0) {
-                res.status(204).json({message: 'No data'});
+                res.status(204); // nothing to return
                 return;
             }
             console.log('titleIDs:', titleIDs);

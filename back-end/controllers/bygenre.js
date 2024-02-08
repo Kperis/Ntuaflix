@@ -52,7 +52,7 @@ exports.getByGenre = async (req, res, next) => {
                 //console.log(results);
                 const titles = [];
                 if (results.length === 0) {
-                    res.status(204).json({ message : "No data" }); // No data
+                    res.status(404).json({ message : "No data" }); // No data
                     connection.release();
                     return;
                 }

@@ -38,7 +38,7 @@ exports.updateProfile = async (req, res, next) => {
                     return res.status(500).json({ error: 'Internal Server Error' });
                 } else { // Need to change password to hashed password, haven't completed the hashing logic
                     console.log("Updated Username:", username);
-                    return res.status(200).json({ message: 'User profile updated successfully' });
+                    return res.status(201).json({ message: 'User profile updated successfully' });
                 }
             });
         });

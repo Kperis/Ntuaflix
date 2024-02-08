@@ -19,7 +19,7 @@ exports.postAddToFavorites = async (req, res) => {
 
         if (titleResults.length === 0) {
             // titleID does not exist in TitleObject table
-            res.status(204).json({ message: 'Title not found' });
+            res.status(404).json({ message: 'Title not found' });
             return;
         }
 
@@ -34,7 +34,7 @@ exports.postAddToFavorites = async (req, res) => {
 
             if (favoriteResults.length > 0) {
                 // titleID is already in the Favorite list of the user
-                res.status(204).json({ message: 'Title already in favorites' });
+                res.status(200).json({ message: 'Title already in favorites' });
                 return;
             }
 
@@ -47,7 +47,7 @@ exports.postAddToFavorites = async (req, res) => {
                     return;
                 }
 
-                res.status(200).json({ message: 'Title added to favorites' });
+                res.status(201).json({ message: 'Title added to favorites' });
             });
         });
     });
@@ -86,7 +86,7 @@ exports.deleteFromFavorites = async (req, res) => {
 
             if (favoriteResults.length === 0) {
                 // titleID is not in the Favorite list of the user
-                res.status(204).json({ message: 'Title not in favorites' });
+                res.status(204);
                 return;
             }
 
@@ -99,7 +99,7 @@ exports.deleteFromFavorites = async (req, res) => {
                     return;
                 }
             
-                res.status(200).json({ message: 'Title removed from favorites' }); // it works, ok!!
+                res.status(204); //delettion completed, no data to return , it works, ok!!
             });
         });
     });
@@ -129,7 +129,7 @@ exports.getFavorites = async (req, res) => {
             console.log("TitleIDs: "+titleIDs);
             if (titleIDs.length === 0) {
                 // No title has been added to Favorites!
-                res.status(204).json(message = 'No data');
+                res.status(204);
                 // Maybe return an empty list instead of a message?
                 return;
             }
@@ -145,9 +145,7 @@ exports.getFavorites = async (req, res) => {
                     }
                 }
                 // Returns the list of title objects!
-                res.status(200).json({
-                    message: "Hello Watchlist"
-                });
+                
                 res.status(200).json(titleObjects);
                 
             };
@@ -176,7 +174,7 @@ exports.getWatchlist = async (req, res) => {
             const titleObjects = [];
             if (titleIDs.length === 0) {
                 // No title has been added to Watchlist!
-                res.status(204).json(message = 'No data');
+                res.status(204);
                 // Maybe return an empty list instead of a message?
                 return;
             }
@@ -217,7 +215,7 @@ exports.postAddToWatchlist = async (req, res) => {
 
         if (titleResults.length === 0) {
             // titleID does not exist in TitleObject table
-            res.status(204).json({ message: 'Title not found' });
+            res.status(404).json({ message: 'Title not found' });
             return;
         }
 
@@ -232,7 +230,7 @@ exports.postAddToWatchlist = async (req, res) => {
 
             if (watchlistResults.length > 0) {
                 // titleID is already in the Watchlist of the user
-                res.status(204).json({ message: 'Title already in watchlist' });
+                res.status(200).json({ message: 'Title already in watchlist' });
                 return;
             }
 
@@ -270,7 +268,7 @@ exports.deleteFromWatchlist = async (req, res) => {
 
         if (titleResults.length === 0) {
             // titleID does not exist in TitleObject table
-            res.status(204).json({ message: 'Title not found' });
+            res.status(204);
             return;
         }
 
@@ -285,7 +283,7 @@ exports.deleteFromWatchlist = async (req, res) => {
 
             if (watchlistResults.length === 0) {
                 // titleID is not in the Favorite list of the user
-                res.status(204).json({ message: 'Title not in Watchlist' });
+                res.status(204);
                 return;
             }
 
@@ -298,7 +296,7 @@ exports.deleteFromWatchlist = async (req, res) => {
                     return;
                 }
 
-                res.status(200).json({ message: 'Title removed from Watchlist' }); // it works, ok!!
+                res.status(204);// it works, ok!!
             });
         });
     });
