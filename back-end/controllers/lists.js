@@ -71,7 +71,7 @@ exports.deleteFromFavorites = async (req, res) => {
 
         if (titleResults.length === 0) {
             // titleID does not exist in TitleObject table
-            res.status(204).json({ message: 'Title not found' });
+            res.status(404).json({ message: 'Title not found' });
             return;
         }
 
@@ -99,7 +99,7 @@ exports.deleteFromFavorites = async (req, res) => {
                     return;
                 }
             
-                res.status(204); //delettion completed, no data to return , it works, ok!!
+                res.status(204); //deletion completed, no data to return , it works, ok!!
             });
         });
     });
@@ -281,7 +281,7 @@ exports.deleteFromWatchlist = async (req, res) => {
 
             if (watchlistResults.length === 0) {
                 // titleID is not in the Favorite list of the user
-                res.status(204);
+                res.status(404);
                 return;
             }
 

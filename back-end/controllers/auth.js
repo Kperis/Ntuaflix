@@ -120,7 +120,7 @@ exports.login = (req, res, next) => {
                     // When a user logs in successfully, the server generates a token using a secret key. 
                     // The token contains information about the user's identity and authentication status
 
-                    return res.status(201).json({ success: true, message: 'Login successful', token: token });
+                    return res.status(200).json({ success: true, message: 'Login successful', token: token });
                 } else {
                     // Passwords do not match
                     console.log(passwordMatch);
@@ -160,7 +160,7 @@ exports.logout = (req, res, next) => {
                 console.log(error);
                 return res.status(500).json({ message: 'Internal Server Error 2' });
             }
-            return res.status(201).json({ message: 'Logout successful' });
+            return res.status(200).json({ message: 'Logout successful' });
         });
     });
 };

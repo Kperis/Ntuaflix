@@ -44,7 +44,27 @@ describe('name', () => {
             });
         })
     });
-    it('should return 204 if the nameID is not valid', (done) => {
+    it('should return 200 and a csv if the format is csv', (done) => {
+        request(app)
+        .post('/ntuaflix_api/auth/login')
+        .send({
+            username: "testuser",
+            password: "1234"
+        })
+        .end((err, res) => {
+            token = res.body.token;
+            request(app)
+            .get('/ntuaflix_api/name/:' + nameID_correct + '?format=csv')
+            .set('X-OBSERVATORY-AUTH', token)
+            .end((err, res) => {
+                //console.log('Response:', res.status, res.body);
+                expect(res.status).to.equal(200);
+                expect(res.header['content-type']).to.equal('text/csv; charset=utf-8');
+                done();
+            });
+        })
+    });
+    it('should return 404 if the nameID is not found', (done) => {
         request(app)
         .post('/ntuaflix_api/auth/login')
         .send({
@@ -58,7 +78,26 @@ describe('name', () => {
             .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
                 //console.log('Response:', res.status, res.body);
-                expect(res.status).to.equal(204);
+                expect(res.status).to.equal(404);
+                done();
+            });
+        })
+    });
+    it('should return 400 if the titleID is missing (endpoint needs titleID)', (done) => {
+        request(app)
+        .post('/ntuaflix_api/auth/login')
+        .send({
+            username: "testuser",
+            password: "1234"
+        })
+        .end((err, res) => {
+            token = res.body.token;
+            request(app)
+            .get('/ntuaflix_api/title/')
+            .set('X-OBSERVATORY-AUTH', token)
+            .end((err, res) => {
+                //console.log('Response:', res.status, res.body);
+                expect(res.status).to.equal(400); 
                 done();
             });
         })
@@ -91,7 +130,7 @@ describe('searchname', () => {
             });
         })
     });
-    it('should return 204 if the namePart is not valid', (done) => {
+    it('should return 404 if the namePart is not found', (done) => {
         request(app)
         .post('/ntuaflix_api/auth/login')
         .send({

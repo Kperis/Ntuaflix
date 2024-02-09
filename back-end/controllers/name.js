@@ -7,6 +7,10 @@ exports.getName = async (req, res, next) => {
     if (Object.keys(req.params).length > 1) {
         return res.status(400).send('Bad Request');
     }
+
+    if (req.params.nameID === '') {
+        return res.status(400).send('Bad Request');
+    }
     //console.log(req.params);
     let nameID = req.params.nameID;
 

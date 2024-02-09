@@ -19,6 +19,7 @@ exports.getHome = (req, res, next) => {
             return;
         }
         connection.query(SQLQuery, (err, results) => {
+            
             if (err) {
                 console.error('Error executing query:', err);
                 res.sendStatus(500).json({message: 'Internal Server Error'});
