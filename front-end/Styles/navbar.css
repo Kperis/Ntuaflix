@@ -1,6 +1,6 @@
 
 .navbar-container{
-    width: 84px;
+    width: 94px;
     background: rgba(255, 255, 255, 0.5);
     height: 100vh;
     position: fixed;
@@ -38,15 +38,16 @@
 .navicon{
     display: flex;
     width: 100%;
-    justify-content: space-evenly;
+    justify-content: flex-start;
     align-items: center;
-    gap: 2rem;
+    gap: 1rem;
     font-size: 1.4em;
     cursor: pointer;
     padding: 1.4rem;
     color: black;
     /* transition: all linear 2s; */
 }
+
 
 .navicon:hover{
     background-color: var(--selection-color-variant);
@@ -71,9 +72,9 @@
 .navicon-active{
     display: flex;
     width: 100%;
-    justify-content: space-evenly;
+    justify-content: flex-start;
     align-items: center;
-    gap: 2rem;
+    gap: 1rem;
     font-size: 1.4em;
     cursor: pointer;
     padding: 1.4rem;
@@ -109,12 +110,12 @@
 }
 
 .navbar-container:hover{
-    width: 200px;
+    width: 230px;
     transition: all ease 0.2s;
 }
 
 .navbar-container:not(:hover){
-    width: 84px;
+    width: 94px;
     transition: all ease 0.2s;
 }
 

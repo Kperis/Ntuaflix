@@ -1,5 +1,7 @@
+'use client'
+
 import ListItem from '@/Components/ListItem'
-import React from 'react'
+import React, { useEffect } from 'react'
 import '@/Styles/list.css'
 
 const page = () => {
@@ -26,6 +28,15 @@ const page = () => {
             type: 'movie'
         },
     ]
+
+    useEffect(() => {
+        fetch('http://localhost:9876/ntuaflix_api/watchlist', {
+            method: 'get',
+            headers: {'authorization' : 'Bearer ' + localStorage.getItem('token')}
+        })
+        .then(response => response.json())
+        .then(response => console.log(response))
+    },[])
 
     return (
         <>

@@ -1,5 +1,8 @@
+'use client'
+
 import React from 'react'
 import ListItem from '@/Components/ListItem'
+import { useEffect } from 'react'
 
 const page = () => {
     const arr = [
@@ -24,6 +27,15 @@ const page = () => {
             type: 'movie'
         },
     ]
+
+    useEffect(() => {
+        fetch('http://localhost:9876/ntuaflix_api/favorites', {
+            method: 'get',
+            headers: {'authorization' : 'Bearer ' + localStorage.getItem('token')}
+        })
+        .then(response => response.json())
+        .then(response => console.log(response))
+    },[])
 
     return (
         <>
