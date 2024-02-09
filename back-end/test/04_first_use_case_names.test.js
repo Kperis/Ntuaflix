@@ -16,7 +16,7 @@ let namePart_wrong = 'Tom Hanks';
 
 // Names
 // TEST FOR [GET]/name/:nameID
-describe('name', () => {
+describe('NAME', () => {
     it('should return the nameObject with the given nameID', (done) => {
         request(app)
         .post('/ntuaflix_api/auth/login')
@@ -83,7 +83,7 @@ describe('name', () => {
             });
         })
     });
-    it('should return 400 if the titleID is missing (endpoint needs titleID)', (done) => {
+    it('should return 404 if the nameID is missing (endpoint needs nameID)', (done) => {
         request(app)
         .post('/ntuaflix_api/auth/login')
         .send({
@@ -97,7 +97,7 @@ describe('name', () => {
             .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
                 //console.log('Response:', res.status, res.body);
-                expect(res.status).to.equal(400); 
+                expect(res.status).to.equal(404); 
                 done();
             });
         })
@@ -105,7 +105,7 @@ describe('name', () => {
 });
 
 // TEST FOR [GET]/searchname
-describe('searchname', () => {
+describe('SEARCHNAME', () => {
     it('should return an array of nameObjects with the given namePart', (done) => {
         request(app)
         .post('/ntuaflix_api/auth/login')
@@ -147,7 +147,7 @@ describe('searchname', () => {
             })
             .end((err, res) => {
                 //console.log('Response:', res.status, res.body);
-                expect(res.status).to.equal(204);
+                expect(res.status).to.equal(404);
                 done();
             });
         })

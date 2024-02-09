@@ -15,7 +15,7 @@ let titleID_wrong = "tt000006"
 // These Tests concern the file: back-end/controllers/titleInfo.js
 
 // TEST FOR [GET]/listsInfo/:titleID
-describe('ListsInfo', () => {
+describe('LISTINFO', () => {
     it('should return the json object with the boolean values, with the given titleID', (done) => {
         request(app)
         .post('/ntuaflix_api/auth/login')
@@ -57,7 +57,7 @@ describe('ListsInfo', () => {
 });
 
 // TEST FOR [GET]/seriesInfo/:titleID
-describe('SeriesInfo', () => {
+describe('SERIESINFO', () => {
     it('should return 204 if the parentID is null or the parentTitleObject does not exits and 200 if the parentObject exists', (done) => {
         request(app)
         .post('/ntuaflix_api/auth/login')
@@ -76,7 +76,7 @@ describe('SeriesInfo', () => {
                 if (res.status === 200 ){
                     expect(res.status).to.equal(200); 
                 } else {
-                    expect(res.status).to.equal(204); 
+                    expect(res.status).to.equal(404); 
                 }
                 done();
             });

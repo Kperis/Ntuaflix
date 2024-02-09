@@ -22,7 +22,7 @@ let genre_wrong = 'Drama';
 
 // Home
 // TEST FOR [GET]/home
-describe('home', () => {
+describe('HOME', () => {
     it('should return 200 OK and some random titles from the database', (done) => {
         request(app)
         .post('/ntuaflix_api/auth/login')
@@ -47,7 +47,7 @@ describe('home', () => {
 
 // Titles
 // TEST FOR [GET]/title/:titleID
-describe('title', () => {
+describe('TITLE', () => {
     it('should return the title with the given titleID', (done) => {
         request(app)
         .post('/ntuaflix_api/auth/login')
@@ -117,7 +117,7 @@ describe('title', () => {
             });
         })
     });
-    it('should return 400 if the titleID is missing (endpoint needs titleID)', (done) => {
+    it('should return 404 if the titleID is missing (endpoint needs titleID)', (done) => {
         request(app)
         .post('/ntuaflix_api/auth/login')
         .send({
@@ -131,7 +131,7 @@ describe('title', () => {
             .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
                 //console.log('Response:', res.status, res.body);
-                expect(res.status).to.equal(400); 
+                expect(res.status).to.equal(404); 
                 done();
             });
         })
@@ -139,7 +139,7 @@ describe('title', () => {
 })
 
 // TEST FOR [GET]/searchtitle
-describe('searchtitle', () => {
+describe('SEARCHTITLE', () => {
     it('should return the titles with the given titlePart', (done) => {
         request(app)
         .post('/ntuaflix_api/auth/login')
@@ -190,7 +190,7 @@ describe('searchtitle', () => {
 });
 
 // TEST FOR [GET]/bygenre
-describe('bygenre', () => {
+describe('BYGENRE', () => {
     it('should return the titles with the given genre', (done) => {
         request(app)
         .post('/ntuaflix_api/auth/login')

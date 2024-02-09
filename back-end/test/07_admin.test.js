@@ -1,4 +1,5 @@
 
+const request = require('supertest');
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const app = require('../app');
@@ -6,11 +7,16 @@ const expect = chai.expect;
 const {pool} = require('../utils/database');
 
 chai.use(chaiHttp);
+
 let token;
+let username_correct = "testuser";
+
+
+
 describe('Login',() =>{
     // Login with a user that exist
     it('should login the admin', (done) => {
-        chai.request(app)
+        request(app)
             .post('/ntuaflix_api/auth/login')
             .send({
                 username : "testadmin",
@@ -27,28 +33,29 @@ describe('Login',() =>{
 });
 
 
-describe('search user by username admin route', () => {
+describe('SEARCH USER', () => {
     it('should return the users info if the user exists', (done) => {
-        chai.request(app)
+        request(app)
         .post('/ntuaflix_api/auth/login')
         .send({
             username: "testadmin",
             password: "1234"
         })
         .end((err, res) => {
-            username_correct = "testuser";
             token = res.body.token;
-            chai.request(app)
-            .get('/ntuaflix_api/admin/users/' + username_correct)
+            request(app)
+            .get('/ntuaflix_api/admin/users/:' + username_correct)
             .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
                 //console.log('Response:', res.status, res.body);
                 expect(res.status).to.equal(200); 
                 // Also expect res to be a json with titleID / type / originalTitle / titlePoster / startYear / endYear / genres / akasInfo / principals / rating
+                expect(res.body).to.have.property('user_id');
+                expect(res.body).to.have.property('username');
+                expect(res.body).to.have.property('email');
                 expect(res.body).to.have.property('first_name');
                 expect(res.body).to.have.property('last_name');
                 expect(res.body).to.have.property('birthdate');
-                expect(res.body).to.have.property('email');
                 expect(res.body).to.have.property('role');
                 done();
             });
@@ -74,7 +81,7 @@ describe('search user by username admin route', () => {
             });
         })
     });
-    it('should return 400 if the username is missing', (done) => {
+    it('should return 404 if the username is missing', (done) => {
         chai.request(app)
         .post('/ntuaflix_api/auth/login')
         .send({
@@ -88,7 +95,7 @@ describe('search user by username admin route', () => {
             .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
                 //console.log('Response:', res.status, res.body);
-                expect(res.status).to.equal(400); 
+                expect(res.status).to.equal(404); 
                 done();
             });
         })
@@ -100,7 +107,7 @@ describe('search user by username admin route', () => {
 let responseHealthcheck;
 describe('Test admin healthcheck (GET {baseurl}/admin/healthcheck)', () => {
     it('should return with status 200', (done) => {
-        chai.request(app)
+        request(app)
         .get("/ntuaflix_api/admin/healthcheck")
         .set('X-OBSERVATORY-AUTH', token)
         .end((err, res) => {
@@ -129,7 +136,7 @@ describe('Test admin healthcheck (GET {baseurl}/admin/healthcheck)', () => {
 let resonseTitleObjecttsv;
 describe('Test admin import title object (POST {baseurl}/admin/upload/titlebasics', () => {
     it('should return with status 201', (done) => {
-        chai.request(app)
+        request(app)
         .post("/ntuaflix_api/admin/upload/titlebasics")
         .set('X-OBSERVATORY-AUTH', token)
         .attach('file', './test/testing_tsvs/truncated_title.basics_10_rows.tsv')

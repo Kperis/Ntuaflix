@@ -241,7 +241,7 @@ exports.postAddToWatchlist = async (req, res) => {
                     return;
                 }
 
-                res.status(200).json({ message: 'Title added to watchlist' });
+                res.status(201).json({ message: 'Title added to watchlist' });
             });
         });
     });

@@ -10,7 +10,7 @@ const isAdmin = (req, res, next) => {
     
     // If the user is an admin, proceed to the next middleware
     if (is_admin) {
-        res.status(200).json({ message: 'admin authorized' });
+        //res.status(200).json({ message: 'admin authorized' });
         console.log('Authorized as Admin');
         next();
     } else {

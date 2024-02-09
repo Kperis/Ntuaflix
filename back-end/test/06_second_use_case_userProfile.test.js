@@ -12,13 +12,13 @@ let titleID_correct = 'tt123456';
 let titleID_wrong = 'tt0000002';
 // Create a random number to append to the username to avoid conflicts
 let random = Math.floor(Math.random() * 1000);
-let _username = "testuser" + random;
-let _password = "1234";
-let _username_changed = "testuser_changed" + random;
-let _password_changed = "12345678";
+let random_username = "testuser" + random;
+let random_password = "1234";
+let random_username_changed = "testuser_changed" + random;
+let random_password_changed = "12345678";
 
-// Create the new random user
-describe('Register a new user', () => {
+// Create the new random user Profile!
+describe('REGISTER A NEW USER', () => {
     // [POST] /auth/register
     it('should register a new user if not existed', (done) => {
         request(app)
@@ -27,9 +27,9 @@ describe('Register a new user', () => {
                 firstname: "testuserFF"+random,
                 lastname: "testuserLN"+random,
                 birthDate: "1990-05-15",
-                username: _username,
+                username: random_username,
                 email: "testuser"+random+"@example.com",
-                password: _password
+                password: random_password
             })
             .end((err, res) => {
                 console.log('Response:', res.status, res.body);
@@ -48,14 +48,14 @@ describe('Register a new user', () => {
 });
 
 // Load user profile
-describe('Load User profile', () => {
+describe('LOAD USER PROFILE', () => {
     // [GET] /profile
     it('should return the user profile with the given username', (done) => {
         request(app)
         .post('/ntuaflix_api/auth/login')
         .send({
-            username: _username,
-            password: _password
+            username: random_username,
+            password: random_password
         })
         .end((err, res) => {
             token = res.body.token;
@@ -90,13 +90,13 @@ describe('Load User profile', () => {
 
 
 // Add a title to the favorites of the random user 
-describe('Add to Favorites', () => {
+describe('ADD TO FAVORITES', () => {
     it('should return 201 if the title is added to the favorites', (done) => {
         request(app)
         .post('/ntuaflix_api/auth/login')
         .send({
-            username: _username,
-            password: _password
+            username: random_username,
+            password: random_password
         })
         .end((err, res) => {
             token = res.body.token;
@@ -114,8 +114,8 @@ describe('Add to Favorites', () => {
         request(app)
         .post('/ntuaflix_api/auth/login')
         .send({
-            username: _username,
-            password: _password
+            username: random_username,
+            password: random_password
         })
         .end((err, res) => {
             token = res.body.token;
@@ -124,7 +124,7 @@ describe('Add to Favorites', () => {
             .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
                 console.log('Response:', res.status, res.body);
-                expect(res.status).to.equal(200); // Eite perimeno ena 200 (me message: already in list) eite 204 (no data) without message
+                expect(res.status).to.equal(200);
                 done();
             });
         })
@@ -133,8 +133,8 @@ describe('Add to Favorites', () => {
         request(app)
         .post('/ntuaflix_api/auth/login')
         .send({
-            username: _username,
-            password: _password
+            username: random_username,
+            password: random_password
         })
         .end((err, res) => {
             token = res.body.token;
@@ -151,13 +151,13 @@ describe('Add to Favorites', () => {
 });
 
 // Add a title to the watchlist of the random user 
-describe('Add to WatchList', () => {
+describe('ADD TO WATCHLIST', () => {
     it('should return 201 if the title is added to the watchlist', (done) => {
         request(app)
         .post('/ntuaflix_api/auth/login')
         .send({
-            username: _username,
-            password: _password
+            username: random_username,
+            password: random_password
         })
         .end((err, res) => {
             token = res.body.token;
@@ -175,8 +175,8 @@ describe('Add to WatchList', () => {
         request(app)
         .post('/ntuaflix_api/auth/login')
         .send({
-            username: _username,
-            password: _password
+            username: random_username,
+            password: random_password
         })
         .end((err, res) => {
             token = res.body.token;
@@ -194,8 +194,8 @@ describe('Add to WatchList', () => {
         request(app)
         .post('/ntuaflix_api/auth/login')
         .send({
-            username: _username,
-            password: _password
+            username: random_username,
+            password: random_password
         })
         .end((err, res) => {
             token = res.body.token;
@@ -212,14 +212,14 @@ describe('Add to WatchList', () => {
 });
 
 // Load favorites
-describe('Load favorites', () => {
+describe('LOAD FAVORITES', () => {
     // from testuser -> none
     it('should return 204 if the user has no favorites', (done) => {
         request(app)
         .post('/ntuaflix_api/auth/login')
         .send({
-            username: _username,
-            password: _password
+            username: "testuser",
+            password: "1234"
         })
         .end((err, res) => {
             token = res.body.token;
@@ -238,8 +238,8 @@ describe('Load favorites', () => {
         request(app)
         .post('/ntuaflix_api/auth/login')
         .send({
-            username: _username,
-            password: _password
+            username: random_username,
+            password: random_password
         })
         .end((err, res) => {
             token = res.body.token;
@@ -258,14 +258,14 @@ describe('Load favorites', () => {
 });
 
 // Load watchlist
-describe('Load Watchlist', () => {
+describe('LOAD WATCHLIST', () => {
     // from testuser -> none
     it('should return 204 if the user has no watchlist', (done) => {
         request(app)
         .post('/ntuaflix_api/auth/login')
         .send({
-            username: _username,
-            password: _password
+            username: "testuser",
+            password: "1234"
         })
         .end((err, res) => {
             token = res.body.token;
@@ -284,8 +284,8 @@ describe('Load Watchlist', () => {
         request(app)
         .post('/ntuaflix_api/auth/login')
         .send({
-            username: _username,
-            password: _password
+            username: random_username,
+            password: random_password
         })
         .end((err, res) => {
             token = res.body.token;
@@ -304,13 +304,13 @@ describe('Load Watchlist', () => {
 });
 
 // Remove a title from the favorites
-describe('Remove a title from Favorites', () => {
+describe('DELETE FROM FAVORITES', () => {
     it('should return 204 if the title is removed from the favorites', (done) => {
         request(app)
         .post('/ntuaflix_api/auth/login')
         .send({
-            username: _username,
-            password: _password
+            username: random_username,
+            password: random_password
         })
         .end((err, res) => {
             token = res.body.token;
@@ -318,7 +318,7 @@ describe('Remove a title from Favorites', () => {
             .delete('/ntuaflix_api/user/deleteFromFavorites/:' + titleID_correct)
             .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
-                console.log('Response:', res.status, res.body);
+                //console.log('Response:', res.status, res.body);
                 expect(res.status).to.equal(204);
                 done();
             });
@@ -328,8 +328,8 @@ describe('Remove a title from Favorites', () => {
         request(app)
         .post('/ntuaflix_api/auth/login')
         .send({
-            username: _username,
-            password: _password
+            username: random_username,
+            password: random_password
         })
         .end((err, res) => {
             token = res.body.token;
@@ -347,8 +347,8 @@ describe('Remove a title from Favorites', () => {
         request(app)
         .post('/ntuaflix_api/auth/login')
         .send({
-            username: _username,
-            password: _password
+            username: random_username,
+            password: random_password
         })
         .end((err, res) => {
             token = res.body.token;
@@ -365,13 +365,13 @@ describe('Remove a title from Favorites', () => {
 });
 
 // Remove a title from the watchlist
-describe('Remove a title from Watchlist', () => {
+describe('DELETE FROM WATCHLIST', () => {
     it('should return 204 if the title is removed from the watchlist', (done) => {
         request(app)
         .post('/ntuaflix_api/auth/login')
         .send({
-            username: _username,
-            password: _password
+            username: random_username,
+            password: random_password
         })
         .end((err, res) => {
             token = res.body.token;
@@ -389,8 +389,8 @@ describe('Remove a title from Watchlist', () => {
         request(app)
         .post('/ntuaflix_api/auth/login')
         .send({
-            username: _username,
-            password: _password
+            username: random_username,
+            password: random_password
         })
         .end((err, res) => {
             token = res.body.token;
@@ -408,8 +408,8 @@ describe('Remove a title from Watchlist', () => {
         request(app)
         .post('/ntuaflix_api/auth/login')
         .send({
-            username: _username,
-            password: _password
+            username: random_username,
+            password: random_password
         })
         .end((err, res) => {
             token = res.body.token;
@@ -427,15 +427,15 @@ describe('Remove a title from Watchlist', () => {
 
 
 // Change the username of the random user
-describe('Update Profile', () => {
+describe('UPDATE PROFILE', () => {
     // Change the username of the random user to testuser -> should fail
     // [PUT] /updateProfile
     it('should return 400 if the username already exists', (done) => {
         request(app)
         .post('/ntuaflix_api/auth/login')
         .send({
-            username: _username,
-            password: _password
+            username: random_username,
+            password: random_password
         })
         .end((err, res) => {
             token = res.body.token;
@@ -458,16 +458,16 @@ describe('Update Profile', () => {
          request(app)
          .post('/ntuaflix_api/auth/login')
          .send({
-             username: _username,
-             password: _password
+             username: random_username,
+             password: random_password
          })
          .end((err, res) => {
              token = res.body.token;
              request(app)
-             .put('/ntuaflix_api/updateProfile')
+             .put('/ntuaflix_api/user/updateProfile')
              .set('X-OBSERVATORY-AUTH', token)
              .send({
-                 username: _username_changed
+                 username: random_username_changed
              })
              .end((err, res) => {
                  console.log('Response:', res.status, res.body);

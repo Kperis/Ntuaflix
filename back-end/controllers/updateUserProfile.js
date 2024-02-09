@@ -28,14 +28,14 @@ exports.updateProfile = async (req, res, next) => {
             bcrypt.hash(password, 8, (err, hashedPassword) => {
                 if (err) {
                     console.log(err);
-                    return res.status(500).json({ error: 'Internal Server Error' });
+                    return res.status(500).json({ error: 'Internal Server Error 2' });
                 }
             console.log(hashedPassword);
             // Use SET instead of VALUES in the UPDATE query
             connection.query('UPDATE Authentication SET username = ?, password = ? WHERE user_id = ?', [username, hashedPassword, userId], (error) => {
                 if (error) {
                     console.log(error);
-                    return res.status(500).json({ error: 'Internal Server Error' });
+                    return res.status(500).json({ error: 'Internal Server Error 3' });
                 } else { // Need to change password to hashed password, haven't completed the hashing logic
                     console.log("Updated Username:", username);
                     return res.status(201).json({ message: 'User profile updated successfully' });

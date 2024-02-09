@@ -76,7 +76,7 @@ exports.uploadTitleBasics = (req, res) => {
                         });
                     }
                 } catch (error) {
-                    
+                    connection.release();
                     return res.status(500).json({ error: 'Internal Server Error' });
                 }
                 connection.release();
@@ -405,10 +405,11 @@ exports.resetAll = (req, res) => {
 };
 
 exports.readUser = (req, res, next) => {//needs fixing
-    const username = req.params.username;
-    const query = 'SELECT * FROM Users\
-                INNER JOIN Authentication ON Users.user_id = Authentication.user_id\
-                WHERE Authentication.username = ?';
+    let username = req.params.username;
+    if (username.startsWith(':')) {
+        username = username.substring(1);
+    }
+    const query = 'SELECT * FROM Users  INNER JOIN Authentication ON Users.user_id = Authentication.user_id WHERE Authentication.username = ?';
     pool.getConnection((err, connection) => {
         if (err) {
             console.error(err);
@@ -434,7 +435,7 @@ exports.readUser = (req, res, next) => {//needs fixing
                     birthdate: result[0].birthdate,
                     role: result[0].role,
                 };
-                //console.log(userObject);
+                console.log(userObject);
                 res.status(200).json(userObject);
             }
         });

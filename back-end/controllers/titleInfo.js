@@ -27,7 +27,8 @@ exports.getListsInfo = async (req, res) => {
 
             if (titleResults.length === 0) {
                 // titleID does not exist in TitleObject table
-                return res.status(204);
+                connection.release();
+                return res.status(404).json({ message : 'Title not found' });
             }
 
             const query = `
@@ -37,7 +38,6 @@ exports.getListsInfo = async (req, res) => {
             `;
 
             connection.query(query, [userID, titleID, userID, titleID], (error, results) => {
-                connection.release();
 
                 if (error) {
                     console.error(error);
@@ -49,6 +49,7 @@ exports.getListsInfo = async (req, res) => {
                 const watchlistResult = results[0].isWatchlist;
                 const isFavorite = favoriteResult === 1;
                 const isWatchlist = watchlistResult === 1;
+                connection.release();
 
                 return res.status(200).json({ isFavorite, isWatchlist });
             });
@@ -67,35 +68,65 @@ exports.getSeriesInfo = async (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) {
             console.error(err);
+            connection.release();
             return res.status(500).json({ error: 'Internal server error' });
         }
-
-        const SQLQuery = `
-            SELECT parent_id FROM Episode_info WHERE movie_id = ?
+        const SQLQuery_findTtile = ` 
+            SELECT * FROM TitleObject WHERE movie_id = ?
         `;
-
-        connection.query(SQLQuery, [titleID], async (error, results) => {
-
+        connection.query(SQLQuery_findTtile, [titleID], (error, results) => {
             if (error) {
                 console.error(error);
+                connection.release();
                 return res.status(500).json({ error: 'Internal server error' });
             }
-
-            if (results.length === 0 || results[0].parent_id === null) {
-                return res.status(204);
+            if (results.length === 0) {
+                connection.release();
+                return res.status(404).json({ message: 'Title not found' });
             }
+            const SQLQuery = `
+                SELECT parent_id FROM Episode_info WHERE movie_id = ?
+            `;
 
-            const parent_id = results[0].parent_id;
-            // Get and return TitleObject of parent_id
-            console.log(parent_id);
-            getTitleObject(parent_id)
-            .then((titleObject) => {
-                console.log(titleObject);
-                res.status(200).json(titleObject);
-            })
-            .catch((error) => {
-                console.error(error);
-                res.status(error.status).json({ message: error.message });
+            connection.query(SQLQuery, [titleID], async (error, results) => {
+
+                if (error) {
+                    console.error(error);
+                    return res.status(500).json({ error: 'Internal server error' });
+                }
+
+                if (results.length === 0 || results[0].parent_id === null) {
+                    connection.release();
+                    return res.status(404).json({ message: 'Series not found' });
+                }
+
+                const parent_id = results[0].parent_id;
+                // Check if the parent exists in the TitleObject table
+                const checkTitleQuery = `SELECT * FROM TitleObject WHERE movie_id = ?`;
+                connection.query(checkTitleQuery, [parent_id], (error, titleResults) => {
+                    if (error) {
+                        console.error(error);
+                        return res.status(500).json({ error: 'Internal server error' });
+                    }
+        
+                    if (titleResults.length === 0) {
+                        // parent_id does not exist in TitleObject table
+                        connection.release();
+                        return res.status(404).json({ message : 'Series not found' });
+                    }
+                    // Get and return TitleObject of parent_id
+                    console.log(parent_id);
+                    getTitleObject(parent_id)
+                    .then((titleObject) => {
+                        console.log(titleObject);
+                        connection.release();
+                        res.status(200).json(titleObject);
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                        res.status(error.status).json({ message: error.message });
+                    });
+                });
             });
         });
     });

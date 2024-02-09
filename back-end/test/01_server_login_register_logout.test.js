@@ -168,7 +168,7 @@ describe('Logout',() =>{
             .get('/ntuaflix_api/home')
             .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
-                //console.log('Response:', res.status, res.body);
+                console.log('Response:', res.status, res.body);
                 expect(res.status).to.equal(401); // Update the expected status code if needed
                 expect(res.body.message).to.equal('You are logged out. Try logging in'); // Update the expected message if needed
                 done();

@@ -1,6 +1,7 @@
 const express = require('express');
 const {pool} = require('../utils/database');
 const { getNameObject } = require('../middlewares/getNameObject');
+const json2csv = require('json2csv').parse;
 
 exports.getName = async (req, res, next) => {
     // Check for Bad Request -> 400 status code
