@@ -77,7 +77,7 @@ describe('Register', () => {
             .end((err, res) => {
                 //console.log('Response:', res.status, res.body);
                 // User successfully registered
-                expect(res.status).to.equal(200);
+                expect(res.status).to.equal(201);
                 done();
             });
     });
@@ -137,7 +137,7 @@ describe('Login',() =>{
             .send(new_user_wronglogin)
             .end((err, res) => {
                 //console.log('Response:', res.status, res.body);
-                expect(res.status).to.equal(400); // Update the expected status code if needed
+                expect(res.status).to.equal(401); // Update the expected status code if needed
                 done();
             });
     });

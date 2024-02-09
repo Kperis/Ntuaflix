@@ -40,7 +40,7 @@ describe('Register a new user', () => {
                     expect(res.body.message).to.equal('Email already in use');
                 } else {
                     // User successfully registered
-                    expect(res.status).to.equal(200);
+                    expect(res.status).to.equal(201);
                 }
                 done();
             });
@@ -60,7 +60,7 @@ describe('Load User profile', () => {
         .end((err, res) => {
             token = res.body.token;
             request(app)
-            .get('/ntuaflix_api/profile')
+            .get('/ntuaflix_api/user/profile')
             .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
                 console.log('Response:', res.status, res.body);
@@ -75,7 +75,7 @@ describe('Load User profile', () => {
             });
         })
     });
-    it('should return 401 if the user does not exist', (done) => {
+    /*it('should return 401 if the user does not exist', (done) => {
         request(app)
         .post('/ntuaflix_api/auth/login')
         .send({
@@ -85,13 +85,13 @@ describe('Load User profile', () => {
         .end((err, res) => {
             expect(res.status).to.equal(401);
             done();});
-    })
+    })*/
 });
 
 
 // Add a title to the favorites of the random user 
 describe('Add to Favorites', () => {
-    it('should return 200 if the title is added to the favorites', (done) => {
+    it('should return 201 if the title is added to the favorites', (done) => {
         request(app)
         .post('/ntuaflix_api/auth/login')
         .send({
@@ -101,16 +101,16 @@ describe('Add to Favorites', () => {
         .end((err, res) => {
             token = res.body.token;
             request(app)
-            .post('/ntuaflix_api/addToFavorites/:' + titleID_correct)
+            .post('/ntuaflix_api/user/addToFavorites/:' + titleID_correct)
             .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
                 console.log('Response:', res.status, res.body);
-                expect(res.status).to.equal(200);
+                expect(res.status).to.equal(201);
                 done();
             });
         })
     });
-    it('should return 400 if the title is already in the favorites', (done) => {
+    it('should return 200 if the title is already in the favorites', (done) => {
         request(app)
         .post('/ntuaflix_api/auth/login')
         .send({
@@ -120,16 +120,16 @@ describe('Add to Favorites', () => {
         .end((err, res) => {
             token = res.body.token;
             request(app)
-            .post('/ntuaflix_api/addToFavorites/:' + titleID_correct)
+            .post('/ntuaflix_api/user/addToFavorites/:' + titleID_correct)
             .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
                 console.log('Response:', res.status, res.body);
-                expect(res.status).to.equal(204); // Γιατί οχι 400;
+                expect(res.status).to.equal(200); // Eite perimeno ena 200 (me message: already in list) eite 204 (no data) without message
                 done();
             });
         })
     });
-    it('should return 400 if the titleID is not valid', (done) => {
+    it('should return 404 if the titleID is not found', (done) => {
         request(app)
         .post('/ntuaflix_api/auth/login')
         .send({
@@ -139,11 +139,11 @@ describe('Add to Favorites', () => {
         .end((err, res) => {
             token = res.body.token;
             request(app)
-            .post('/ntuaflix_api/addToFavorites/:' + titleID_wrong)
+            .post('/ntuaflix_api/user/addToFavorites/:' + titleID_wrong)
             .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
                 console.log('Response:', res.status, res.body);
-                expect(res.status).to.equal(400);
+                expect(res.status).to.equal(404);
                 done();
             });
         })
@@ -152,7 +152,7 @@ describe('Add to Favorites', () => {
 
 // Add a title to the watchlist of the random user 
 describe('Add to WatchList', () => {
-    it('should return 200 if the title is added to the watchlist', (done) => {
+    it('should return 201 if the title is added to the watchlist', (done) => {
         request(app)
         .post('/ntuaflix_api/auth/login')
         .send({
@@ -162,7 +162,26 @@ describe('Add to WatchList', () => {
         .end((err, res) => {
             token = res.body.token;
             request(app)
-            .post('/ntuaflix_api/addToWatchlist/:' + titleID_correct)
+            .post('/ntuaflix_api/user/addToWatchlist/:' + titleID_correct)
+            .set('X-OBSERVATORY-AUTH', token)
+            .end((err, res) => {
+                console.log('Response:', res.status, res.body);
+                expect(res.status).to.equal(201);
+                done();
+            });
+        })
+    });
+    it('should return 200 if the title is already in the watchlist', (done) => {
+        request(app)
+        .post('/ntuaflix_api/auth/login')
+        .send({
+            username: _username,
+            password: _password
+        })
+        .end((err, res) => {
+            token = res.body.token;
+            request(app)
+            .post('/ntuaflix_api/user/addToWatchlist/:' + titleID_correct)
             .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
                 console.log('Response:', res.status, res.body);
@@ -171,7 +190,7 @@ describe('Add to WatchList', () => {
             });
         })
     });
-    it('should return 400 if the title is already in the watchlist', (done) => {
+    it('should return 404 if the titleID is not found', (done) => {
         request(app)
         .post('/ntuaflix_api/auth/login')
         .send({
@@ -181,30 +200,11 @@ describe('Add to WatchList', () => {
         .end((err, res) => {
             token = res.body.token;
             request(app)
-            .post('/ntuaflix_api/addToWatchlist/:' + titleID_correct)
+            .post('/ntuaflix_api/user/addToWatchlist/:' + titleID_wrong)
             .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
                 console.log('Response:', res.status, res.body);
-                expect(res.status).to.equal(400);
-                done();
-            });
-        })
-    });
-    it('should return 400 if the titleID is not valid', (done) => {
-        request(app)
-        .post('/ntuaflix_api/auth/login')
-        .send({
-            username: _username,
-            password: _password
-        })
-        .end((err, res) => {
-            token = res.body.token;
-            request(app)
-            .post('/ntuaflix_api/addToWatchlist/:' + titleID_wrong)
-            .set('X-OBSERVATORY-AUTH', token)
-            .end((err, res) => {
-                console.log('Response:', res.status, res.body);
-                expect(res.status).to.equal(400);
+                expect(res.status).to.equal(404);
                 done();
             });
         })
@@ -224,7 +224,7 @@ describe('Load favorites', () => {
         .end((err, res) => {
             token = res.body.token;
             request(app)
-            .get('/ntuaflix_api/favorites')
+            .get('/ntuaflix_api/user/favorites')
             .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
                 console.log('Response:', res.status, res.body);
@@ -244,7 +244,7 @@ describe('Load favorites', () => {
         .end((err, res) => {
             token = res.body.token;
             request(app)
-            .get('/ntuaflix_api/favorites')
+            .get('/ntuaflix_api/user/favorites')
             .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
                 console.log('Response:', res.status, res.body);
@@ -270,7 +270,7 @@ describe('Load Watchlist', () => {
         .end((err, res) => {
             token = res.body.token;
             request(app)
-            .get('/ntuaflix_api/watchlist')
+            .get('/ntuaflix_api/user/watchlist')
             .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
                 console.log('Response:', res.status, res.body);
@@ -290,7 +290,7 @@ describe('Load Watchlist', () => {
         .end((err, res) => {
             token = res.body.token;
             request(app)
-            .get('/ntuaflix_api/watchlist')
+            .get('/ntuaflix_api/user/watchlist')
             .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
                 console.log('Response:', res.status, res.body);
@@ -305,7 +305,7 @@ describe('Load Watchlist', () => {
 
 // Remove a title from the favorites
 describe('Remove a title from Favorites', () => {
-    it('should return 200 if the title is removed from the favorites', (done) => {
+    it('should return 204 if the title is removed from the favorites', (done) => {
         request(app)
         .post('/ntuaflix_api/auth/login')
         .send({
@@ -315,16 +315,16 @@ describe('Remove a title from Favorites', () => {
         .end((err, res) => {
             token = res.body.token;
             request(app)
-            .delete('/ntuaflix_api/deleteFromFavorites/:' + titleID_correct)
+            .delete('/ntuaflix_api/user/deleteFromFavorites/:' + titleID_correct)
             .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
                 console.log('Response:', res.status, res.body);
-                expect(res.status).to.equal(200);
+                expect(res.status).to.equal(204);
                 done();
             });
         })
     });
-    it('should return 400 if the title is not in the favorites', (done) => {
+    it('should return 404 if the title is not in the favorites', (done) => {
         request(app)
         .post('/ntuaflix_api/auth/login')
         .send({
@@ -334,16 +334,16 @@ describe('Remove a title from Favorites', () => {
         .end((err, res) => {
             token = res.body.token;
             request(app)
-            .delete('/ntuaflix_api/deleteFromFavorites/:' + titleID_correct)
+            .delete('/ntuaflix_api/user/deleteFromFavorites/:' + titleID_correct)
             .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
                 console.log('Response:', res.status, res.body);
-                expect(res.status).to.equal(400);
+                expect(res.status).to.equal(404);
                 done();
             });
         })
     });
-    it('should return 400 if the titleID is not valid', (done) => {
+    it('should return 404 if the titleID is not found', (done) => {
         request(app)
         .post('/ntuaflix_api/auth/login')
         .send({
@@ -353,11 +353,11 @@ describe('Remove a title from Favorites', () => {
         .end((err, res) => {
             token = res.body.token;
             request(app)
-            .delete('/ntuaflix_api/deleteFromFavorites/:' + titleID_wrong)
+            .delete('/ntuaflix_api/user/deleteFromFavorites/:' + titleID_wrong)
             .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
                 console.log('Response:', res.status, res.body);
-                expect(res.status).to.equal(400);
+                expect(res.status).to.equal(404);
                 done();
             });
         })
@@ -366,7 +366,7 @@ describe('Remove a title from Favorites', () => {
 
 // Remove a title from the watchlist
 describe('Remove a title from Watchlist', () => {
-    it('should return 200 if the title is removed from the watchlist', (done) => {
+    it('should return 204 if the title is removed from the watchlist', (done) => {
         request(app)
         .post('/ntuaflix_api/auth/login')
         .send({
@@ -376,16 +376,16 @@ describe('Remove a title from Watchlist', () => {
         .end((err, res) => {
             token = res.body.token;
             request(app)
-            .delete('/ntuaflix_api/deleteFromWatchlist/:' + titleID_correct)
+            .delete('/ntuaflix_api/user/deleteFromWatchlist/:' + titleID_correct)
             .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
                 console.log('Response:', res.status, res.body);
-                expect(res.status).to.equal(200);
+                expect(res.status).to.equal(204);
                 done();
             });
         })
     });
-    it('should return 400 if the title is not in the watchlist', (done) => {
+    it('should return 404 if the title is not in the watchlist', (done) => {
         request(app)
         .post('/ntuaflix_api/auth/login')
         .send({
@@ -395,16 +395,16 @@ describe('Remove a title from Watchlist', () => {
         .end((err, res) => {
             token = res.body.token;
             request(app)
-            .delete('/ntuaflix_api/deleteFromWatchlist/:' + titleID_correct)
+            .delete('/ntuaflix_api/user/deleteFromWatchlist/:' + titleID_correct)
             .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
                 console.log('Response:', res.status, res.body);
-                expect(res.status).to.equal(400);
+                expect(res.status).to.equal(404);
                 done();
             });
         })
     });
-    it('should return 400 if the titleID is not valid', (done) => {
+    it('should return 404 if the titleID is not valid', (done) => {
         request(app)
         .post('/ntuaflix_api/auth/login')
         .send({
@@ -414,11 +414,11 @@ describe('Remove a title from Watchlist', () => {
         .end((err, res) => {
             token = res.body.token;
             request(app)
-            .delete('/ntuaflix_api/deleteFromWatchlist/:' + titleID_wrong)
+            .delete('/ntuaflix_api/user/deleteFromWatchlist/:' + titleID_wrong)
             .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
                 console.log('Response:', res.status, res.body);
-                expect(res.status).to.equal(400);
+                expect(res.status).to.equal(404);
                 done();
             });
         })
@@ -440,7 +440,7 @@ describe('Update Profile', () => {
         .end((err, res) => {
             token = res.body.token;
             request(app)
-            .put('/ntuaflix_api/updateProfile') // updateUserProfile.js
+            .put('/ntuaflix_api/user/updateProfile') // updateUserProfile.js
             .set('X-OBSERVATORY-AUTH', token)
             .send({
                 username: "testuser" // This username already exists!
@@ -454,26 +454,26 @@ describe('Update Profile', () => {
     });
     // Change the username of the random user to random_testuser_changed -> should succeed
     // [PUT] /updateProfile
-    // it('[PROBLEM] should return 200 if the username is changed', (done) => {
-    //     request(app)
-    //     .post('/ntuaflix_api/auth/login')
-    //     .send({
-    //         username: _username,
-    //         password: _password
-    //     })
-    //     .end((err, res) => {
-    //         token = res.body.token;
-    //         request(app)
-    //         .put('/ntuaflix_api/updateProfile')
-    //         .set('X-OBSERVATORY-AUTH', token)
-    //         .send({
-    //             username: _username_changed
-    //         })
-    //         .end((err, res) => {
-    //             console.log('Response:', res.status, res.body);
-    //             expect(res.status).to.equal(200);
-    //             done();
-    //         });
-    //     })
-    // });
+     it('[PROBLEM] should return 201 if the username is changed', (done) => {
+         request(app)
+         .post('/ntuaflix_api/auth/login')
+         .send({
+             username: _username,
+             password: _password
+         })
+         .end((err, res) => {
+             token = res.body.token;
+             request(app)
+             .put('/ntuaflix_api/updateProfile')
+             .set('X-OBSERVATORY-AUTH', token)
+             .send({
+                 username: _username_changed
+             })
+             .end((err, res) => {
+                 console.log('Response:', res.status, res.body);
+                 expect(res.status).to.equal(201);
+                 done();
+             });
+         })
+     });
 });

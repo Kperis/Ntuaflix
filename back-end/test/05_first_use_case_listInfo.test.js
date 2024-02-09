@@ -35,7 +35,7 @@ describe('ListsInfo', () => {
             });
         })
     });
-    it('should return 204 if the titleID is not valid', (done) => {
+    it('should return 404 if the titleID is not found', (done) => {
         request(app)
         .post('/ntuaflix_api/auth/login')
         .send({
@@ -49,7 +49,7 @@ describe('ListsInfo', () => {
             .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
                 //console.log('Response:', res.status, res.body);
-                expect(res.status).to.equal(204); 
+                expect(res.status).to.equal(404); 
                 done();
             });
         })
@@ -82,7 +82,7 @@ describe('SeriesInfo', () => {
             });
         })
     });
-    it('should return 204 if the titleID is not valid', (done) => {
+    it('should return 404 if the titleID is not found', (done) => {
         request(app)
         .post('/ntuaflix_api/auth/login')
         .send({
@@ -96,7 +96,7 @@ describe('SeriesInfo', () => {
             .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
                 //console.log('Response:', res.status, res.body);
-                expect(res.status).to.equal(204); 
+                expect(res.status).to.equal(404); 
                 done();
             });
         })

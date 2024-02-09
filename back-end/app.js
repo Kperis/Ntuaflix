@@ -8,7 +8,7 @@ const corsMiddleware = require('./middlewares/cors');
 
 app.use(cors());
 // Parse url-encoded bodies (as sent by HTML forms, for example signup)- get data from forms 
-app.use(express.urlencoded({ extended: true}));
+app.use(express.urlencoded({ extended: false}));
 // Parse JSON bodies (as sent by API clients), ensure that data from forms comes as jsons
 app.use(express.json()); 
 // We are aslo going to implement csv format

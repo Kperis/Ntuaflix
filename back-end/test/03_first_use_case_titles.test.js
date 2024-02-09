@@ -98,7 +98,7 @@ describe('title', () => {
             });
         })
     });
-    it('should return 204 if the titleID is not valid', (done) => {
+    it('should return 404 if the titleID is not found', (done) => {
         request(app)
         .post('/ntuaflix_api/auth/login')
         .send({
@@ -112,12 +112,12 @@ describe('title', () => {
             .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
                 //console.log('Response:', res.status, res.body);
-                expect(res.status).to.equal(204);
+                expect(res.status).to.equal(404);
                 done();
             });
         })
     });
-    it('should return 404 if the titleID is missing (endpoint needs titleID)', (done) => {
+    it('should return 400 if the titleID is missing (endpoint needs titleID)', (done) => {
         request(app)
         .post('/ntuaflix_api/auth/login')
         .send({
@@ -131,7 +131,7 @@ describe('title', () => {
             .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
                 //console.log('Response:', res.status, res.body);
-                expect(res.status).to.equal(404); 
+                expect(res.status).to.equal(400); 
                 done();
             });
         })
@@ -165,7 +165,7 @@ describe('searchtitle', () => {
             });
         })
     });
-    it('should return 204 if the titlePart is not valid', (done) => {
+    it('should return 404 if the titlePart is not found', (done) => {
         request(app)
         .post('/ntuaflix_api/auth/login')
         .send({
@@ -182,7 +182,7 @@ describe('searchtitle', () => {
             })
             .end((err, res) => {
                 //console.log('Response:', res.status, res.body);
-                expect(res.status).to.equal(204); 
+                expect(res.status).to.equal(404); 
                 done();
             });
         })
@@ -238,7 +238,7 @@ describe('bygenre', () => {
             });
         })
     });
-    it('should return 204 if the genre is not valid', (done) => {
+    it('should return 404 if the genre is not found', (done) => {
         request(app)
         .post('/ntuaflix_api/auth/login')
         .send({
@@ -256,7 +256,7 @@ describe('bygenre', () => {
             })
             .end((err, res) => {
                 //console.log('Response:', res.status, res.body);
-                expect(res.status).to.equal(204); 
+                expect(res.status).to.equal(404); 
                 done();
             });
         })

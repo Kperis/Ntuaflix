@@ -421,7 +421,7 @@ exports.readUser = (req, res, next) => {//needs fixing
                 return res.status(500).json({ status: 'failed', message: 'Error executing connection query' });
             }
             if (result.length === 0) {
-                return res.status(204).json({ status: 'failed', message: 'User not found' });
+                return res.status(404).json({ message: 'User not found' });
             }
             else{
                 //console.log(result[0]);
