@@ -4,7 +4,6 @@ const dotenv = require('dotenv');
 const mysql = require('mysql');
 const { pool } = require('./utils/database');
 const app = express();
-const corsMiddleware = require('./middlewares/cors');
 
 app.use(cors());
 // Parse url-encoded bodies (as sent by HTML forms, for example signup)- get data from forms 
@@ -49,8 +48,6 @@ const adminRoutes = require('./routes/admin');
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/user');
 
-/* CORS Security Middleware */
-//app.use(corsMiddleware);
 
 /* Routes used */
 app.use('/ntuaflix_api/admin', adminRoutes);

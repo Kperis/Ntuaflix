@@ -12,7 +12,7 @@
 
 ### Contents:
 
-The Back-end Folder contains:
+Server and REST-API:
   - App.js and Index.js: The main files to start the app and the server and connect to the database (Database must have been created first)
   - Routes: Based on the requests, the routes will call the controllers ( and if needed, the middlewares) 
   - Middlewares: 
@@ -25,20 +25,47 @@ The Back-end Folder contains:
       - The database contains the tables and the admin user
     - .js files to import data 
 
-More info:
+Non Functional Requirements:
   - Authorization: Every user is stored in the database with a role ("admin", "simple_user")
   - Authentication / JWEB Token: 
     - The user logs in and receives a WEB token
     - The token is used to authenticate the user in the requests
     - The middleware takes the token from the request header and checks if it is valid
   - Security : (DDOS Attacks (if implemented) )
+  - Performance: The app is performant
+  - Maintainability: The app is maintainable
+  - Testability: The app is testable
+  - Reliability: The app is reliable
+  - Interoperability: The app is interoperable (Supports all OS and Browsers)
+
+Testing:
+  1. Test cases for the REST-API:
+    - In the test folder, there are test cases for the REST-API
+    - The tests are written in Mocha and Chai
+          <p align="right"><a href="#testing">Check Testing</a></p>
+  2. Postman Scripts
+    - The postman scripts are in the postman folder
+    - The scripts are used to test the REST-API
+
+
 
 ### Usecases
 1. Movies - Series - Actors - Contributors
     - search for specific title
     - Search
     - Filter
-2. User Profile - Favorite Movies - Watched Movies
+2. User Profile
+    - Create Profile
+    - Add movies to your "Favorites" list
+    - Add movied to your "Watchlater" list
+    - Edit these lists
+
+_The above use cases are properly explained in the ntuaflix documentation [VPP-FILE]_
+
+<!--[VPP-FILE]: ../documentation/README.md
+-->
+[VPP-FILE]: https://github.com/ntua/softeng23-33/tree/main/documentation
+
 
 ### NodeJS Packages:
 ```json
@@ -72,7 +99,7 @@ More info:
 
 ### Initializing database
 1. Start a MySQL Server (We used XAMPP)
-    If you are using Linux and have LANMP installed, you can start the server with the following command
+    - If you are using Linux and have LANMP installed, you can start the server with the following command
     ```sh
     ./run_lampp_linux.sh
     ```
@@ -88,11 +115,10 @@ More info:
     ```
 3. If you want to add the data from the tsv files to the database, you can use the following command
     ```sh
-    cd ./utils/import_data
-    node main_import.js
+    npm run data
     ```
 
-### Start the Back-end
+### Start the Server and the REST-API
 Firstly the local web development toolkit (like XAMPP) must be running. 
 1. Install all dependencies
    ```sh
@@ -102,6 +128,13 @@ Firstly the local web development toolkit (like XAMPP) must be running.
    ```sh
    npm start 
    ```
+
+*You can use these users :*
+```json
+  "user": { "username": "user","password": "1234"},
+  "admin": { "username": "admin", "password": "1234"}
+```
+
 
 ## Testing
 Firstly the local web development toolkit (like XAMPP) must be running. 

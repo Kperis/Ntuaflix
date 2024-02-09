@@ -13,6 +13,10 @@ set "schema_test_file=%current_dir%utils\ntuaflix_test_create_schema.sql"
 REM Change directory to C:\xampp\mysql\bin (assuming XAMPP is installed in the default location)
 cd /d "C:\xampp\mysql\bin"
 
+REM Drop the database if it exists
+mysql.exe -u root -p -e "DROP DATABASE IF EXISTS ntuaflix;"
+mysql.exe -u root -p -e "DROP DATABASE IF EXISTS ntuaflix_test;"
+
 REM Run MySQL and load the files
 mysql.exe -u root -p < "%schema_file%"
 mysql.exe -u root -p < "%schema_test_file%"
