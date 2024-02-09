@@ -51,7 +51,7 @@ const Signin = () => {
         })
       })
       .then(response => response.status === 500 ? alert('Server error')
-        : (response.status === 401 ? alert('Invalid username/password') : 
+        : (response.status === 401 || response.status === 400 ? alert('Invalid username/password') : 
           response.json()
         )
       )

@@ -17,18 +17,6 @@ const page = () => {
     const [actors, setActors] = useState([]);
     const [title, setTitle] = useState('');
 
-
-    useEffect(() => {
-        const item = localStorage.getItem('token');
-        if(!item){
-            setLoginStatus(false);
-            router.push('/signin');
-        }
-        else{
-            setLoginStatus(true);
-        }
-    },[])
-
     const onSearch = () => {
         fetch('http://localhost:9876/ntuaflix_api/searchname', {
             method: 'post',

@@ -16,16 +16,6 @@ export default function Home() {
 
     const {loginStatus, setLoginStatus} = useAuth();    
 
-    useEffect(() => {
-        const item = localStorage.getItem('token');
-        if(!item){
-            setLoginStatus(false);
-            router.push('/signin');
-        }
-        else{
-            setLoginStatus(true);
-        }
-    },[])
 
     const [movieList, setMovieList] = useState([]);
     const [title, setTitle] = useState('');
