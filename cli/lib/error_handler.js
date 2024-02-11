@@ -1,7 +1,7 @@
 const fs = require('fs');
 const chalk = require('chalk');
 
-module.exports = function (err, customMessage) {
+exports.generalerrors =  (err, customMessage) => {
 
     let serverStatus = err.message.split(' ').slice(0,2).join(' ');
     if (serverStatus == 'connect ECONNREFUSED') {
@@ -19,6 +19,6 @@ module.exports = function (err, customMessage) {
         })
 
     }
-    (customMessage === undefined) ? console.log(chalk.red(errMessage)) : console.log(chalk.red(errMessage + '\n' + customMessage))
+    //(customMessage === undefined) ? console.log(chalk.red(errMessage)) : console.log(chalk.red(errMessage + '\n' + customMessage))
 
 }
