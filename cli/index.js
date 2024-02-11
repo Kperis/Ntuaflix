@@ -1,16 +1,8 @@
 #!/usr/bin/env node
 // cli/yourCLIFile.js
 const program = require('commander');
-const axios = require('axios');
 const upload_route = require('./src/uploadtsvfile');
-const login = require('./src/login');
-const searchtitle_fun = require('./src/title');
-const searchuser_fun = require('./src/user');
-const healthcheck_route = require('./src/healthcheck');
-const resetall_route = require('./src/resetall');
-const { reset } = require('nodemon');
-
-const BASE_URL = 'http://localhost:9876'; // Update with your backend server URL
+const generalfun = require('./src/general_function');
 
 program
   .version('0.0.1')
@@ -33,22 +25,26 @@ program
   .description('User/Admin log in')
   .option('-u, --username [username]', 'Username')
   .option('-p, --password [password]', 'Password')
-  .action( function(o) { login(o) } )
+  .action( function(o) { 
+    //console.log("Logging in...");
+    generalfun('login',o) 
+  } )
 
 program
   .command('title')
   .alias('st')
   .description('searching title by titleid')
   .option('-t, --titleID [titleid]', 'TitleID')
-  .action( function(titleid) { searchtitle_fun(titleid) } )
+  .option('--format [format]', 'Output format (e.g., json, csv)')
+  .action( function(o) { generalfun('title',o) } )
 
 program
   .command('newtitles')
   .description('upload title basics')
   .option('-upl,--filename [filepath]','FilePath')
-  .action(async (filepath) => {
-    console.log(filepath);
-    upload_route.uploadtsvs(filepath,"titlebasics");
+  .action(async (o) => {
+    //console.log(o);
+    upload_route.uploadtsvs(o,"newtitles",null);
   });
 
 program
@@ -56,8 +52,8 @@ program
   .description('upload akas info tsv')
   .option('-upl,--filename [filepath]','FilePath')
   .action(async (filepath) => {
-    console.log(filepath);
-    upload_route.uploadtsvs(filepath,"titleakas");
+    //console.log(filepath);
+    upload_route.uploadtsvs(filepath,"newakas",null);
   });
 
 program
@@ -65,27 +61,27 @@ program
   .description('upload new namebasics tsv')
   .option('-upl,--filename [filepath]','FilePath')
   .action(async (filepath) => {
-    console.log(filepath);
-    upload_route.uploadtsvs(filepath,"namebasics");
+    //console.log(filepath);
+    upload_route.uploadtsvs(filepath,"newnames",null);
   });
 
 
-// program
-//   .command('newcrew')
-//   .description('upload akas info tsv')
-//   .option('-upl,--filename [filepath]','FilePath')
-//   .action(async (filepath) => {
-//     console.log(filepath);
-//     uploadtitlebasics_route.uploadtitlebasics(filepath);
-//   });
+program
+  .command('newcrew')
+  .description('upload akas info tsv')
+  .option('-upl,--filename [filepath]','FilePath')
+  .action(async (filepath) => {
+    //console.log(filepath);
+    upload_route.uploadtsvs(filepath,"newcrew",null);
+  });
 
 program
   .command('newepisode')
   .description('upload new episodeinfo tsv')
   .option('-upl,--filename [filepath]','FilePath')
   .action(async (filepath) => {
-    console.log(filepath);
-    upload_route.uploadtsvs(filepath,"titleepisode");
+    //console.log(filepath);
+    upload_route.uploadtsvs(filepath,"newepisode",null);
   });
 
 program
@@ -93,8 +89,8 @@ program
   .description('upload new principals info tsv')
   .option('-upl,--filename [filepath]','FilePath')
   .action(async (filepath) => {
-    console.log(filepath);
-    upload_route.uploadtsvs(filepath,"titleprincipals");
+    //console.log(filepath);
+    upload_route.uploadtsvs(filepath,"newprincipals",null);
   });
 
 program
@@ -102,30 +98,81 @@ program
   .description('upload new principals info tsv')
   .option('-upl,--filename [filepath]','FilePath')
   .action(async (filepath) => {
-    console.log(filepath);
-    upload_route.uploadtsvs(filepath,"titleratings");
+    //console.log(filepath);
+    upload_route.uploadtsvs(filepath,"newratings",null);
   });
 
 program
   .command('user')
   .description('searching user by username')
   .option('--username [username]', 'Username')
+  .option('--format [format]', 'Output format (e.g., json, csv)')
   .action( function(o) { 
-    searchuser_fun(o) 
+    generalfun('user',o)
+  } )
+
+program
+  .command('name')
+  .description('searching name by nameid')
+  .option('--nameid [nameid]', 'NameID')
+  .option('--format [format]', 'Output format (e.g., json, csv)')
+  .action( function(o) { 
+    generalfun('name',o)
   } )
 
 program 
   .command("healthcheck")
   .description("Check the health of the server")
-  .action(function(){
-    healthcheck_route.healthcheck()
+  .option('--format [format]', 'Output format (e.g., json, csv)')
+  .action(function(o){
+    //console.log("parameters are ",o);
+    generalfun('healthcheck',o);
   })
 program
   .command('resetall')
   .description('Reset all tables')
-  .action(function() {
-    resetall_route.resetall();
+  .action(function(o) {
+    generalfun('resetall',o);
   })
 
+program
+  .command('searchtitle')
+  .description('searching title by a part of the title')
+  .option('--titlepart [titlepart]', 'TitlePart')
+  .option('--format [format]', 'Output format (e.g., json, csv)')
+  .action( function(o) { 
+    generalfun('searchtitle',o) 
+  } )
+
+program
+  .command('bygenre')
+  .description('searching title by genre and other filters')
+  .option('--genre [genre]', 'Genre')
+  .option('--min [minrating]', 'Minimum Rating')
+  .option('--from [yrFrom]', 'Year From')
+  .option('--to [yrTo]', 'Year To')
+  .option('--format [format]', 'Output format (e.g., json, csv)')
+  .action( function(o) { 
+    generalfun('bygenre',o) 
+  } )
+
+program
+  .command('searchname')
+  .description('searching contributor by a part of the name')
+  .option('--name [namepart]', 'NamePart')
+  .option('--format [format]', 'Output format (e.g., json, csv)')
+  .action( function(o) { 
+    generalfun('searchname',o) 
+  } )
+
+  program
+  .command('adduser')
+  .description('adduser by username or update password if exists')
+  .option('--username [username]', 'NamePart')
+  .option('--password [password]', 'Password')
+  .option('--format [format]', 'Output format (e.g., json, csv)')
+  .action( function(o) { 
+    generalfun('adduser',o) 
+  } )
 
 program.parse(process.argv);

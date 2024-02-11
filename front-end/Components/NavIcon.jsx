@@ -4,7 +4,7 @@ import '@/Styles/navbar.css'
 import Link from 'next/link'
 
 
-const NavIcon = ({alt, description, image, active,href}) => {
+const NavIcon = ({alt, description, image, active, href}) => {
 
   const onLogout = (desc) =>{
     if(desc === 'Logout'){
@@ -13,12 +13,12 @@ const NavIcon = ({alt, description, image, active,href}) => {
   }
   
   return (
-    <div>
-      <Link onClick={() => onLogout(description)} className={active === description ? 'navicon-active' : 'navicon' } href={href}>
+    <>
+      <Link onClick={() => onLogout(description)} className={active === description.toLowerCase() ? 'navicon-active' : 'navicon' } href={href}>
         <Image className='options-logo' alt={alt} src={image} width={48} height={48}/>
         <span>{description}</span>
       </Link>
-    </div>
+    </>
   )
 }
 

@@ -1,10 +1,11 @@
 'use client'
 
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react'
 import NavIcon from './NavIcon'
 import '@/Styles/navbar.css'
 import { useAuth } from './Context'
+import { usePathname } from 'next/navigation'
 
 const Navbar = () => {
 
@@ -19,15 +20,15 @@ const Navbar = () => {
         },
         {
             icon: '/actor.png',
-            description: 'Actor',
-            alt: 'Actor',
-            href: '/actors',
+            description: 'Contributors',
+            alt: 'Contributors',
+            href: '/contributors',
             active: 0
         },
         {
             icon: '/library.png',
-            description: 'Library',
-            alt: 'Library',
+            description: 'Profile',
+            alt: 'Profile',
             href: '/profile',
             active: 0
         },
@@ -41,12 +42,24 @@ const Navbar = () => {
     ]
 
     const { loginStatus, setLoginStatus } = useAuth();
-    // const [overlay, setOverlay] = useState(false);
-    const [route, setRoute] = useState('Home');
+    const [route, setRoute] = useState('home');
+
+    const path = usePathname();
+
+    useEffect(() => {
+        const part = path.split('/');
+        if(part[1] === ''){
+            setRoute('home');
+        }
+        else{
+            setRoute(part[1]);
+        }
+    }, [])
+
 
     const changeRoute = (title) =>{
-        if(title === 'Logout'){
-            setRoute('Home');
+        if(title === 'logout'){
+            setRoute('home');
             setLoginStatus(false);
         }
         else setRoute(title);
@@ -67,7 +80,7 @@ const Navbar = () => {
                             iconlist.map((icon) => {
                                 return(
                                     <li key={`${icon.description}`} 
-                                        onClick={() => changeRoute(icon.description)} >
+                                        onClick={() => changeRoute(icon.description.toLowerCase())} >
                                         <NavIcon image={icon.icon} description={icon.description} alt={icon.alt} active={route} href={icon.href}/>
                                     </li>
                                 );

@@ -6,6 +6,7 @@ const addTsvToRatings = require('./addTsvRating');
 const addTsvToAkas = require('./addTsvAkas');
 const addTsvToNameBasics = require('./addTsvNameBasics');
 const addTsvToPrincipals = require('./addTsvPrincipals');
+const addTsvToCrew = require('./addTsvCrew');
 
 /* Import Libraries */
 const mysql = require('mysql2/promise');
@@ -55,8 +56,11 @@ async function main() {
     await addTsvToRatings(pool,N);
     console.log(chalk.yellow('Principals...'));
     await addTsvToPrincipals(pool,N);
+    console.log(chalk.yellow('Crew...'));
+    await addTsvToCrew(pool,N);
     console.log(chalk.green('Done with all TSV files! Database is ready! '));
     console.log(chalk.green('You can now run the server with "npm start"!'));
+
     // await addTsvToTable2(pool);
   } catch (error) {
     console.error('Error in main:', error);

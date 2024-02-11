@@ -5,8 +5,9 @@ const constructURL = require('../lib/construct_url');
 const errorHandler = require('../lib/error_handler');
 const chalk = require('chalk');
 const https = require('https');
+const configuration = require('../lib/construct_config');
 
-exports.uploadtsvs = async (path,filetype) => {
+exports.uploadtsvs = async (path,name,o) => {
     try {
         if (!path.filename || path.filename === '') {
             throw new Error('File path is not provided.');
@@ -14,29 +15,17 @@ exports.uploadtsvs = async (path,filetype) => {
 
         //console.log(path.filename);
         const fileData = await fs.readFile(path.filename);
-
         const formData = new FormData();
         formData.append('file', fileData, { filename: 'filename' });  // Adjust the filename if needed
 
         const token = await fs.readFile('../cli/softeng23_33.token', 'utf8');
 
-        const url = "http://localhost:9876/ntuaflix_api/admin/upload/" + filetype;
-        console.log(url);
-        const config = {
-            method: 'post',
-            url: url,
-            headers: {
-                'Authorization': 'Bearer ' + token,
-                ...formData.getHeaders(),
-            },
-            httpsAgent: new https.Agent({ rejectUnauthorized: false }),
-            data: formData,  // Send formData as the request data
-        };
-
+        var config = {};
+        config = configuration.configconstructor(name,token,o,formData);
         const response = await axios(config);
-        console.log(response.data);
+        console.log("status : ",response.status ,"message : ",response.data.message);
     } catch (error) {
-        console.log("an error occured");
-        errorHandler(error, 'File could not be uploaded!');
+        console.log("an error occurred");
+        errorHandler.generalerrors(error, 'File could not be uploaded!');
     }
 };

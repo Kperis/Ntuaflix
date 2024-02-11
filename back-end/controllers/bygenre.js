@@ -2,6 +2,7 @@ const {pool} = require('../utils/database');
 const {getTitleObject} = require('../middlewares/getTitleObject');
 
 exports.getByGenre = async (req, res, next) => {
+    console.log("Request to get titles by genre");
     try {
         const { qgenre, minrating, yrFrom, yrTo } = req.body;
         
@@ -14,7 +15,6 @@ exports.getByGenre = async (req, res, next) => {
         // console.log(yearFrom);
         // console.log(yearTo);
         // res.status(200).json({ message: "OK" }); // Works!
-
         // SQL queries
         let sqlQuery;
         if (yearFrom !== null && yearTo !== null) {

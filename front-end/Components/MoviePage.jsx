@@ -10,6 +10,7 @@ const MoviePage = ({id, poster, title, contributors, akas, year, type, rating}) 
   const [heart, setHeart] = useState(false);
   const [loading, setLoading] = useState(true);
   const [actors, setActors] = useState([]);
+  const [disableClick, setDisableClick] = useState(false);
 
   useEffect(()=> {
     fetchphotos();
@@ -25,16 +26,76 @@ const MoviePage = ({id, poster, title, contributors, akas, year, type, rating}) 
       return data;
     }));
 
-    
+    fetch('http://localhost:9876/ntuaflix_api/listsInfo/' + id, {
+      method: 'get',
+      headers: {'authorization' : 'Bearer ' + localStorage.getItem('token')}
+    })
+    .then(response => response.json())
+    .then(response => {
+      setHeart(response.isFavorite);
+    });
 
     setActors(arr);
-    console.log(arr);
     setLoading(false);
   }
 
 
   const onHeartClick = () =>{
-    setHeart(!heart);
+    let temp = heart;
+    if(!disableClick){
+      setHeart(!heart);
+      setDisableClick(true);
+      if(!temp){
+        fetch('http://localhost:9876/ntuaflix_api/addToFavorites/' + id,{
+          method: 'post',
+          headers: {'authorization' : 'Bearer ' + localStorage.getItem('token')},
+          body: JSON.stringify({})
+        })
+        .then(response => response.json())
+        .then(response => console.log(response))
+      }
+      else{
+        fetch('http://localhost:9876/ntuaflix_api/deleteFromFavorites/' + id, {
+          method: 'delete',
+          headers: {'authorization' : 'Bearer ' + localStorage.getItem('token')},
+        })
+        .then(response => response.json())
+        .then(response => console.log(response))
+      }
+      setTimeout(() => {
+        setDisableClick(false);
+      }, 500);
+    }
+    else{
+
+    }
+  }
+
+  const addToWatchLater = () =>{
+    fetch('http://localhost:9876/ntuaflix_api/addToWatchlist/' + id,{
+      method: 'post',
+      headers: {
+        'authorization' : 'Bearer ' + localStorage.getItem('token'),
+        'Content-type' : 'application/json'
+      },
+      body: JSON.stringify({})
+    })
+    .then(response => {
+      switch (response.status){
+        case 500: 
+          alert('server error');
+          break;
+        case 204:
+          alert('Title already in your watchlist');
+          break;
+        case 200:
+          alert('Successfully added to watchlist');
+          break;
+        default:
+          alert('Something went wrong');
+          break;
+      }
+    })
   }
 
 
@@ -47,9 +108,9 @@ const MoviePage = ({id, poster, title, contributors, akas, year, type, rating}) 
           </section>
           <div className='seperation'></div>
           <section>
-            <p>Year: {year}</p>
             <p>Type: {type}</p>
-            <p>Rating: {rating.avRating ? rating.avRating : 'No data'}</p>
+            <p>Year: {year}</p>
+            <p>Rating: {rating[0].avRating ? rating[0].avRating : 'No data'}</p>
           </section>
           <section className='contributors'>
             <p>Contributors: </p>
@@ -60,7 +121,7 @@ const MoviePage = ({id, poster, title, contributors, akas, year, type, rating}) 
             }
           </section>
           <div className='addtolist-container'>
-            <button>
+            <button onClick={addToWatchLater}>
               Watch Later
             </button>
             <Heart active={heart} func={onHeartClick} />
