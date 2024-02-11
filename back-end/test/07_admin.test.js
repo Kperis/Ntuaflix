@@ -13,7 +13,7 @@ let username_correct = "testuser";
 
 
 
-describe('Login',() =>{
+describe('ADMIN LOGIN',() =>{
     // Login with a user that exist
     it('should login the admin', (done) => {
         request(app)
@@ -33,7 +33,7 @@ describe('Login',() =>{
 });
 
 
-describe('SEARCH USER', () => {
+describe('ADMIN - SEARCH USER', () => {
     it('should return the users info if the user exists', (done) => {
         request(app)
         .post('/ntuaflix_api/auth/login')
@@ -105,7 +105,7 @@ describe('SEARCH USER', () => {
 
 
 let responseHealthcheck;
-describe('Test admin healthcheck (GET {baseurl}/admin/healthcheck)', () => {
+describe('ADMIN HEALTHCHECK (GET {baseurl}/admin/healthcheck)', () => {
     it('should return with status 200', (done) => {
         request(app)
         .get("/ntuaflix_api/admin/healthcheck")
@@ -134,7 +134,7 @@ describe('Test admin healthcheck (GET {baseurl}/admin/healthcheck)', () => {
 
 
 let resonseTitleObjecttsv;
-describe('Test admin import title object (POST {baseurl}/admin/upload/titlebasics', () => {
+describe('ADMIN IMPORT TitleBasics (POST {baseurl}/admin/upload/titlebasics', () => {
     it('should return with status 201', (done) => {
         request(app)
         .post("/ntuaflix_api/admin/upload/titlebasics")
@@ -163,9 +163,9 @@ describe('Test admin import title object (POST {baseurl}/admin/upload/titlebasic
 })
 
 let responsetitleAkas;
-describe('Test admin import title akas (POST {baseurl}/admin/upload/titleakas)', () => {
+describe('ADMIN IMPORT Title Akas (POST {baseurl}/admin/upload/titleakas)', () => {
     it('should return with status 201', (done) => {
-        chai.request(app)
+        request(app)
         .post("/ntuaflix_api/admin/upload/titleakas")
         .set('X-OBSERVATORY-AUTH', token)
         .attach('file', './test/testing_tsvs/truncated_title.akas_10_rows.tsv')
@@ -192,9 +192,9 @@ describe('Test admin import title akas (POST {baseurl}/admin/upload/titleakas)',
 });
 
 let responseNameBasics;
-describe('Test admin import name basics (POST {baseurl}/admin/upload/namebasics)', () => {
+describe('ADMIN IMPORT Title Basics (POST {baseurl}/admin/upload/namebasics)', () => {
     it('should return with status 201', (done) => {
-        chai.request(app)
+        request(app)
         .post("/ntuaflix_api/admin/upload/namebasics")
         .set('X-OBSERVATORY-AUTH', token)
         .attach('file', './test/testing_tsvs/truncated_name.basics_10_rows.tsv')
@@ -221,9 +221,9 @@ describe('Test admin import name basics (POST {baseurl}/admin/upload/namebasics)
 });
 
 let responseTitlePrincipals;
-describe('Test admin import title principals (POST {baseurl}/admin/upload/titleprincipals)', () => {
+describe('ADMIN IMPORT Title Principals (POST {baseurl}/admin/upload/titleprincipals)', () => {
     it('should return with status 201', (done) => {
-        chai.request(app)
+        request(app)
         .post("/ntuaflix_api/admin/upload/titleprincipals")
         .set('X-OBSERVATORY-AUTH', token)
         .attach('file', './test/testing_tsvs/truncated_title.principals_10_rows.tsv')
@@ -249,9 +249,9 @@ describe('Test admin import title principals (POST {baseurl}/admin/upload/titlep
 });
 
 let responseTitleEpisode;
-describe('Test admin import title episode (POST {baseurl}/admin/upload/titleepisode)', () => {
+describe('ADMIN IMPORT Title Episode (POST {baseurl}/admin/upload/titleepisode)', () => {
     it('should return with status 201', (done) => {
-        chai.request(app)
+        request(app)
         .post("/ntuaflix_api/admin/upload/titleepisode")
         .set('X-OBSERVATORY-AUTH', token)
         .attach('file', './test/testing_tsvs/truncated_title.episode_10_rows.tsv')
@@ -278,9 +278,9 @@ describe('Test admin import title episode (POST {baseurl}/admin/upload/titleepis
 });
 
 let responseTitleRatings;
-describe('Test admin import title ratings (POST {baseurl}/admin/upload/titleratings)', () => {
+describe('ADMIN IMPORT Title Basics (POST {baseurl}/admin/upload/titleratings)', () => {
     it('should return with status 201', (done) => {
-        chai.request(app)
+        request(app)
         .post("/ntuaflix_api/admin/upload/titleratings")
         .set('X-OBSERVATORY-AUTH', token)
         .attach('file', './test/testing_tsvs/truncated_title.ratings_10_rows.tsv')
@@ -307,13 +307,13 @@ describe('Test admin import title ratings (POST {baseurl}/admin/upload/titlerati
 
 
 
-describe('Test admin reset database (POST {baseurl}/admin/resetall)', () => {
+describe('ADMIN RESET DATABASE (POST {baseurl}/admin/resetall)', () => {
     let responseResetStatus;
 
     it('should return with status 201', function(done) {
-        this.timeout(10000); // Set the timeout to 10 seconds
+        //this.timeout(10000); // Set the timeout to 10 seconds
 
-        chai.request(app)
+        request(app)
         .post("/ntuaflix_api/auth/login")
         .send({
             username: "testadmin",
@@ -325,7 +325,7 @@ describe('Test admin reset database (POST {baseurl}/admin/resetall)', () => {
             .post("/ntuaflix_api/admin/resetall")
             .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
-                console.log('Response:', res.status, res.body);
+                //console.log('Response:', res.status, res.body);
                 responseResetStatus = res.body.status;
                 expect(res.status).to.equal(201); // Update the expected status code if needed
                 done();

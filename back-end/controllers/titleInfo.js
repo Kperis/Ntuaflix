@@ -44,7 +44,7 @@ exports.getListsInfo = async (req, res) => {
                     return res.status(500).json({ error: 'Internal server error' });
                 }
                 
-                console.log(results[0].isFavorite);
+                //console.log(results[0].isFavorite);
                 const favoriteResult = results[0].isFavorite;
                 const watchlistResult = results[0].isWatchlist;
                 const isFavorite = favoriteResult === 1;

@@ -55,12 +55,12 @@ new_user_wronglogin = {
 
 
 // TEST FOR WRONG ENDPOINT
-describe('Wrong Endpoint', () => {
+describe('WRONG ENDPOINT', () => {
     it('should return 404', (done) => {
         request(app)
             .get('/wrongendpoint')
             .end((err, res) => {
-                console.log('Response:', res.status, res.body);
+                //console.log('Response:', res.status, res.body);
                 expect(res.status).to.equal(404); // Update the expected status code if needed
                 done();
             });
@@ -68,7 +68,7 @@ describe('Wrong Endpoint', () => {
 });
 
 // TEST FOR [POST]/auth/register
-describe('Register', () => {
+describe('REGISTER', () => {
     // Register a new user
     it('should register a new user if not existed', (done) => {
         request(app)
@@ -117,7 +117,7 @@ describe('Register', () => {
 });
 
 // TEST FOR [POST]/auth/login
-describe('Login',() =>{
+describe('LOGIN',() =>{
     // Login with a user that exist
     it('should login a user', (done) => {
         request(app)
@@ -144,7 +144,7 @@ describe('Login',() =>{
 });
 
 // TEST FOR [POST]/auth/logout
-describe('Logout',() =>{
+describe('LOGOUT',() =>{
     // Logout a user
     it('should logout a user', (done) => {
         request(app)
@@ -168,7 +168,7 @@ describe('Logout',() =>{
             .get('/ntuaflix_api/home')
             .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
-                console.log('Response:', res.status, res.body);
+                //console.log('Response:', res.status, res.body);
                 expect(res.status).to.equal(401); // Update the expected status code if needed
                 expect(res.body.message).to.equal('You are logged out. Try logging in'); // Update the expected message if needed
                 done();

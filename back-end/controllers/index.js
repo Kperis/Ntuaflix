@@ -31,7 +31,7 @@ exports.getHome = (req, res, next) => {
                 res.status(204); // nothing to return
                 return;
             }
-            console.log('titleIDs:', titleIDs);
+            //console.log('titleIDs:', titleIDs);
             const getTitleObjects = async () => {
                 for (const titleID of titleIDs) {
                     try {

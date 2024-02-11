@@ -31,7 +31,7 @@ exports.getName = async (req, res, next) => {
         res.status(200).json(nameObject);
     })
     .catch((error) => {
-        console.error(error);
+        //console.error(error);
         res.status(error.status).json({ message: error.message });
     });
     //console.log(nameID);

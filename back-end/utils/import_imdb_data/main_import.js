@@ -41,7 +41,7 @@ async function main() {
     // Set up the database connection and other common information
     pool = await setupDatabase();
 
-    console.log(chalk.yellow('Filling Database with TSV files...')); 
+    console.log(chalk.yellow('Filling Database with TSV files (Might take a while) ...')); 
     // Run specific functionality for adding TSV files to tables
     console.log(chalk.yellow('Title object...'));
     await addTsvToTitleObject(pool,N);

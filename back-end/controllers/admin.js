@@ -51,16 +51,33 @@ exports.uploadTitleBasics = (req, res) => {
 
             const values_for_TitleObject = [rows[i][0], rows[i][1], rows[i][2], rows[i][3], rows[i][4], rows[i][5], rows[i][6], rows[i][7], rows[i][9]];
 
+            for (let k = 5; k < values_for_TitleObject.length-1; k++) {
+                const stringValue = values_for_TitleObject[k];
+                const intValue = parseInt(stringValue, 10);
+
+                if (!isNaN(intValue)) {
+                    // Handle the case where the string can be converted to an int
+                    //console.log(`${stringValue} can be converted to int: ${intValue}`);
+                } else {
+                    // Handle the case where the string cannot be converted to an int
+                    //console.log(`${stringValue} cannot be converted to int`);
+                    values_for_TitleObject[k] = '0';
+                }
+            }
+
+
             pool.getConnection((err, connection) => {
                 if (err) {
                     //console.error('Error getting connection:', err);
-                    return res.status(500).json({ error: 'Internal Server Error' });
+                    //return res.status(500).json({ error: 'Internal Server Error' });
+                    throw err;
                 }
 
-                connection.query(insertQuery_TitleObject,values_for_TitleObject, (error, results) => {
+                connection.query(insertQuery_TitleObject, values_for_TitleObject, (error, results) => {
                     if (error) {
-                        return res.status(500).json({ error: 'Error executing query' });
+                        //return res.status(500).json({ error: 'Error executing query' });
                         //console.error('Error executing query');
+                        throw error;
                     }
                 });
                 try{
@@ -70,14 +87,15 @@ exports.uploadTitleBasics = (req, res) => {
                         
                         connection.query(insertQuery_Genres, values_for_Genres, (error, results) => {
                             if (error) {
-                                return res.status(500).json({ error: 'Error executing query' });
+                                //return res.status(500).json({ error: 'Error executing query' });
                                 //console.error('Error executing query');
+                                throw error;
                             }
                         });
                     }
                 } catch (error) {
                     connection.release();
-                    return res.status(500).json({ error: 'Internal Server Error' });
+                    //return res.status(500).json({ error: 'Internal Server Error' });
                 }
                 connection.release();
             });
@@ -116,7 +134,7 @@ exports.uploadTitleAkas = (req, res) => {
                     //connection.release();
         
                     if (error) {
-                        return res.status(500).json({ error: 'Error executing query' });
+                        //return res.status(500).json({ error: 'Error executing query' });
                         
                     }
                     const akas_id = results.insertId;   
@@ -129,7 +147,7 @@ exports.uploadTitleAkas = (req, res) => {
         
                             connection.query(insertQuery_types, values_for_Types, (error, results) => {
                                 if (error) {
-                                    return res.status(500).json({ error: 'Error executing query' });
+                                    // return res.status(500).json({ error: 'Error executing query' });
                                 }
                             });
                         }
@@ -139,14 +157,15 @@ exports.uploadTitleAkas = (req, res) => {
         
                             connection.query(insertQuery_attributes, values_for_attributes, (error, results) => {
                                 if (error) {
-                                    return res.status(500).json({ error: 'Error executing query' });
+                                    // return res.status(500).json({ error: 'Error executing query' });
                                 }
                             });
                         }
                         connection.release();
                     } catch (error) {
                         
-                        return res.status(500).json({ error: 'Internal Server Error' });
+                        //return res.status(500).json({ error: 'Internal Server Error' });
+                        console.error('Error executing query'+error);
                     }
                 });
             });
@@ -185,7 +204,7 @@ exports.uploadNameBasics = (req, res) => {
 
                 connection.query(insertQuery_Contributors,values_for_Contributors, (error, results) => {
                     if (error) {
-                        return res.status(500).json({ error: 'Error executing query' });
+                        // return res.status(500).json({ error: 'Error executing query' });
                     }
                 
                     try{
@@ -196,7 +215,7 @@ exports.uploadNameBasics = (req, res) => {
                             
                             connection.query(insertQuery_Professions, values_for_pri_prof, (error, results) => {
                                 if (error) {
-                                    return res.status(500).json({ error: 'Internal Server Error' });
+                                    //return res.status(500).json({ error: 'Internal Server Error' });
                                 }
                             });
                         }
@@ -205,12 +224,13 @@ exports.uploadNameBasics = (req, res) => {
                             
                             connection.query(insertQuery_KnownForTitles, values_for_known_for, (error, results) => {
                                 if (error) {
-                                    return res.status(500).json({ error: 'Internal Server Error' });
+                                    //return res.status(500).json({ error: 'Internal Server Error' });
                                 }
                             });
                         }
                     } catch (error) {
-                        return res.status(500).json({ error: 'Internal Server Error' });
+                        // return res.status(500).json({ error: 'Internal Server Error' });
+                        console.error('Error executing query'+error);
                     }
                 });
                 connection.release();
@@ -251,7 +271,7 @@ exports.uploadTitlePrincipals = (req, res) => {
 
                 connection.query(insertQuery_Works,values_for_Works, (error, results) => {
                     if (error) {
-                        return res.status(500).json({ error: 'Error executing query' });
+                        //return res.status(500).json({ error: 'Error executing query' });
                     }
                 
                 });
@@ -292,7 +312,7 @@ exports.uploadTitleEpisode = (req, res) => {
 
                 connection.query(insertQuery_Episodes,values_for_episodes, (error, results) => {
                     if (error) {
-                        return res.status(500).json({ error: 'Error executing query' });
+                        //return res.status(500).json({ error: 'Error executing query' });
                     }
                 
                 });
@@ -335,7 +355,7 @@ exports.uploadTitleRatings = (req, res) => {
 
                 connection.query(insertQuery_Ratings,values_for_ratings, (error, results) => {
                     if (error) {
-                        return res.status(500).json({ error: 'Error executing query' });
+                        //return res.status(500).json({ error: 'Error executing query' });
                     }
                 
                 });

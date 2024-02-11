@@ -62,7 +62,7 @@ exports.deleteFromFavorites = async (req, res) => {
 
     // Check if titleID exists in TitleObject table
     const checkTitleQuery = `SELECT * FROM TitleObject WHERE movie_id = '${titleID}'`;
-    pool.query(checkTitleQuery, (err, titleResults) => {
+    await pool.query(checkTitleQuery, async (err, titleResults) => {
         if (err) {
             console.error('Error executing query:', err);
             res.sendStatus(500);
@@ -77,7 +77,7 @@ exports.deleteFromFavorites = async (req, res) => {
 
         // Check if titleID is in the Favorite list of the user
         const checkFavoriteQuery = `SELECT * FROM Favorites_list WHERE user_id = ${userID} AND movie_id = '${titleID}'`;
-        pool.query(checkFavoriteQuery, (err, favoriteResults) => {
+        await pool.query(checkFavoriteQuery, async (err, favoriteResults) => {
             if (err) {
                 console.error('Error executing query:', err);
                 res.sendStatus(500);
@@ -86,20 +86,20 @@ exports.deleteFromFavorites = async (req, res) => {
 
             if (favoriteResults.length === 0) {
                 // titleID is not in the Favorite list of the user
-                res.status(204);
+                res.status(404).json({message:"Title not in favorites"});
                 return;
             }
 
             // Delete titleID from Favorites_list
             const deleteFavoriteQuery = `DELETE FROM Favorites_list WHERE user_id = ${userID} AND movie_id = '${titleID}'`;
-            pool.query(deleteFavoriteQuery, (err) => {
+            await pool.query(deleteFavoriteQuery, (err) => {
                 if (err) {
                     console.error('Error executing query:', err);
                     res.sendStatus(500);
                     return;
                 }
             
-                res.status(204); //deletion completed, no data to return , it works, ok!!
+                res.status(204).json({message:"Title deleted from favorites"}); 
             });
         });
     });
@@ -121,7 +121,7 @@ exports.getFavorites = async (req, res) => {
                 res.sendStatus(500);
                 return;
             }
-            console.log("Results from Favorites: "+results.length);
+            //console.log("Results from Favorites: "+results.length);
             const titleIDs = results.map(result => result.titleID);
             const titleObjects = [];
             if (titleIDs.length === 0) {
@@ -257,7 +257,7 @@ exports.deleteFromWatchlist = async (req, res) => {
 
     // Check if titleID exists in TitleObject table
     const checkTitleQuery = `SELECT * FROM TitleObject WHERE movie_id = '${titleID}'`;
-    pool.query(checkTitleQuery, (err, titleResults) => {
+    await pool.query(checkTitleQuery, async (err, titleResults) => {
         if (err) {
             console.error('Error executing query:', err);
             res.sendStatus(500);
@@ -266,13 +266,13 @@ exports.deleteFromWatchlist = async (req, res) => {
 
         if (titleResults.length === 0) {
             // titleID does not exist in TitleObject table
-            res.status(204);
+            res.status(404).json({ message: 'Title not found' });
             return;
         }
 
         // Check if titleID is in the Favorite list of the user
         const checkWatchlistQuery = `SELECT * FROM Watchlist WHERE user_id = ${userID} AND movie_id = '${titleID}'`;
-        pool.query(checkWatchlistQuery, (err, watchlistResults) => {
+        await pool.query(checkWatchlistQuery, async (err, watchlistResults) => {
             if (err) {
                 console.error('Error executing query:', err);
                 res.sendStatus(500);
@@ -281,20 +281,20 @@ exports.deleteFromWatchlist = async (req, res) => {
 
             if (watchlistResults.length === 0) {
                 // titleID is not in the Favorite list of the user
-                res.status(404);
+                res.status(404).json({message:"Title not in watchlist"});
                 return;
             }
 
             // Delete titleID from Favorites_list
             const deleteWatchlistQuery = `DELETE FROM Watchlist WHERE user_id = ${userID} AND movie_id = '${titleID}'`;
-            pool.query(deleteWatchlistQuery, (err) => {
+            await pool.query(deleteWatchlistQuery, (err) => {
                 if (err) {
                     console.error('Error executing query:', err);
                     res.sendStatus(500);
                     return;
                 }
 
-                res.status(204);// it works, ok!!
+                res.status(204).json({message:"Title deleted from watchlist"});
             });
         });
     });

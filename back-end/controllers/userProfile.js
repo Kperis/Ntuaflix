@@ -34,7 +34,7 @@ exports.getUserInfo = (req, res, next) => {
             }
 
             const userInfo = results[0];
-            console.log(userInfo);
+            //console.log(userInfo);
             return res.status(200).json(userInfo);
         });
     });

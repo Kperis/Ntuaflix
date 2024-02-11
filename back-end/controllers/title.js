@@ -17,7 +17,7 @@ exports.getTitle = (req, res, next) => {
     let titleID = req.params.titleID;
     // Testing of getting the user ID from the token
     let userID = req.user.userId;
-    console.log("User ID is:" + userID); 
+    //console.log("User ID is:" + userID); 
     // WORIKING!!!!!
 
     if (titleID.startsWith(':')) {
@@ -37,8 +37,8 @@ exports.getTitle = (req, res, next) => {
         return res.status(200).json(titleObject);
     })
     .catch((error) => {
-        console.error(error);
+        //console.error(error);
         res.status(error.status).json({ message: error.message });
     });
-    console.log(titleID);
+    //console.log(titleID);
 };

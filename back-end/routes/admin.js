@@ -13,7 +13,7 @@ router.use(isAdmin); // If the user is not an admin, the middleware will return 
 
 router.get('/', adminController.getIndex);
 router.get('/healthcheck', adminController.getHealthcheck);
-router.get('/users/:username', adminController.readUser);//////needs fixing
+router.get('/users/:username', adminController.readUser);
 router.post('/upload/titlebasics', upload.single('file'), adminController.uploadTitleBasics);
 router.post('/upload/titleakas', upload.single('file'), adminController.uploadTitleAkas);
 router.post('/upload/namebasics', upload.single('file'), adminController.uploadNameBasics);
