@@ -10,13 +10,14 @@ CREATE TABLE IF NOT EXISTS Users (
     birthdate DATE NOT NULL,
     email VARCHAR(255) NOT NULL,
     role ENUM('simple_user', 'admin') DEFAULT 'simple_user',
+    favorite_genre VARCHAR(255) DEFAULT NULL,
     PRIMARY KEY (user_id)
 );
 
 -- create a table Authentication whith attributes auth_id(primary key),password,username and add to the User table a foreign key auth_id to Authentication
 CREATE TABLE IF NOT EXISTS Authentication (
     user_id INT NOT NULL,
-    password VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL ,
     username VARCHAR(255) NOT NULL UNIQUE,
     PRIMARY KEY (user_id),
     CONSTRAINT fk_user_id_auth_id
@@ -26,14 +27,21 @@ CREATE TABLE IF NOT EXISTS Authentication (
         ON DELETE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS TokenBlacklist (
+    token VARCHAR(255) NOT NULL,
+    expiration_date DATETIME NOT NULL,
+    PRIMARY KEY (token)
+);
+
+
 -- Insert Admin
---INSERT INTO Users (first_name, last_name, birthdate, email, role) VALUES ('adminFN', 'adminLN', '1990-01-01', 'admin@example.com', 'admin');
---INSERT INTO Authentication (user_id, password, username) VALUES (1, '$2a$08$NRJ0rUt2NnGosoWtgu3vyuSZQDZhRcGNBOmhuBpthqLsb8efR2rjS', 'admin');
+INSERT INTO Users (first_name, last_name, birthdate, email, role) VALUES ('adminFN', 'adminLN', '1990-01-01', 'admin@example.com', 'admin');
+INSERT INTO Authentication (user_id, password, username) VALUES (1, '$2a$08$NRJ0rUt2NnGosoWtgu3vyuSZQDZhRcGNBOmhuBpthqLsb8efR2rjS', 'admin');
 -- passw = 1234
 
 -- Insert Simple User
 INSERT INTO Users (first_name, last_name, birthdate, email, role) VALUES ('userFN', 'userLN', '1990-01-01', 'user@example.com', 'simple_user');
-INSERT INTO Authentication (user_id, password, username) VALUES (1, '$2a$08$NRJ0rUt2NnGosoWtgu3vyuSZQDZhRcGNBOmhuBpthqLsb8efR2rjS', 'user');
+INSERT INTO Authentication (user_id, password, username) VALUES (2, '$2a$08$NRJ0rUt2NnGosoWtgu3vyuSZQDZhRcGNBOmhuBpthqLsb8efR2rjS', 'user');
 -- passw = 1234
 
 
@@ -179,6 +187,7 @@ CREATE TABLE IF NOT EXISTS Works (
 );
 
 -- create table Known_for whith attributes contributor_id(primary key and foreign key to Contributors(contributor_id)) and movie_id(foreign key to TitleObject(movie_id))
+
 CREATE TABLE IF NOT EXISTS Known_for (
     contributor_id VARCHAR(20) NOT NULL,
     movie_id VARCHAR(20) NOT NULL,
@@ -187,12 +196,12 @@ CREATE TABLE IF NOT EXISTS Known_for (
         FOREIGN KEY (contributor_id) 
         REFERENCES Contributors(contributor_id)
         ON UPDATE RESTRICT
-        ON DELETE CASCADE,
-    CONSTRAINT fk_movie_id_known_for
+        ON DELETE CASCADE
+    /* CONSTRAINT fk_movie_id_known_for
         FOREIGN KEY (movie_id) 
         REFERENCES TitleObject(movie_id)
         ON UPDATE RESTRICT
-        ON DELETE CASCADE
+        ON DELETE CASCADE */ 
 );
 
 -- create table Watchlist whith attributes user_id(primary key and foreign key to Users(user_id)) and movie_id(foreign key to TitleObject(movie_id))
@@ -228,3 +237,12 @@ CREATE TABLE IF NOT EXISTS Favorites_list (
         ON UPDATE RESTRICT
         ON DELETE CASCADE
 );
+
+-- When expiration time passes the token is deleted from the table
+DELIMITER $$
+CREATE EVENT IF NOT EXISTS deleteExpiredTokens
+ON SCHEDULE EVERY 1 DAY
+DO
+    DELETE FROM TokenBlacklist WHERE expiration_date < NOW();
+$$
+DELIMITER ;

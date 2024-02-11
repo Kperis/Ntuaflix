@@ -52,13 +52,23 @@ exports.getByGenre = async (req, res, next) => {
                 //console.log(results);
                 const titles = [];
                 if (results.length === 0) {
-                    res.status(204).json({ message : "No data" }); // No data
+                    res.status(404).json({ message : "No data" }); // No data
                     connection.release();
                     return;
                 }
                 for (let i = 0; i < results.length; i++) {
                     const title = await getTitleObject(results[i].titleID);
                     titles.push(title);
+                }
+                if (req.query.format === 'csv') {
+                    let csv = 'titleID,titleName,releaseYear,runtimeMinutes,averageRating,numVotes\n';
+                    for (let i = 0; i < titles.length; i++) {
+                        csv += titles[i].titleID + ',' + titles[i].titleName + ',' + titles[i].releaseYear + ',' + titles[i].runtimeMinutes + ',' + titles[i].averageRating + ',' + titles[i].numVotes + '\n';
+                    }
+                    res.set('Content-Type', 'text/csv; charset=utf-8');
+                    res.status(200).send(csv);
+                    connection.release();
+                    return;
                 }
                 res.status(200).json(titles); // Everything OK
                 // Καθώς θέλω να επιστρέψω μια λίστα και όχι ενα json που περιέχει μια λιστα!!

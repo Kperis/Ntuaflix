@@ -8,20 +8,46 @@ chai.use(chaiHttp);
 
 // Variables
 let token;
-let response;
 let titleID_correct = 'tt123456';
 let titleID_wrong = 'tt0000002';
 let titlePart_correct = 'Existing';
 let titlePart_wrong = 'Avatar';
 let genre_correct = 'Action';
 let genre_wrong = 'Drama';
+
 // The database contains the following title:
 // tt123456 - Existing Original Title - Action
+// The database contains the following user:
+// testuser - 1234
 
+// Home
+// TEST FOR [GET]/home
+describe('HOME', () => {
+    it('should return 200 OK and some random titles from the database', (done) => {
+        request(app)
+        .post('/ntuaflix_api/auth/login')
+        .send({
+            username: "testuser",
+            password: "1234"
+        })
+        .end((err, res) => {
+            token = res.body.token;
+            request(app)
+            .get('/ntuaflix_api/home')
+            .set('X-OBSERVATORY-AUTH', token)
+            .end((err, res) => {
+                //console.log('Response:', res.status, res.body);
+                expect(res.status).to.equal(200); 
+                expect(res.body).to.be.an('array');
+                done();
+            });
+        });
+    });
+});
 
 // Titles
 // TEST FOR [GET]/title/:titleID
-describe('title', () => {
+describe('TITLE', () => {
     it('should return the title with the given titleID', (done) => {
         request(app)
         .post('/ntuaflix_api/auth/login')
@@ -33,7 +59,7 @@ describe('title', () => {
             token = res.body.token;
             request(app)
             .get('/ntuaflix_api/title/:' + titleID_correct)
-            .set('Authorization', 'Bearer ' + token)
+            .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
                 //console.log('Response:', res.status, res.body);
                 expect(res.status).to.equal(200); 
@@ -52,7 +78,27 @@ describe('title', () => {
             });
         })
     });
-    it('should return 204 if the titleID is not valid', (done) => {
+    it('should return 200 and a csv if the format is csv', (done) => {
+        request(app)
+        .post('/ntuaflix_api/auth/login')
+        .send({
+            username: "testuser",
+            password: "1234"
+        })
+        .end((err, res) => {
+            token = res.body.token;
+            request(app)
+            .get('/ntuaflix_api/title/:' + titleID_correct + '?format=csv')
+            .set('X-OBSERVATORY-AUTH', token)
+            .end((err, res) => {
+                //console.log('Response:', res.status, res.body);
+                expect(res.status).to.equal(200);
+                expect(res.header['content-type']).to.equal('text/csv; charset=utf-8');
+                done();
+            });
+        })
+    });
+    it('should return 404 if the titleID is not found', (done) => {
         request(app)
         .post('/ntuaflix_api/auth/login')
         .send({
@@ -63,15 +109,15 @@ describe('title', () => {
             token = res.body.token;
             request(app)
             .get('/ntuaflix_api/title/:' + titleID_wrong)
-            .set('Authorization', 'Bearer ' + token)
+            .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
                 //console.log('Response:', res.status, res.body);
-                expect(res.status).to.equal(204);
+                expect(res.status).to.equal(404);
                 done();
             });
         })
     });
-    it('should return 400 if the titleID is missing', (done) => {
+    it('should return 404 if the titleID is missing (endpoint needs titleID)', (done) => {
         request(app)
         .post('/ntuaflix_api/auth/login')
         .send({
@@ -82,10 +128,10 @@ describe('title', () => {
             token = res.body.token;
             request(app)
             .get('/ntuaflix_api/title/')
-            .set('Authorization', 'Bearer ' + token)
+            .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
                 //console.log('Response:', res.status, res.body);
-                expect(res.status).to.equal(400); 
+                expect(res.status).to.equal(404); 
                 done();
             });
         })
@@ -93,7 +139,7 @@ describe('title', () => {
 })
 
 // TEST FOR [GET]/searchtitle
-describe('searchtitle', () => {
+describe('SEARCHTITLE', () => {
     it('should return the titles with the given titlePart', (done) => {
         request(app)
         .post('/ntuaflix_api/auth/login')
@@ -105,7 +151,7 @@ describe('searchtitle', () => {
             token = res.body.token;
             request(app)
             .get('/ntuaflix_api/searchtitle')
-            .set('Authorization', 'Bearer ' + token)
+            .set('X-OBSERVATORY-AUTH', token)
             .send({
                 titlePart: titlePart_correct
             })
@@ -119,7 +165,7 @@ describe('searchtitle', () => {
             });
         })
     });
-    it('should return 204 if the titlePart is not valid', (done) => {
+    it('should return 404 if the titlePart is not found', (done) => {
         request(app)
         .post('/ntuaflix_api/auth/login')
         .send({
@@ -130,13 +176,13 @@ describe('searchtitle', () => {
             token = res.body.token;
             request(app)
             .get('/ntuaflix_api/searchtitle')
-            .set('Authorization', 'Bearer ' + token)
+            .set('X-OBSERVATORY-AUTH', token)
             .send({
                 titlePart: titlePart_wrong
             })
             .end((err, res) => {
                 //console.log('Response:', res.status, res.body);
-                expect(res.status).to.equal(204); 
+                expect(res.status).to.equal(404); 
                 done();
             });
         })
@@ -144,7 +190,7 @@ describe('searchtitle', () => {
 });
 
 // TEST FOR [GET]/bygenre
-describe('bygenre', () => {
+describe('BYGENRE', () => {
     it('should return the titles with the given genre', (done) => {
         request(app)
         .post('/ntuaflix_api/auth/login')
@@ -156,7 +202,7 @@ describe('bygenre', () => {
             token = res.body.token;
             request(app)
             .get('/ntuaflix_api/bygenre')
-            .set('Authorization', 'Bearer ' + token)
+            .set('X-OBSERVATORY-AUTH', token)
             .send({
                 qgenre: genre_correct,
                 minrating: 5
@@ -168,7 +214,31 @@ describe('bygenre', () => {
             });
         })
     });
-    it('should return 204 if the genre is not valid', (done) => {
+    it('should return 200 and a csv if the genre is valid and the format is csv', (done) => {
+        request(app)
+        .post('/ntuaflix_api/auth/login')
+        .send({
+            username: "testuser",
+            password: "1234"
+        })
+        .end((err, res) => {
+            token = res.body.token;
+            request(app)
+            .get('/ntuaflix_api/bygenre?format=csv')
+            .set('X-OBSERVATORY-AUTH', token)
+            .send({
+                qgenre: genre_correct,
+                minrating: 5,
+            })
+            .end((err, res) => {
+                //console.log('Response:', res.status, res.body);
+                expect(res.status).to.equal(200); 
+                expect(res.header['content-type']).to.equal('text/csv; charset=utf-8');
+                done();
+            });
+        })
+    });
+    it('should return 404 if the genre is not found', (done) => {
         request(app)
         .post('/ntuaflix_api/auth/login')
         .send({
@@ -179,14 +249,14 @@ describe('bygenre', () => {
             token = res.body.token;
             request(app)
             .get('/ntuaflix_api/bygenre')
-            .set('Authorization', 'Bearer ' + token)
+            .set('X-OBSERVATORY-AUTH', token)
             .send({
                 qgenre: genre_wrong,
                 minrating: 5
             })
             .end((err, res) => {
                 //console.log('Response:', res.status, res.body);
-                expect(res.status).to.equal(204); 
+                expect(res.status).to.equal(404); 
                 done();
             });
         })

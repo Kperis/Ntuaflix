@@ -1,5 +1,4 @@
-
-//const addTsvToTable2 = require('./addTsvToTable2');
+/* Import Functions */
 const addTsvToTitleObject = require('./addTsvToTitleObject');
 
 const addTsvToEpisode = require('./addTsvEpisode');
@@ -9,8 +8,9 @@ const addTsvToNameBasics = require('./addTsvNameBasics');
 const addTsvToPrincipals = require('./addTsvPrincipals');
 const addTsvToCrew = require('./addTsvCrew');
 
-//const mysql = require('mysql');
+/* Import Libraries */
 const mysql = require('mysql2/promise');
+const chalk = require('chalk');
 
 const database_name = 'ntuaflix';
 var N = true;
@@ -42,21 +42,24 @@ async function main() {
     // Set up the database connection and other common information
     pool = await setupDatabase();
 
+    console.log(chalk.yellow('Filling Database with TSV files (Might take a while) ...')); 
     // Run specific functionality for adding TSV files to tables
+    console.log(chalk.yellow('Title object...'));
     await addTsvToTitleObject(pool,N);
-    console.log('Done with title object');
+    console.log(chalk.yellow('Name basics...'));
     await addTsvToNameBasics(pool,N);
-    console.log('Done with name basics');
+    console.log(chalk.yellow('Αkas...'));
     await addTsvToAkas(pool,N);
-    console.log('Done with akas');
+    console.log(chalk.yellow('Episode...'));
     await addTsvToEpisode(pool,N);
-    console.log('Done with episode');
+    console.log(chalk.yellow('Ratings...'));
     await addTsvToRatings(pool,N);
-    console.log('Done with ratings');
+    console.log(chalk.yellow('Principals...'));
     await addTsvToPrincipals(pool,N);
-    console.log('Done with principals');
+    console.log(chalk.yellow('Crew...'));
     await addTsvToCrew(pool,N);
-    console.log('Done with crew');
+    console.log(chalk.green('Done with all TSV files! Database is ready! '));
+    console.log(chalk.green('You can now run the server with "npm start"!'));
 
     // await addTsvToTable2(pool);
   } catch (error) {

@@ -32,7 +32,7 @@ exports.getSearchTitle = (req, res, next) => {
             const titleObjects = [];
 
             if (titleIDs.length === 0) {
-                res.status(204).send(); // 204 response must not have a body
+                res.status(404).send(); 
                 return;
             }
 
@@ -47,8 +47,21 @@ exports.getSearchTitle = (req, res, next) => {
                         return;
                     }
                 }
+                if (req.query.format === 'csv') {
+                    try {
+                        const csv = json2csv(titleObjects);
+                        res.set('Content-Type', 'text/csv; charset=utf-8');
+                        res.status(200).send(csv);
+                        return;
+                    } catch (error) {
+                        console.error('Error converting to CSV:', error);
+                        res.sendStatus(500).json({message: 'Internal Server Error'});
+                        return;
+                    }
+                }
                 res.status(200).json(titleObjects);
                 // Καθώς θέλω να επιστρέψω μια λίστα και όχι ενα json που περιέχει μια λιστα!!
+                // 200 και οχι 201 (παρ'οτι post) γιατι δεν δημιουργουμε-ανανεωνουμε καποιο resource
             };
 
             getTitleObjects();

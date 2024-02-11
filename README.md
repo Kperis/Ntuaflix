@@ -1,20 +1,22 @@
 # SoftEng-Team 33
 
 ## Description
+**Software Engineering (7th semester) - ECE - NTUA 2023-2024**
+
 This project was conducted for the course of Software Engineering at the 2020-2021 Winter semester of the Electrical and Computer Engineering School at the National Technical University of Athens
 
 
-## Back-end
-[Go to Back-end](./back-end/README.md)
+## Contents
+- **[Documentation](./documentation/README.md)**
+- **[Server and REST-API](./back-end/README.md)**
+- **[CLI-client](./cli-client/README.md)**
+- **[Web-client(Front-end)](./front-end/README.md)**
 
-## Front-end
-[Go to Front-end](./front-end/README.md)
-
-## CLI-client
-For the implementation of the CLI-client we used:
-
-[Go to CLI-client](./cli/README.md)
-
+## Technologies Used
+- Back-end: NodeJS, Express
+- Database: MySQL
+- Front-end: React
+- CLI-client: NodeJS
 
 ## Users
 <!-- Add the users:INSERT INTO Users (first_name, last_name, birthdate, email, role) VALUES ('userFN', 'userLN', '1990-01-01', 'user@example.com', 'simple_user');

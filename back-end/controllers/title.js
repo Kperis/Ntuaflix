@@ -1,12 +1,7 @@
 
 const { getTitleObject } = require('../middlewares/getTitleObject');
 const { pool } = require('../utils/database');
-
-// Possible Status Codes:
-// 200 OK - OK
-// 400 Bad Request - OK
-// 404 Not Found - OK
-// 500 Internal Server Error - OK
+const json2csv = require('json2csv').parse;
 
 
 exports.getTitle = (req, res, next) => {
@@ -14,11 +9,15 @@ exports.getTitle = (req, res, next) => {
     if (Object.keys(req.params).length > 1) {
         return res.status(400).send('Bad Request');
     }
+    // Check if the titleID is empty
+    if (req.params.titleID === '') {
+        return res.status(400).send('Bad Request');
+    }
     
     let titleID = req.params.titleID;
     // Testing of getting the user ID from the token
     let userID = req.user.userId;
-    console.log("User ID is:" + userID); 
+    //console.log("User ID is:" + userID); 
     // WORIKING!!!!!
 
     if (titleID.startsWith(':')) {
@@ -28,11 +27,18 @@ exports.getTitle = (req, res, next) => {
     getTitleObject(titleID)
     .then((titleObject) => {
         //console.log(titleObject);
-        res.status(200).json(titleObject);
+        if(req.query.format === 'csv') {
+            const csvObject = json2csv(titleObject);
+            // res.setHeader('Content-disposition', 'attachment; filename=Title.csv');
+            res.set('Content-Type', 'text/csv; charset=utf-8');
+            res.status(200).send(csvObject);
+            return;
+        }
+        return res.status(200).json(titleObject);
     })
     .catch((error) => {
-        console.error(error);
+        //console.error(error);
         res.status(error.status).json({ message: error.message });
     });
-    console.log(titleID);
+    //console.log(titleID);
 };

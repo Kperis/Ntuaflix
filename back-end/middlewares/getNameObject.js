@@ -33,6 +33,8 @@ const getNameObject = async (nameID) => {
         connection = await new Promise((resolve, reject) => {
             pool.getConnection((error, connection) => {
                 if (error) {
+                    console.error('Error getting connection:', error);
+                    res.sendStatus(500);
                     reject(error);
                 }
                 resolve(connection);
@@ -42,6 +44,8 @@ const getNameObject = async (nameID) => {
         const nameInfo = await new Promise((resolve, reject) => {
             connection.query(sqlQuery_nameInfo, [nameID], (error, results) => {
                 if (error) {
+                    console.error('Error executing query:', error);
+                    res.sendStatus(500);
                     reject(error);
                 }
                 resolve(results[0]);
@@ -51,6 +55,8 @@ const getNameObject = async (nameID) => {
         const nameTitlesList = await new Promise((resolve, reject) => {
             connection.query(sqlQuery_nameTitlesList, [nameID], (error, results) => {
                 if (error) {
+                    console.error('Error executing query:', err);
+                    res.sendStatus(500);
                     reject(error);
                 }
                 resolve(results);
@@ -60,7 +66,7 @@ const getNameObject = async (nameID) => {
         // Check if the result is empty
         if (!nameInfo) {
             const error = new Error('Name not found');
-            error.status = 204;
+            error.status = 404;
             throw error;
         }
 
@@ -77,7 +83,7 @@ const getNameObject = async (nameID) => {
         return nameObject;
     } catch (error) {
         // Depending on the status code, throw the apropriate error
-        if (error.status === 204) {
+        if (error.status === 404) {
             throw error;
         } else {
             const newError = new Error('Internal Server Error');

@@ -16,7 +16,7 @@ let namePart_wrong = 'Tom Hanks';
 
 // Names
 // TEST FOR [GET]/name/:nameID
-describe('name', () => {
+describe('NAME', () => {
     it('should return the nameObject with the given nameID', (done) => {
         request(app)
         .post('/ntuaflix_api/auth/login')
@@ -28,7 +28,7 @@ describe('name', () => {
             token = res.body.token;
             request(app)
             .get('/ntuaflix_api/name/:' + nameID_correct)
-            .set('Authorization', 'Bearer ' + token)
+            .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
                 //console.log('Response:', res.status, res.body);
                 expect(res.status).to.equal(200);
@@ -44,7 +44,27 @@ describe('name', () => {
             });
         })
     });
-    it('should return 204 if the nameID is not valid', (done) => {
+    it('should return 200 and a csv if the format is csv', (done) => {
+        request(app)
+        .post('/ntuaflix_api/auth/login')
+        .send({
+            username: "testuser",
+            password: "1234"
+        })
+        .end((err, res) => {
+            token = res.body.token;
+            request(app)
+            .get('/ntuaflix_api/name/:' + nameID_correct + '?format=csv')
+            .set('X-OBSERVATORY-AUTH', token)
+            .end((err, res) => {
+                //console.log('Response:', res.status, res.body);
+                expect(res.status).to.equal(200);
+                expect(res.header['content-type']).to.equal('text/csv; charset=utf-8');
+                done();
+            });
+        })
+    });
+    it('should return 404 if the nameID is not found', (done) => {
         request(app)
         .post('/ntuaflix_api/auth/login')
         .send({
@@ -55,10 +75,29 @@ describe('name', () => {
             token = res.body.token;
             request(app)
             .get('/ntuaflix_api/name/:' + nameID_wrong)
-            .set('Authorization', 'Bearer ' + token)
+            .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
                 //console.log('Response:', res.status, res.body);
-                expect(res.status).to.equal(204);
+                expect(res.status).to.equal(404);
+                done();
+            });
+        })
+    });
+    it('should return 404 if the nameID is missing (endpoint needs nameID)', (done) => {
+        request(app)
+        .post('/ntuaflix_api/auth/login')
+        .send({
+            username: "testuser",
+            password: "1234"
+        })
+        .end((err, res) => {
+            token = res.body.token;
+            request(app)
+            .get('/ntuaflix_api/title/')
+            .set('X-OBSERVATORY-AUTH', token)
+            .end((err, res) => {
+                //console.log('Response:', res.status, res.body);
+                expect(res.status).to.equal(404); 
                 done();
             });
         })
@@ -66,7 +105,7 @@ describe('name', () => {
 });
 
 // TEST FOR [GET]/searchname
-describe('searchname', () => {
+describe('SEARCHNAME', () => {
     it('should return an array of nameObjects with the given namePart', (done) => {
         request(app)
         .post('/ntuaflix_api/auth/login')
@@ -78,7 +117,7 @@ describe('searchname', () => {
             token = res.body.token;
             request(app)
             .get('/ntuaflix_api/searchname')
-            .set('Authorization', 'Bearer ' + token)
+            .set('X-OBSERVATORY-AUTH', token)
             .send({
                 namePart: namePart_correct
             })
@@ -91,7 +130,7 @@ describe('searchname', () => {
             });
         })
     });
-    it('should return 204 if the namePart is not valid', (done) => {
+    it('should return 404 if the namePart is not found', (done) => {
         request(app)
         .post('/ntuaflix_api/auth/login')
         .send({
@@ -102,13 +141,13 @@ describe('searchname', () => {
             token = res.body.token;
             request(app)
             .get('/ntuaflix_api/searchname')
-            .set('Authorization', 'Bearer ' + token)
+            .set('X-OBSERVATORY-AUTH', token)
             .send({
                 namePart: namePart_wrong
             })
             .end((err, res) => {
                 //console.log('Response:', res.status, res.body);
-                expect(res.status).to.equal(204);
+                expect(res.status).to.equal(404);
                 done();
             });
         })

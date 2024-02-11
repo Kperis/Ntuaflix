@@ -2,7 +2,7 @@ const { pool } = require('../utils/database');
 
 exports.getUserInfo = (req, res, next) => {
     let userID = req.user.userId; // get the userID
-    SQLQuery = `
+    const SQLQuery = `
         SELECT
             Users.first_name AS firstname,
             Users.last_name AS lastname,
@@ -22,7 +22,7 @@ exports.getUserInfo = (req, res, next) => {
         }
 
         connection.query(SQLQuery, [userID], (err, results) => {
-            connection.release(); // Release the connection
+            connection.release(); 
 
             if (err) {
                 console.error(err);
@@ -30,10 +30,11 @@ exports.getUserInfo = (req, res, next) => {
             }
 
             if (results.length === 0) {
-                return res.status(404).json({ error: "User not found" });
+                return res.status(204);
             }
 
             const userInfo = results[0];
+            //console.log(userInfo);
             return res.status(200).json(userInfo);
         });
     });
