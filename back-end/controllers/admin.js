@@ -53,33 +53,15 @@ exports.uploadTitleBasics = (req, res) => {
 
             const values_for_TitleObject = [rows[i][0], rows[i][1], rows[i][2], rows[i][3], rows[i][4], rows[i][5], rows[i][6], rows[i][7], rows[i][9]];
 
-            for (let k = 5; k < values_for_TitleObject.length-1; k++) {
-                const stringValue = values_for_TitleObject[k];
-                const intValue = parseInt(stringValue, 10);
-
-                if (!isNaN(intValue)) {
-                    // Handle the case where the string can be converted to an int
-                    //console.log(`${stringValue} can be converted to int: ${intValue}`);
-                } else {
-                    // Handle the case where the string cannot be converted to an int
-                    //console.log(`${stringValue} cannot be converted to int`);
-                    values_for_TitleObject[k] = '0';
-                }
-            }
-
-
             pool.getConnection((err, connection) => {
                 if (err) {
                     //console.error('Error getting connection:', err);
-                    //return res.status(500).json({ error: 'Internal Server Error' });
-                    throw err;
+                    return res.status(500).json({ error: 'Internal Server Error' });
                 }
 
-                connection.query(insertQuery_TitleObject, values_for_TitleObject, (error, results) => {
+                connection.query(insertQuery_TitleObject,values_for_TitleObject, (error, results) => {
                     if (error) {
-                        //return res.status(500).json({ error: 'Error executing query' });
                         //console.error('Error executing query');
-                        throw error;
                     }
                 });
                 try{
@@ -89,15 +71,12 @@ exports.uploadTitleBasics = (req, res) => {
                         
                         connection.query(insertQuery_Genres, values_for_Genres, (error, results) => {
                             if (error) {
-                                //return res.status(500).json({ error: 'Error executing query' });
                                 //console.error('Error executing query');
-                                throw error;
                             }
                         });
                     }
                 } catch (error) {
-                    connection.release();
-                    //return res.status(500).json({ error: 'Internal Server Error' });
+                    //console.error("Error in genres");
                 }
                 connection.release();
             });
@@ -136,8 +115,8 @@ exports.uploadTitleAkas = (req, res) => {
                     //connection.release();
         
                     if (error) {
-                        //return res.status(500).json({ error: 'Error executing query' });
-                        
+                        //console.error('Error executing query:', error);
+                        return;  // return early if there's an error
                     }
                     const akas_id = results.insertId;   
                     try {
@@ -149,7 +128,7 @@ exports.uploadTitleAkas = (req, res) => {
         
                             connection.query(insertQuery_types, values_for_Types, (error, results) => {
                                 if (error) {
-                                    // return res.status(500).json({ error: 'Error executing query' });
+                                    //console.error('Error executing query:', error);
                                 }
                             });
                         }
@@ -159,15 +138,13 @@ exports.uploadTitleAkas = (req, res) => {
         
                             connection.query(insertQuery_attributes, values_for_attributes, (error, results) => {
                                 if (error) {
-                                    // return res.status(500).json({ error: 'Error executing query' });
+                                    //console.error('Error executing query:', error);
                                 }
                             });
                         }
                         connection.release();
                     } catch (error) {
-                        
-                        //return res.status(500).json({ error: 'Internal Server Error' });
-                        console.error('Error executing query'+error);
+                        //console.error("Error in genres:", error);
                     }
                 });
             });
@@ -438,7 +415,7 @@ exports.uploadTitleCrew = (req, res) => {
         fs.unlinkSync(tsvFilePath);
 
         // Send a response
-        res.status(200).json({ message: 'File uploaded and processed successfully.' });
+        res.status(201).json({ message: 'File uploaded and processed successfully.' });
     } catch (error) {
         res.status(500).json({ error: 'Internal Server Error' });
     }
@@ -496,12 +473,11 @@ exports.resetAll = (req, res) => {
     }
 };
 
-exports.readUser = (req, res, next) => {//needs fixing
-    let username = req.params.username;
-    if (username.startsWith(':')) {
-        username = username.substring(1);
-    }
-    const query = 'SELECT * FROM Users  INNER JOIN Authentication ON Users.user_id = Authentication.user_id WHERE Authentication.username = ?';
+exports.readUser = (req, res, next) => {
+    const username = req.params.username;
+    const query = 'SELECT * FROM Users\
+                INNER JOIN Authentication ON Users.user_id = Authentication.user_id\
+                WHERE Authentication.username = ?';
     pool.getConnection((err, connection) => {
         if (err) {
             console.error(err);
@@ -527,7 +503,6 @@ exports.readUser = (req, res, next) => {//needs fixing
                     birthdate: result[0].birthdate,
                     role: result[0].role,
                 };
-                console.log(userObject);
                 res.status(200).json(userObject);
             }
         });
@@ -538,8 +513,9 @@ exports.readUser = (req, res, next) => {//needs fixing
 // Inserts user with null characteristics. We need these characteristics for the second usecase!
 exports.usermod = (req, res, next) => {
     const username = req.params.username;
-    const password = req.body.password;
-
+    const password = req.params.password;
+    console.log(username);
+    console.log(password);
     if (!username || !password) {
         return res.status(400).json({ message: 'Invalid input' });
     }
@@ -548,49 +524,48 @@ exports.usermod = (req, res, next) => {
             console.error('Error getting connection:', err);
             return res.status(500).json({ message: 'Internal Server Error' });
         }
-        connection.query('SELECT user_id FROM Authentication WHERE username = ?', [username], async (error, results) => {
+        connection.query('Select username FROM Authentication WHERE username = ?', [username], async (error,results) => {
             if (error) {
                 connection.release();
                 console.error('Error executing query:', error);
                 return res.status(500).json({ message: 'Internal Server Error' });
             }
             if (results.length !== 0) {
-                // Username exists -> Change password
-                const userId = results[0].user_id;
-                let new_password_hashed = await bcrypt.hashSync(password, 8);
-                connection.query('UPDATE Authentication SET password = ? WHERE user_id = ?', [new_password_hashed, userId], (error, results) => {
-                    connection.release();
+                let hashedPassword = await bcrypt.hash(password, 8);
+                console.log(hashedPassword);
+                connection.query(`UPDATE Authentication\
+                SET password = ?\
+                WHERE username = ?;`,[hashedPassword,username],(error) =>{
                     if (error) {
-                        console.error('Error executing query:', error);
-                        return res.status(500).json({ message: 'Internal Server Error' });
+                        console.log(error);
+                        return res.status(500).json({ message: 'Internal Server Error 4' });
+                    }else{
+                        return res.status(200).json({ message: 'Password Updated'});
                     }
-                    res.status(200).json({ message: 'Password updated successfully' });
+                })
+            }
+            else{
+                let hashedPassword = await bcrypt.hash(password, 8);
+                [firstname, lastname, birthDate, email] = [null, null, null, null];
+                connection.query('INSERT INTO Users (first_name, last_name, birthdate, email) VALUES (?, ?, ?, ?)', [firstname, lastname, birthDate, email], (error, insertUserResults) => {
+                    if (error) {
+                        console.log(error);
+                        return res.status(500).json({ message: 'Internal Server Error 4' });
+                    } else { //need to change password to hashedpassword, havent completed yet hashing logic
+                        const userId = insertUserResults.insertId; // Get the auto-generated user_id
+                        console.log("User ID:", userId);
+                        connection.query('INSERT INTO Authentication (user_id, username, password) VALUES (?,?,?)', [userId, username, hashedPassword], (error, insertAuthResults) => {
+                            if (error) {
+                                console.log(error);
+                                return res.status(500).json({ message: 'Registration failed' });
+                            } else {
+                                console.log(insertAuthResults);
+                                return res.status(200).json({ message: 'Registration Completed. Please login'});
+                            }
+                        })                          
+                    }
                 });
             }
-            const userId = results[0].user_id;
-            // Username does not exist -> Create new user
-            // Insert into Authentication table
-            // Insert into Users table
-            let hashedPassword = await bcrypt.hash(password, 8);
-            [firstname, lastname, birthDate, email] = [null, null, null, null];
-            connection.query('INSERT INTO Users (first_name, last_name, birthdate, email) VALUES (?, ?, ?, ?)', [firstname, lastname, birthDate, email], (error, insertUserResults) => {
-                if (error) {
-                    console.log(error);
-                    return res.status(500).json({ message: 'Internal Server Error 4' });
-                } else { //need to change password to hashedpassword, havent completed yet hashing logic
-                    const userId = insertUserResults.insertId; // Get the auto-generated user_id
-                    console.log("User ID:", userId);
-                    connection.query('INSERT INTO Authentication (user_id, username, password) VALUES (?,?,?)', [userId, username, hashedPassword], (error, insertAuthResults) => {
-                        if (error) {
-                            console.log(error);
-                            return res.status(500).json({ message: 'Registration failed' });
-                        } else {
-                            console.log(insertAuthResults);
-                            return res.status(200).json({ message: 'Registration Completed. Please login'});
-                        }
-                    })                          
-                }
-            });
         });
     });
 };

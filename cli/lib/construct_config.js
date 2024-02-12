@@ -39,7 +39,7 @@ exports.configconstructor = (name,token,o,formdata) => {
             method : type.typegetter(name),
             url : url.urlconstructor(name),
             headers: {
-                'Authorization': 'Bearer ' + token,
+                'X-OBSERVATORY-AUTH': token,//'Authorization': 'Bearer ' + token,
                 ...(formdata ? formdata.getHeaders() : {}) // Handle null case for formdata//...formdata.getHeaders(),
             },
             data : formdata
@@ -51,7 +51,9 @@ exports.configconstructor = (name,token,o,formdata) => {
         var config = {
             method : type.typegetter(name),
             url : url.urlconstructor(name),
-            headers : { 'Authorization': 'Bearer ' + token },
+            headers : { 
+                'X-OBSERVATORY-AUTH': token,//'Authorization': 'Bearer ' + token 
+            },
             data : data_post
         }
         //console.log(config);
@@ -60,7 +62,9 @@ exports.configconstructor = (name,token,o,formdata) => {
         var config = {
             method : type.typegetter(name),
             url : url.urlconstructor(name,o),
-            headers : { 'Authorization': 'Bearer ' + token }
+            headers : { 
+                'X-OBSERVATORY-AUTH': token,//'Authorization': 'Bearer ' + token 
+            }
         }
         //console.log(config);
         return config;

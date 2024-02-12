@@ -21,17 +21,16 @@ exports.request_function =  (name,o,format) => {
                 // //httpsAgent: new https.Agent({ rejectUnauthorized: false })
             };
             config = configuration.configconstructor(name,data,o);
-
+            //console.log(config);
             //console.log(config);
             axios(config)
             .then(res => {  
-                //console.log(format);                  
                 const formattedData = formating.formatData(res.data,format);
                 console.log(formattedData);
-                //console.log(res.data);
             })
             .catch(err => {
-                errorHandler.generalerrors(err, 'User could not be created or modified!');
+                var error_name = errorHandler.errorhandler(err.response.status,name)
+                console.log(error_name);
             })
         }
     })

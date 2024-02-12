@@ -22,3 +22,22 @@ exports.generalerrors =  (err, customMessage) => {
     //(customMessage === undefined) ? console.log(chalk.red(errMessage)) : console.log(chalk.red(errMessage + '\n' + customMessage))
 
 }
+
+exports.errorhandler = (status,name) =>{
+    if(status === 404){
+        if(name == "title"){
+            return 'No title found';
+        }else if(name == "user"){
+            return 'User not found';
+        }else if (name == 'bygenre'){
+            return 'No data';
+        }else if( name == "name"){
+            return 'Name not found';
+        }else if(name == "bygenre"){
+            return  'No data';
+        }else if(name == "searchname"){
+            return 'No data';
+        }
+    }
+    return;
+}

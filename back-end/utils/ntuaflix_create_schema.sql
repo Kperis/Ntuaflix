@@ -5,10 +5,10 @@ USE ntuaflix;
 -- i want to create a table whth name users whith attributes for the moment first_name,last_name,birthdate,email,role,and an id
 CREATE TABLE IF NOT EXISTS Users (
     user_id INT NOT NULL AUTO_INCREMENT,
-    first_name VARCHAR(255) NOT NULL,
-    last_name VARCHAR(255) NOT NULL,
-    birthdate DATE NOT NULL,
-    email VARCHAR(255) NOT NULL,
+    first_name VARCHAR(255),
+    last_name VARCHAR(255),
+    birthdate DATE,
+    email VARCHAR(255),
     role ENUM('simple_user', 'admin') DEFAULT 'simple_user',
     favorite_genre VARCHAR(255) DEFAULT NULL,
     PRIMARY KEY (user_id)
