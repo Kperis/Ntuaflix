@@ -41,7 +41,7 @@ async function addTsvToPrincipals(pool,N) {
             console.log('Error in last row (blank row)');
             continue;
         }
-        console.error('Error inserting row:', error);
+        //console.error('Error inserting row:', error);
         // Close the database connection pool on error
         //pool.end();
         continue;

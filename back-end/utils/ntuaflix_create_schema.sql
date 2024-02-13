@@ -44,6 +44,11 @@ INSERT INTO Users (first_name, last_name, birthdate, email, role) VALUES ('userF
 INSERT INTO Authentication (user_id, password, username) VALUES (2, '$2a$08$NRJ0rUt2NnGosoWtgu3vyuSZQDZhRcGNBOmhuBpthqLsb8efR2rjS', 'user');
 -- passw = 1234
 
+-- Insert Simple User without profile
+INSERT INTO Users (first_name, last_name, birthdate, email, role) VALUES (NULL, NULL, NULL, NULL, 'simple_user');
+INSERT INTO Authentication (user_id, password, username) VALUES (3, '$2a$08$NRJ0rUt2NnGosoWtgu3vyuSZQDZhRcGNBOmhuBpthqLsb8efR2rjS', 'user2');
+-- passw = 1234
+
 
 -- create table TitleObject whit attributes movie_id,original_title,primary_title,start_year,end_year,is_adult,runtime_min,image_url,type
 CREATE TABLE IF NOT EXISTS TitleObject (

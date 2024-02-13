@@ -22,28 +22,51 @@ describe('REGISTER A NEW USER', () => {
     // [POST] /auth/register
     it('should register a new user if not existed', (done) => {
         request(app)
-            .post('/ntuaflix_api/auth/register')
+        .post('/ntuaflix_api/auth/login')
+        .send({
+            username: "testadmin",
+            password: "1234"
+        })
+        .end((err, res) => {
+            token = res.body.token;
+            request(app)
+            .post('/ntuaflix_api/admin/usermod/:'+ random_username + '/:' + random_password)
+            .set('X-OBSERVATORY-AUTH', token)
+            .end((err, res) => {
+                expect(res.status).to.equal(201);
+                done();
+            });
+        })
+    });
+});
+
+// Create user Profile
+describe('CREATE USER PROFILE', () => {
+    // [PUT] /createProfile
+    it('should return 201 if the user profile is created', (done) => {
+        request(app)
+        .post('/ntuaflix_api/auth/login')
+        .send({
+            username: random_username,
+            password: random_password
+        })
+        .end((err, res) => {
+            token = res.body.token;
+            request(app)
+            .put('/ntuaflix_api/user/createProfile')
+            .set('X-OBSERVATORY-AUTH', token)
             .send({
-                firstname: "testuserFF"+random,
-                lastname: "testuserLN"+random,
-                birthDate: "1990-05-15",
-                username: random_username,
-                email: "testuser"+random+"@example.com",
-                password: random_password
+                firstname: "Test"+ random,
+                lastname: "User"+ random,
+                birthDate: "1990-01-01",
+                email: "create" + random + "@test.com"
             })
             .end((err, res) => {
                 // console.log('Response:', res.status, res.body);
-                if (res.status === 400) {
-                    // User already exists in the database
-                    expect(res.status).to.equal(400);
-                    // Check if the error message is correct
-                    expect(res.body.message).to.equal('Email already in use');
-                } else {
-                    // User successfully registered
-                    expect(res.status).to.equal(201);
-                }
+                expect(res.status).to.equal(201);
                 done();
-            });
+            }
+        )})
     });
 });
 

@@ -8,10 +8,36 @@ program
   .version('0.0.1')
   .description('Your CLI Application')
   .action(() => {
-    console.log('Welcome to the CLI Application');
-    console.log('Type se2333 --help for a list of commands');
+    console.log('Welcome to the CLI Application of NTUAFlix!');
+    console.log('Type "se2333 help" for a list of commands');
   });
   
+program
+  .command('help')
+  .description('List all commands')
+  .action(() => {
+    console.log('The format of a command is: se2333 scope --param1 value1 [--param2 value2] --format fff');
+    console.log('List of commands:');
+    console.log('se2333 login --username [username] --password [password]');
+    console.log('se2333 title --titleID [titleid] --format [format]');
+    console.log('se2333 newtitles --filename [filepath]');
+    console.log('se2333 newakas --filename [filepath]');
+    console.log('se2333 newnames --filename [filepath]');
+    console.log('se2333 newcrew --filename [filepath]');
+    console.log('se2333 newepisode --filename [filepath]');
+    console.log('se2333 newprincipals --filename [filepath]');
+    console.log('se2333 newratings --filename [filepath]');
+    console.log('se2333 user --username [username] --format [format]');
+    console.log('se2333 name --nameid [nameid] --format [format]');
+    console.log('se2333 healthcheck --format [format]');
+    console.log('se2333 resetall');
+    console.log('se2333 searchtitle --titlepart [titlepart] --format [format]');
+    console.log('se2333 bygenre --genre [genre] --min [minrating] --from [yrFrom] --to [yrTo] --format [format]');
+    console.log('se2333 searchname --name [namepart] --format [format]');
+    console.log('se2333 adduser --username [username] --password [password] --format [format]');
+  });
+
+
 program
   .command('format')
   .description('Learn the format of a command')

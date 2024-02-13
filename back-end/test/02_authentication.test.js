@@ -37,6 +37,7 @@ describe('AUTHENTICATION MIDDLEWARE NOT PROVIDED', () => {
     });
 });
 
+let token;
 describe('AUTHENTICATION MIDDLEWARE VALID', () => {
     it('should return 200 if the token is valid', (done) => {
         request(app)
@@ -51,7 +52,7 @@ describe('AUTHENTICATION MIDDLEWARE VALID', () => {
             .get('/ntuaflix_api/title/:' + titleID_correct)
             .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
-                //console.log('Response:', res.status, res.body);
+                console.log('Response:', res.status, res.body);
                 expect(res.status).to.equal(200); 
                 done();
             });

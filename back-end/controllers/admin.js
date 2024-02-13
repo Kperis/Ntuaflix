@@ -474,7 +474,10 @@ exports.resetAll = (req, res) => {
 };
 
 exports.readUser = (req, res, next) => {
-    const username = req.params.username;
+    let username = req.params.username;
+    if (username.startsWith(':')) {
+        username = username.substring(1);
+    }
     const query = 'SELECT * FROM Users\
                 INNER JOIN Authentication ON Users.user_id = Authentication.user_id\
                 WHERE Authentication.username = ?';
@@ -512,13 +515,20 @@ exports.readUser = (req, res, next) => {
 
 // Inserts user with null characteristics. We need these characteristics for the second usecase!
 exports.usermod = (req, res, next) => {
-    const username = req.params.username;
-    const password = req.params.password;
-    console.log(username);
-    console.log(password);
+    let username = req.params.username;
+    let password = req.params.password;
     if (!username || !password) {
         return res.status(400).json({ message: 'Invalid input' });
     }
+    console.log(username);
+    console.log(password);
+    if (username.startsWith(':')) {
+        username = username.substring(1);
+    }
+    if (password.startsWith(':')) {
+        password = password.substring(1);
+    }
+
     pool.getConnection((err, connection) => {
         if (err) {
             console.error('Error getting connection:', err);
@@ -530,7 +540,7 @@ exports.usermod = (req, res, next) => {
                 console.error('Error executing query:', error);
                 return res.status(500).json({ message: 'Internal Server Error' });
             }
-            if (results.length !== 0) {
+            if (results.length !== 0) { // Username exists -> Change password
                 let hashedPassword = await bcrypt.hash(password, 8);
                 console.log(hashedPassword);
                 connection.query(`UPDATE Authentication\
@@ -540,11 +550,11 @@ exports.usermod = (req, res, next) => {
                         console.log(error);
                         return res.status(500).json({ message: 'Internal Server Error 4' });
                     }else{
-                        return res.status(200).json({ message: 'Password Updated'});
+                        return res.status(201).json({ message: 'Password Updated'});
                     }
                 })
             }
-            else{
+            else{ // Username does not exist -> Create new user
                 let hashedPassword = await bcrypt.hash(password, 8);
                 [firstname, lastname, birthDate, email] = [null, null, null, null];
                 connection.query('INSERT INTO Users (first_name, last_name, birthdate, email) VALUES (?, ?, ?, ?)', [firstname, lastname, birthDate, email], (error, insertUserResults) => {
@@ -560,7 +570,7 @@ exports.usermod = (req, res, next) => {
                                 return res.status(500).json({ message: 'Registration failed' });
                             } else {
                                 console.log(insertAuthResults);
-                                return res.status(200).json({ message: 'Registration Completed. Please login'});
+                                return res.status(201).json({ message: 'Registration Completed'});
                             }
                         })                          
                     }

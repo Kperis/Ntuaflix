@@ -5,6 +5,11 @@ exports.getByGenre = async (req, res, next) => {
     console.log("Request to get titles by genre");
     try {
         const { qgenre, minrating, yrFrom, yrTo } = req.body;
+
+        if (qgenre === undefined || minrating === undefined) {
+            res.status(400).json({ message: "Bad Request" });
+            return;
+        }
         
         // Optional fields check
         const yearFrom = yrFrom !== undefined ? yrFrom : null;

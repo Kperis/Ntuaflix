@@ -5,6 +5,7 @@ const chaiHttp = require('chai-http');
 const app = require('../app');
 const expect = chai.expect;
 const {pool} = require('../utils/database');
+const loadTest = require('../utils/import_imdb_data/importTestDatabase');
 
 chai.use(chaiHttp);
 
@@ -340,3 +341,16 @@ describe('ADMIN RESET DATABASE (POST {baseurl}/admin/resetall)', () => {
     });
 });
 
+// Finish testing!
+after(async ()=> {
+    // Run loadTestData to load the test data again
+    await loadTest();
+    pool.end((err) => {
+        if (err) {
+            console.error('Error ending the pool', err);
+        } else {
+            console.log('Testing has ended');
+
+        }
+    });
+});

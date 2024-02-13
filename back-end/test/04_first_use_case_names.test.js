@@ -10,7 +10,7 @@ chai.use(chaiHttp);
 let token;
 let response;
 let nameID_correct = 'nm987654';
-let nameID_wrong = 'nm0000002';
+let nameID_wrong = 'nm1030506002';
 let namePart_correct = 'Contributor';
 let namePart_wrong = 'Tom Hanks';
 

@@ -43,7 +43,7 @@ async function addTsvToCrew(pool,N) {
         }
 
         } catch (error) {
-        console.error('Error inserting row:', error);
+        //console.error('Error inserting row:', error);
         continue;
         }
     }

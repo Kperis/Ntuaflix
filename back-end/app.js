@@ -50,8 +50,8 @@ const userRoutes = require('./routes/user');
 
 
 /* Routes used */
-app.use('/ntuaflix_api/admin', adminRoutes);
 app.use('/ntuaflix_api/auth', authRoutes);
+app.use('/ntuaflix_api/admin', adminRoutes);
 app.use('/ntuaflix_api/user', userRoutes);
 app.use('/ntuaflix_api', indexRoutes);
 

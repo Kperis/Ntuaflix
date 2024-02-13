@@ -147,7 +147,7 @@ exports.logout = (req, res, next) => {
     const expirationDate = decoded.exp;
     //console.log(expirationDate);
     // convert the expiration date to a date object
-    const date = new Date(0);
+    let date = new Date(0);
     date.setUTCSeconds(expirationDate);
     //console.log(date);
     pool.getConnection((error, connection) => {
