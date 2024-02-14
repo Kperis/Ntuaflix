@@ -1,64 +1,39 @@
 'use client'
 
-import { useAuth } from '@/Components/Context'
-import List from '@/Components/List'
+import ListContainer from '@/Components/ListContainer'
+import Register from '@/Components/Register'
 import Spinner from '@/Components/Spinner'
 import UserInfo from '@/Components/UserInfo'
-import { usePathname } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 
 const page = () => {
 
     const [loading, setLoading] = useState(true);
     const [userdata, setUserData] = useState({});
-
-    const {loginStatus, setLoginStatus} = useAuth();
-    const path = usePathname();
+    const [registered, setRegistered] = useState(true);
+  
 
     useEffect(()=>{
-        fetch('http://localhost:9876/ntuaflix_api/profile', {
+        fetch('http://localhost:9876/ntuaflix_api/user/profile', {
             method: 'get',
-            headers: {'authorization' : 'Bearer ' + localStorage.getItem('token')}
+            headers: {
+                'X-OBSERVATORY-AUTH' : localStorage.getItem('token')}
         })
         .then(response => response.json())
         .then(data => {
-            data.birthDate = data.birthDate.substring(0,10);
-            setUserData(data);
-            setLoading(false);
+            console.log(data);
+            if(data.email === null || data.firstname === null || data.lastname === null){
+                setRegistered(false);
+                setLoading(false);
+            }
+            else{
+                // data.birthDate = data.birthDate.substring(0,10);
+                setUserData(data);
+                setLoading(false);
+                console.log(data);
+            }
         })
     }, [])
-
-    const MovieLists = [
-        {
-            id: 1,
-            name: 'WatchLater',
-            movies: [
-                {
-                    poster: '/johnwick.jpg',
-                    review: '3.4',
-                    title: 'John Wick 3'  
-                }
-            ],
-            href: '/profile/watchlater'
-        },
-        {
-            id: 2,
-            name: 'Favorites',
-            movies: [
-                {
-                    poster: '/interstellar.jpg',
-                    review: '4.9',
-                    title: 'Interstellar'  
-                },
-                {
-                    poster: '/spiderman.jpg',
-                    review: '4.2',
-                    title: 'Spider-Man: Into the spider verse' 
-                }
-            ],
-            href: '/profile/favorites'
-        }
-    ]
 
     return (
         <main>
@@ -66,10 +41,20 @@ const page = () => {
 
             ?   <Spinner />
 
-            :   <>
-                    <UserInfo data={userdata}/>
-                    <List arr={MovieLists} type='list' classname='library-container' />
-                </>
+            : registered
+            
+                ?  <>
+                        <UserInfo data={userdata}/>
+                        <ul className='library-container'>
+                            <li>
+                                <ListContainer name='Watch Later' href='/watchlater' />
+                            </li>
+                            <li>
+                                <ListContainer name='Favorites' href='/favorites' />
+                            </li>
+                        </ul>
+                    </>
+                : <Register />
             }
         </main>
     )

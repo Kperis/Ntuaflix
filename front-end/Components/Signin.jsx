@@ -50,16 +50,21 @@ const Signin = () => {
             password: password
         })
       })
-      .then(response => response.status === 500 ? alert('Server error')
-        : (response.status === 401 || response.status === 400 ? alert('Invalid username/password') : 
-          response.json()
-        )
-      )
+      .then(response => {
+        if(response.status === 500){
+          throw new Error('server error');
+        }
+        else if(response.status == 401){
+          throw new Error('Invalid username/password');
+        }
+        else{
+          return response.json();
+        }
+      })
       .then(response => {
         if(response){
           setLoginStatus(true);
           localStorage.setItem("token", response.token);
-          console.log(response);
           setUsername('');
           setPassword('');
           router.push('/');
@@ -69,6 +74,7 @@ const Signin = () => {
           setPassword('');
         }
     })
+    .catch((error) => alert(error.message))
 
     }
   }

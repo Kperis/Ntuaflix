@@ -30,9 +30,9 @@ const page = () => {
     ]
 
     useEffect(() => {
-        fetch('http://localhost:9876/ntuaflix_api/watchlist', {
+        fetch('http://localhost:9876/ntuaflix_api/user/watchlist', {
             method: 'get',
-            headers: {'authorization' : 'Bearer ' + localStorage.getItem('token')}
+            headers: {'X-OBSERVATORY-AUTH' : localStorage.getItem('token')}
         })
         .then(response => response.json())
         .then(response => console.log(response))

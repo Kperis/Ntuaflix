@@ -31,7 +31,8 @@ router.use(authMiddleware);
 /*
 // First Use Case: Search for a title / Search for a person / Search for a genre
 */
-router.get('/home', indexController.getHome); 
+router.get('/home', indexController.getHome);
+router.get('/actors', indexController.getActors); 
 // Titles
 router.get('/title/:titleID', titleController.getTitle); 
 router.get('/searchtitle',searchtitleController.getSearchTitle); 

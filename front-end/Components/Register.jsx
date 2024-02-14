@@ -8,17 +8,10 @@ import '@/Styles/register.css'
 const Register = () => {
 
 
-    const [username, setUsername] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [birth, setBirth] = useState('');
-    const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
-
-
-    const handleUsername = (event) => {
-        setUsername(event.target.value);
-    }
 
 
     const handlefirstname = (event) => {
@@ -39,35 +32,41 @@ const Register = () => {
         setEmail(event.target.value);
     }
 
-    const handlepass = (event) => {
-        setPassword(event.target.value);
-    }
 
     const handleRegistration = () => {
-        if(!username || !password || !firstName || !lastName || !birth || !email){
+        if(!firstName || !lastName || !birth || !email){
             alert('Please fill everything!');
         }
         else{
-            fetch('http://localhost:9876/ntuaflix_api/auth/register', {
-                method: 'post',
-                headers: {'Content-type':'application/json'},
+            fetch('http://localhost:9876/ntuaflix_api/user/createProfile', {
+                method: 'put',
+                headers: {
+                    'Content-type':'application/json',
+                    'X-OBSERVATORY-AUTH' : localStorage.getItem('token')
+                },  
                 body: JSON.stringify({
-                    username: username,
-                    password: password,
                     birthDate: birth,
                     firstname: firstName,
                     lastname: lastName,
                     email: email
                 })
             })
-            .then(response => response.json())
-            .then(response => console.log(response))
+            .then(response => {
+                if(response.status === 500){
+                    throw new Error('Server error');
+                }
+                return response.json();
+            })
+            .then(response => {
+                alert(response.message);
+                
+            })
+            .catch((error) => alert(error))
 
-            setUsername("");
+            
             setEmail("");
             setFirstName("");
             setLastName("");
-            setPassword("");
             setBirth("");
         }
     }
@@ -79,19 +78,14 @@ const Register = () => {
                     <h1>
                         Welcome to Ntuaflix!
                     </h1>
-                    <Link className='login-link' href='/signin' >Login</Link>
                 </section>
                 <main>
                     <div className='register-form'>
 
                         <h1>
-                            Register
+                            Tell us about you!
                         </h1>
-                        <div className='input-field'>
-                            <label>Username</label>
-                            <input type='text' onChange={handleUsername} value={username}/>
-                        </div>
-                        
+        
                         <div className='input-field'>
                             <label>First Name</label>
                             <input type='text' onChange={handlefirstname} value={firstName}/>
@@ -110,12 +104,8 @@ const Register = () => {
                             <label>email</label>
                             <input type='email' onChange={handleemail} value={email}/>
                         </div>
-                        <div className='input-field'>
-                            <label>Password</label>
-                            <input type='password' onChange={handlepass} value={password}/>
-                        </div>
                         
-                        <button onClick={handleRegistration}>Register</button>
+                        <button onClick={handleRegistration}>Submit</button>
 
                     </div>
                 </main>

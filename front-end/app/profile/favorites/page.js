@@ -5,33 +5,11 @@ import ListItem from '@/Components/ListItem'
 import { useEffect } from 'react'
 
 const page = () => {
-    const arr = [
-        {
-            name: 'Star Wars',
-            id: 1,
-            type: 'movie'
-        },
-        {
-            name: 'Interstellar',
-            id: 2,
-            type: 'episode'
-        },
-        {
-            name: 'Harry potter',
-            id: 3,
-            type: 'series'
-        },
-        {
-            name: 'Inception',
-            id: 4,
-            type: 'movie'
-        },
-    ]
 
     useEffect(() => {
-        fetch('http://localhost:9876/ntuaflix_api/favorites', {
+        fetch('http://localhost:9876/ntuaflix_api/user/favorites', {
             method: 'get',
-            headers: {'authorization' : 'Bearer ' + localStorage.getItem('token')}
+            headers: {'X-OBSERVATORY-AUTH' : localStorage.getItem('token')}
         })
         .then(response => response.json())
         .then(response => console.log(response))

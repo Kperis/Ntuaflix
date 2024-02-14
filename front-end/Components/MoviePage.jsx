@@ -20,7 +20,7 @@ const MoviePage = ({id, poster, title, contributors, akas, year, type, rating}) 
     const arr = await Promise.all(contributors.map( async (contributor) => {
       const res = await fetch('http://localhost:9876/ntuaflix_api/name/'+contributor?.nameID ,{
           method: 'get',
-          headers: {'authorization': 'Bearer ' + localStorage.getItem('token')}
+          headers: {'X-OBSERVATORY-AUTH' : localStorage.getItem('token')}
       });
       const data = await res.json();
       return data;
@@ -28,7 +28,7 @@ const MoviePage = ({id, poster, title, contributors, akas, year, type, rating}) 
 
     fetch('http://localhost:9876/ntuaflix_api/listsInfo/' + id, {
       method: 'get',
-      headers: {'authorization' : 'Bearer ' + localStorage.getItem('token')}
+      headers: {'X-OBSERVATORY-AUTH' : localStorage.getItem('token')}
     })
     .then(response => response.json())
     .then(response => {
@@ -46,20 +46,24 @@ const MoviePage = ({id, poster, title, contributors, akas, year, type, rating}) 
       setHeart(!heart);
       setDisableClick(true);
       if(!temp){
-        fetch('http://localhost:9876/ntuaflix_api/addToFavorites/' + id,{
+        fetch('http://localhost:9876/ntuaflix_api/user/addToFavorites/' + id,{
           method: 'post',
-          headers: {'authorization' : 'Bearer ' + localStorage.getItem('token')},
+          headers: {
+            'X-OBSERVATORY-AUTH' : localStorage.getItem('token'),
+            'Content-type' : 'application/json'
+          },
           body: JSON.stringify({})
         })
         .then(response => response.json())
         .then(response => console.log(response))
       }
       else{
-        fetch('http://localhost:9876/ntuaflix_api/deleteFromFavorites/' + id, {
+        fetch('http://localhost:9876/ntuaflix_api/user/deleteFromFavorites/' + id, {
           method: 'delete',
-          headers: {'authorization' : 'Bearer ' + localStorage.getItem('token')},
+          headers: {
+            'X-OBSERVATORY-AUTH' : localStorage.getItem('token')
+          },
         })
-        .then(response => response.json())
         .then(response => console.log(response))
       }
       setTimeout(() => {
@@ -72,10 +76,10 @@ const MoviePage = ({id, poster, title, contributors, akas, year, type, rating}) 
   }
 
   const addToWatchLater = () =>{
-    fetch('http://localhost:9876/ntuaflix_api/addToWatchlist/' + id,{
+    fetch('http://localhost:9876/ntuaflix_api/user/addToWatchlist/' + id,{
       method: 'post',
       headers: {
-        'authorization' : 'Bearer ' + localStorage.getItem('token'),
+        'X-OBSERVATORY-AUTH' : localStorage.getItem('token'),
         'Content-type' : 'application/json'
       },
       body: JSON.stringify({})
@@ -85,10 +89,10 @@ const MoviePage = ({id, poster, title, contributors, akas, year, type, rating}) 
         case 500: 
           alert('server error');
           break;
-        case 204:
+        case 200:
           alert('Title already in your watchlist');
           break;
-        case 200:
+        case 201:
           alert('Successfully added to watchlist');
           break;
         default:

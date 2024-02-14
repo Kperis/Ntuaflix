@@ -47,7 +47,7 @@ const SearchBox = ({setMovieList, titleOnly, onSearch, title, setTitle}) => {
                 method: 'post',
                 headers: {
                     'Content-type': 'application/json',
-                    'authorization':'Bearer ' + localStorage.getItem('token')
+                    'X-OBSERVATORY-AUTH': localStorage.getItem('token')
                 },
                 body: JSON.stringify({
                     qgenre: genre,
@@ -61,7 +61,7 @@ const SearchBox = ({setMovieList, titleOnly, onSearch, title, setTitle}) => {
         .then(respone => respone.json())
         .then(data => {
             setMovieList(data);
-            console.log(data);
+            console.log(rating);
         })
 
         }
