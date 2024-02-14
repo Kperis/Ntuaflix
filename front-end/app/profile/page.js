@@ -21,16 +21,14 @@ const page = () => {
         })
         .then(response => response.json())
         .then(data => {
-            console.log(data);
             if(data.email === null || data.firstname === null || data.lastname === null){
                 setRegistered(false);
                 setLoading(false);
             }
             else{
-                // data.birthDate = data.birthDate.substring(0,10);
+                data.birthDate = data.birthDate.substring(0,10);
                 setUserData(data);
                 setLoading(false);
-                console.log(data);
             }
         })
     }, [])
@@ -47,10 +45,10 @@ const page = () => {
                         <UserInfo data={userdata}/>
                         <ul className='library-container'>
                             <li>
-                                <ListContainer name='Watch Later' href='/watchlater' />
+                                <ListContainer name='Watch Later' href='/profile/watchlater' />
                             </li>
                             <li>
-                                <ListContainer name='Favorites' href='/favorites' />
+                                <ListContainer name='Favorites' href='/profile/favorites' />
                             </li>
                         </ul>
                     </>
