@@ -100,6 +100,7 @@ exports.deleteFromFavorites = async (req, res) => {
                 }
             
                 res.status(204).json({message:"Title deleted from favorites"}); 
+                return;
             });
         });
     });
