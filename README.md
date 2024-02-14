@@ -23,12 +23,13 @@ This project was conducted for the course of Software Engineering at the 2020-20
 INSERT INTO Authentication (user_id, password, username) VALUES (1, '$2a$08$NRJ0rUt2NnGosoWtgu3vyuSZQDZhRcGNBOmhuBpthqLsb8efR2rjS', 'user');-->
 ```json
   "user": { "username": "user","password": "1234"},
+  "user2": { "username": "user2", "password": "1234"}, // without profile
   "admin": { "username": "admin", "password": "1234"}
 ```
 
 
 ## Team Members
-- Mhtsos
-- Peris
-- Manios
-- Gigis
+- Δημήτρης Γεωργουλόπουλος
+- Κωνσταντίνος Περίφανος 
+- Μάνος Νεοφώτιστος
+- Γιώργος Γεωργακόπουλος

@@ -37,7 +37,8 @@ checkDatabaseConnection()
         // Start your application logic here
     })
     .catch((err) => {
-        console.error('Error connecting to the database:', err);
+        console.error('Error connecting to the database!');
+        console.error(err);
         // Handle error or exit the application
     });
 

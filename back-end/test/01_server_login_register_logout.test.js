@@ -53,6 +53,19 @@ new_user_wronglogin = {
 // 1. A user with username "testuser" and password "1234"
 // 2. A user with username "testadmin" and password "1234" with role "admin"
 
+existing_user = {
+    username: "testuser",
+    password: "1234"
+}
+existing_user_wrongpassword = {
+    username: "testuser",
+    password: "12345"
+}
+existing_admin = {
+    username: "testadmin",
+    password: "1234"
+}
+
 
 // TEST FOR WRONG ENDPOINT
 describe('WRONG ENDPOINT', () => {
@@ -122,7 +135,7 @@ describe('LOGIN',() =>{
     it('should login a user', (done) => {
         request(app)
             .post('/ntuaflix_api/auth/login')
-            .send(new_user_login)
+            .send(existing_user)
             .end((err, res) => {
                 //console.log('Response:', res.status, res.body);
                 token = res.body.token;
@@ -134,7 +147,7 @@ describe('LOGIN',() =>{
     it('should not login with invalid credentials', (done) => {
         request(app)
             .post('/ntuaflix_api/auth/login')
-            .send(new_user_wronglogin)
+            .send(existing_user_wrongpassword)
             .end((err, res) => {
                 //console.log('Response:', res.status, res.body);
                 expect(res.status).to.equal(401); // Update the expected status code if needed
@@ -149,7 +162,7 @@ describe('LOGOUT',() =>{
     it('should logout a user', (done) => {
         request(app)
             .post('/ntuaflix_api/auth/login')
-            .send(new_user_login)
+            .send(existing_user)
             .end((err, res) => {
                 //console.log('Response:', res.status, res.body);
                 token = res.body.token;

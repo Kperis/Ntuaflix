@@ -349,7 +349,7 @@ after(async ()=> {
         if (err) {
             console.error('Error ending the pool', err);
         } else {
-            console.log('Testing has ended');
+            console.log('Testing has ended!');
 
         }
     });

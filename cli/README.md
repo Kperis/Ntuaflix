@@ -2,33 +2,26 @@
 
 ## About
 
-### Contents:
-
-What the folder contains:
-
-
 ### Usecases
 1. Login - Logout
 2. Admin 
-    - Add Movie
-    - Remove Movie
-    - Update Movie
-    - Add User
-    - Remove User
-    - Update User
-    - Add Actor
-    - Remove Actor
-    - Update Actor
-    - Add Director
-    - Remove Director
-    - Update Director
-    - Add Genre
-    - Remove Genre
-    - Update Genre
+    - Add user
+    - Search for user
+    - Add newtitles file
+    - Add newakas file
+    - Add newnames file
+    - Add newcrew file
+    - Add newepisode file
+    - Add newprincipals file
+    - Add newratings file
+    - Reset database
+    - Check if database is healthy
 3. Usecase 1: Movies - Series - Actors - Contributors
-    - search for specific title
-    - Search
-    - Filter
+    - Search for Titles
+    - Search for Contributors
+    - Get info for a Title
+    - Get info for a Contributor
+    - Search movies by genre
 4. Usecase 2: User Profile
     - Create Profile
     - Add movies to your "Favorites" list
@@ -41,11 +34,19 @@ _The above use cases are properly explained in the ntuaflix documentation [VPP-F
 ### NodeJS Packages:
 ```json
   "dependencies": {
-    "axios": "^0.24.0",
-    "chalk": "^4.1.2",
-    "commander": "^8.3.0",
-    "inquirer": "^8.1.2",
-    "ora": "^5.5.0"
+    "axios": "^1.6.6",
+    "chalk": "^2.4.2",
+    "commander": "^11.1.0",
+    "inquirer": "^9.2.12",
+    "json-2-csv": "^5.0.1",
+    "json2csv": "^6.0.0-alpha.2",
+    "qs": "^6.11.2",
+    "yargs-parser": "^21.1.1"
+  },
+  "devDependencies": {
+    "chai": "^4.3.4",
+    "mocha": "^10.2.0",
+    "nodemon": "^3.0.3"
   }
 ```
 
@@ -54,7 +55,7 @@ _The above use cases are properly explained in the ntuaflix documentation [VPP-F
 ### Prerequisites
 1. The database must have been initialized. [Inizitializing_Database]
 <!--add a link to the readme of back-end in the "Initializing Database" sector-->
-[Inizitializing_Database]: ../back-end/README.md#Initializing-database
+[Inizitializing_Database]: ../back-end/README.md#getting-started
 2. The server must be running.
 
 3. The client must have the following packages installed:
