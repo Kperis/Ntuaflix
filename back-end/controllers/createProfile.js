@@ -1,7 +1,7 @@
 const {pool} = require('../utils/database');
 
 exports.createProfile = (req, res, next) => {
-    const {firstname, lastname, birthDate, email,favorite_genre} = req.body;
+    const {firstname, lastname, birthDate, email} = req.body;
     // If a value is null (except favorite_genre) return 400 status code
     if (!firstname || !lastname || !birthDate || !email) {
         return res.status(400).json({ message: 'Please fill out all fields' });

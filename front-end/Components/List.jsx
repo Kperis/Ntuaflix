@@ -23,9 +23,6 @@ const List = ({arr, type, classname, w, h}) => {
                 if(type === 'movie'){
                     dynamicComponent = <Movie id={item.titleID} poster={item?.titlePoster} title={item?.originalTitle} review={item?.rating[0]?.avRating}/>;
                 }
-                else if(type === 'list'){
-                    dynamicComponent = <ListContainer id={item.id} name={item?.name} movies={item?.movies} href={item?.href}/>;
-                }
                 else if(type === 'actors'){
                     dynamicComponent = <Actor id={item.nameID} name={item?.name} photo={item?.namePoster} w={w} h={h}/>
                 }

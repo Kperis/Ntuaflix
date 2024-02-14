@@ -59,8 +59,27 @@ const Navbar = () => {
 
     const changeRoute = (title) =>{
         if(title === 'logout'){
+            fetch('http://localhost:9876/ntuaflix_api/auth/logout', {
+                method: 'post',
+                headers : {
+                    'X-OBSERVATORY-AUTH' : localStorage.getItem('token')
+                },
+                body : JSON.stringify({})
+            })
+            .then(response => {
+                if(response.status === 500){
+                    throw new Error('Server error');
+                }
+                localStorage.clear();
+
+            })
+            .catch((error) => {
+                localStorage.clear();
+                alert(error);
+            })
+                 
             setRoute('home');
-            setLoginStatus(false);
+            setLoginStatus(false); 
         }
         else setRoute(title);
     }
