@@ -58,7 +58,7 @@ const Register = () => {
                 return response.json();
             })
             .then(response => {
-                alert(response.message);
+                alert(response.message + ' .Please refresh page to view profile!');
                 
             })
             .catch((error) => alert(error))
