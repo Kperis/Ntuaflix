@@ -36,7 +36,7 @@ const Signin = () => {
   }
 
   const handleSignin = () =>{
-    if(localStorage.getItem('token') !== null){
+    if(sessionStorage.getItem('token') !== null){
       setUsername('');
       setPassword('');
       router.push('/');
@@ -64,7 +64,7 @@ const Signin = () => {
       .then(response => {
         if(response){
           setLoginStatus(true);
-          localStorage.setItem("token", response.token);
+          sessionStorage.setItem("token", response.token);
           setUsername('');
           setPassword('');
           router.push('/');
@@ -96,10 +96,6 @@ const Signin = () => {
         </div>
         
         <button onClick={handleSignin}>Sign In</button>
-        <div className='register-box'>
-          <span>Don't have an account? Create one now!</span>
-          <Link href='/register' className='register-link'>Register</Link>
-        </div>
       </div>    
     </div>
   )

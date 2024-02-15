@@ -7,7 +7,10 @@ const ActorPage = ({name, poster, birth, death, profession, movies}) => {
   return (
     <div className='actorpage-container'>
         <main>
-            <Image className='actor-poster' src={poster.replace('{width_variable}', 'w185')} unoptimized alt='actor-photo' width={440} height={540}/>
+            {poster === null || poster === '\N' || poster === undefined || poster === '\\N'
+            ? <Image src='/no-image.png' alt='actor-photo' width={440} height={540} className='actor-poster'/>
+            : <Image className='actor-poster' src={poster.replace('{width_variable}', 'w185')} unoptimized alt='actor-photo' width={440} height={540}/>
+            }
             <section className='actor-info'>
                 <h2>Info:</h2>
                 <span>Name: {name}</span>
@@ -22,7 +25,7 @@ const ActorPage = ({name, poster, birth, death, profession, movies}) => {
             {
                 movies.map((movie) =>{
                     return(
-                        <Movie key={movie.titleID} id={movie.titleID} title={movie.originalTitle} review={movie.rating[0].avRating} poster={movie?.titlePoster}/>
+                        <Movie key={movie?.titleID} id={movie?.titleID} title={movie?.originalTitle} review={movie?.rating[0]?.avRating} poster={movie?.titlePoster}/>
                     )
                 })
             }   

@@ -17,20 +17,29 @@ const page = () => {
         fetch('http://localhost:9876/ntuaflix_api/user/profile', {
             method: 'get',
             headers: {
-                'X-OBSERVATORY-AUTH' : localStorage.getItem('token')}
+                'X-OBSERVATORY-AUTH' : sessionStorage.getItem('token')}
         })
-        .then(response => response.json())
+        .then(response => {
+            if(response.status === 500){
+                throw new Error('Server error')
+            }
+            else if(response.status === 204){
+                throw new Error('No user found')
+            }
+            else if(response.status === 200){
+                return response.json()
+            }
+            else return {}
+        })
         .then(data => {
-            console.log(data);
             if(data.email === null || data.firstname === null || data.lastname === null){
                 setRegistered(false);
                 setLoading(false);
             }
             else{
-                // data.birthDate = data.birthDate.substring(0,10);
+                data.birthDate = data.birthDate.substring(0,10);
                 setUserData(data);
                 setLoading(false);
-                console.log(data);
             }
         })
     }, [])
@@ -47,10 +56,10 @@ const page = () => {
                         <UserInfo data={userdata}/>
                         <ul className='library-container'>
                             <li>
-                                <ListContainer name='Watch Later' href='/watchlater' />
+                                <ListContainer name='Watch Later' href='/profile/watchlater' />
                             </li>
                             <li>
-                                <ListContainer name='Favorites' href='/favorites' />
+                                <ListContainer name='Favorites' href='/profile/favorites' />
                             </li>
                         </ul>
                     </>

@@ -42,7 +42,7 @@ const Register = () => {
                 method: 'put',
                 headers: {
                     'Content-type':'application/json',
-                    'X-OBSERVATORY-AUTH' : localStorage.getItem('token')
+                    'X-OBSERVATORY-AUTH' : sessionStorage.getItem('token')
                 },  
                 body: JSON.stringify({
                     birthDate: birth,
@@ -58,7 +58,7 @@ const Register = () => {
                 return response.json();
             })
             .then(response => {
-                alert(response.message);
+                alert(response.message + ' .Please refresh page to view profile!');
                 
             })
             .catch((error) => alert(error))

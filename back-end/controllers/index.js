@@ -102,6 +102,30 @@ exports.getActors = (req, res, next) => {
     });
 }
 
+exports.getGenres = (req,res,next) => {
+    const SQLQuery = `
+        SELECT DISTINCT genre FROM Genres WHERE genre <> '\\\\N' AND genre <> '\\N' AND genre IS NOT NULL;
+    `;
+
+    pool.getConnection((err,connection) => {
+        if (err) {
+            console.error('Error getting connection:', err);
+            res.sendStatus(500).json({message: 'Internal Server Error'});
+            return;
+        }
+        connection.query(SQLQuery, (err, results) => {
+            if(err){
+                console.error('Error executing query:', err);
+                res.sendStatus(500).json({message: 'Internal Server Error'});
+                return;            
+            }
+            res.status(200).json(results);
+            return;
+            connection.release();
+        })
+    });
+}
+
 
 
 exports.getIndex = (req, res, next) => {
