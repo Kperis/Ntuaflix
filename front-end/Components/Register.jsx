@@ -42,7 +42,7 @@ const Register = () => {
                 method: 'put',
                 headers: {
                     'Content-type':'application/json',
-                    'X-OBSERVATORY-AUTH' : localStorage.getItem('token')
+                    'X-OBSERVATORY-AUTH' : sessionStorage.getItem('token')
                 },  
                 body: JSON.stringify({
                     birthDate: birth,

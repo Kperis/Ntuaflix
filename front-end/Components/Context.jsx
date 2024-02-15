@@ -13,7 +13,7 @@ export const AuthProvider = ({children}) => {
 
 
     useEffect(() => {
-      const item = localStorage.getItem('token');
+      const item = sessionStorage.getItem('token');
       if(!item){
           setLoginStatus(false);
           router.push('/signin');
