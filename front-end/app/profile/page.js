@@ -17,9 +17,20 @@ const page = () => {
         fetch('http://localhost:9876/ntuaflix_api/user/profile', {
             method: 'get',
             headers: {
-                'X-OBSERVATORY-AUTH' : localStorage.getItem('token')}
+                'X-OBSERVATORY-AUTH' : sessionStorage.getItem('token')}
         })
-        .then(response => response.json())
+        .then(response => {
+            if(response.status === 500){
+                throw new Error('Server error')
+            }
+            else if(response.status === 204){
+                throw new Error('No user found')
+            }
+            else if(response.status === 200){
+                return response.json()
+            }
+            else return {}
+        })
         .then(data => {
             if(data.email === null || data.firstname === null || data.lastname === null){
                 setRegistered(false);

@@ -19,12 +19,21 @@ export default function Home() {
     const [overlay, setOverlay] = useState(true);
     const [movieList, setMovieList] = useState([]);
     const [title, setTitle] = useState('');
+    const [categories, setCategories] = useState([]);
 
     useEffect(() => {
+        if(loginStatus){
+            fetchMovies();
+        }
+        else{}
+    }, [])
+
+
+    const fetchMovies = () => {
         fetch('http://localhost:9876/ntuaflix_api/home', {
             method: 'get',
             headers:{
-                'X-OBSERVATORY-AUTH' : localStorage.getItem('token')
+                'X-OBSERVATORY-AUTH' : sessionStorage.getItem('token')
             }
         })
         .then(response => {
@@ -38,9 +47,23 @@ export default function Home() {
                 return response.json()
             }
         })
-        .then(response => setMovieList(response))
+        .then(response => {
+            setMovieList(response);
+            fetchcategory();
+        })
         .catch((error) => alert(error))
-    }, [])
+    }
+
+
+    const fetchcategory = async () => {
+        const result = await fetch('http://localhost:9876/ntuaflix_api/getGenres', {
+                method: 'get',
+                headers: {'X-OBSERVATORY-AUTH' : sessionStorage.getItem('token')}
+            })
+        const categories = await result.json();
+        setCategories(categories);
+    }
+
 
     const onSearch = () =>{
         fetch('http://localhost:9876/ntuaflix_api/searchtitle',
@@ -48,7 +71,7 @@ export default function Home() {
             method: 'post',
             headers: {
                 'Content-type': 'application/json',
-                'X-OBSERVATORY-AUTH' : localStorage.getItem('token')
+                'X-OBSERVATORY-AUTH' : sessionStorage.getItem('token')
             },
             body: JSON.stringify({
                 titlePart: title
@@ -67,7 +90,7 @@ export default function Home() {
         ?
         <div className='home-container' >
             <h1>Ntuaflix</h1>
-            <SearchBox setMovieList={setMovieList} titleOnly={false} onSearch={onSearch} title={title} setTitle={setTitle} /> 
+            <SearchBox fetchMovies={fetchMovies} setMovieList={setMovieList} titleOnly={false} onSearch={onSearch} title={title} setTitle={setTitle} categories={categories} setOverlay={setOverlay} /> 
             {overlay
             ? <h2>Our suggestions:</h2>
             : <></>

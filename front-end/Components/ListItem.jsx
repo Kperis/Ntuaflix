@@ -9,7 +9,7 @@ const ListItem = ({id, name, type, poster, listtype, refetch}) => {
     if(listtype === 'fav'){
       fetch('http://localhost:9876/ntuaflix_api/user/deleteFromFavorites/' + id, {
         method : 'delete',
-        headers: {'X-OBSERVATORY-AUTH' : localStorage.getItem('token')}
+        headers: {'X-OBSERVATORY-AUTH' : sessionStorage.getItem('token')}
       })
       .then(response => {
         if(response.status === 500){
@@ -34,7 +34,7 @@ const ListItem = ({id, name, type, poster, listtype, refetch}) => {
     else{
       fetch('http://localhost:9876/ntuaflix_api/user/deleteFromWatchlist/' + id, {
         method : 'delete',
-        headers: {'X-OBSERVATORY-AUTH' : localStorage.getItem('token')}
+        headers: {'X-OBSERVATORY-AUTH' : sessionStorage.getItem('token')}
       })
       .then(response => {
         if(response.status === 500){
