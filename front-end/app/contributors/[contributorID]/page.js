@@ -22,7 +22,7 @@ const page = () => {
 
 
     useEffect(() => {
-        fetch('http://localhost:9876/ntuaflix_api/name/'+id ,{
+        fetch('https://localhost:9876/ntuaflix_api/name/'+id ,{
             method: 'get',
             headers: {'X-OBSERVATORY-AUTH': sessionStorage.getItem('token')}
             })
@@ -54,7 +54,7 @@ const page = () => {
     const fetchMovies = async () => {
         try{
             const arr = await Promise.all(ids.map(async (movie) => {
-                const response = await fetch('http://localhost:9876/ntuaflix_api/title/' + movie.titleID, {
+                const response = await fetch('https://localhost:9876/ntuaflix_api/title/' + movie.titleID, {
                     method: 'get',
                     headers: {'X-OBSERVATORY-AUTH' : sessionStorage.getItem('token')}
                 })

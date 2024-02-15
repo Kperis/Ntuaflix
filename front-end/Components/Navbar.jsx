@@ -59,7 +59,7 @@ const Navbar = () => {
 
     const changeRoute = (title) =>{
         if(title === 'logout'){
-            fetch('http://localhost:9876/ntuaflix_api/auth/logout', {
+            fetch('https://localhost:9876/ntuaflix_api/auth/logout', {
                 method: 'post',
                 headers : {
                     'X-OBSERVATORY-AUTH' : sessionStorage.getItem('token')

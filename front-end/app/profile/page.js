@@ -14,7 +14,7 @@ const page = () => {
   
 
     useEffect(()=>{
-        fetch('http://localhost:9876/ntuaflix_api/user/profile', {
+        fetch('https://localhost:9876/ntuaflix_api/user/profile', {
             method: 'get',
             headers: {
                 'X-OBSERVATORY-AUTH' : sessionStorage.getItem('token')}
