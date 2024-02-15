@@ -9,7 +9,7 @@ const page = () => {
     const [arr, setArr] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:9876/ntuaflix_api/user/favorites', {
+        fetch('https://localhost:9876/ntuaflix_api/user/favorites', {
             method: 'get',
             headers: {'X-OBSERVATORY-AUTH' : sessionStorage.getItem('token')}
         })
@@ -32,7 +32,7 @@ const page = () => {
     },[])
 
     const refetch = () =>{
-        fetch('http://localhost:9876/ntuaflix_api/user/favorites', {
+        fetch('https://localhost:9876/ntuaflix_api/user/favorites', {
             method: 'get',
             headers: {'X-OBSERVATORY-AUTH' : sessionStorage.getItem('token')}
         })

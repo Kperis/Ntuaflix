@@ -22,7 +22,7 @@ const page = () => {
     }, [])
 
     const fetchActors = () => {
-        fetch('http://localhost:9876/ntuaflix_api/actors',{
+        fetch('https://localhost:9876/ntuaflix_api/actors',{
             method : 'get',
             headers: {'X-OBSERVATORY-AUTH' : sessionStorage.getItem('token')}
         })
@@ -45,7 +45,7 @@ const page = () => {
     }
 
     const onSearch = () => {
-        fetch('http://localhost:9876/ntuaflix_api/searchname', {
+        fetch('https://localhost:9876/ntuaflix_api/searchname', {
             method: 'post',
             headers: {
                 'Content-type': 'application/json',

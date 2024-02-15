@@ -45,7 +45,7 @@ const SearchBox = ({setOverlay, setMovieList, titleOnly, onSearch, title, setTit
             alert('Insert minimum rating');
         }
         else{
-            fetch('http://localhost:9876/ntuaflix_api/bygenre', 
+            fetch('https://localhost:9876/ntuaflix_api/bygenre', 
                 {
                     method: 'post',
                     headers: {

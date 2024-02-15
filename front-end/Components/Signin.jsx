@@ -42,7 +42,7 @@ const Signin = () => {
       router.push('/');
     }
     else{
-      fetch('http://localhost:9876/ntuaflix_api/auth/login', {
+      fetch('https://localhost:9876/ntuaflix_api/auth/login', {
         method: 'post',
         headers: {'Content-type':'application/json'},
         body: JSON.stringify({

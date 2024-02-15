@@ -12,7 +12,7 @@ const page = () => {
     const [movieData, setMovieData] = useState({});
     
     useEffect(() => {
-      fetch('http://localhost:9876/ntuaflix_api/title/'+id ,{
+      fetch('https://localhost:9876/ntuaflix_api/title/'+id ,{
           method: 'get',
           headers: {'X-OBSERVATORY-AUTH': sessionStorage.getItem('token')}
       })
