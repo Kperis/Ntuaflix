@@ -50,15 +50,23 @@ Testing:
 
 
 ### Usecases
-1. Movies - Series - Actors - Contributors
-    - search for specific title
-    - Search
-    - Filter
-2. User Profile
-    - Create Profile
-    - Add movies to your "Favorites" list
-    - Add movied to your "Watchlater" list
-    - Edit these lists
+1. Admin Usecase:
+    - Upload of tsv files with data.
+    - Create new users.
+    - Get info of users.
+2. User Usecase 1:
+    - Browse on titles by titlepart.
+    - Browse on titles by genre.
+    - Get info of a specific title.
+    - Browse on contributor name by namepart.
+    - Get info of a specific contributor.
+3. User Usecase 2:
+    - Create user profile.
+    - Add movies to your "Favorites" list.
+    - Add movied to your "Watchlater" list.
+    - Edit these lists.
+    - Update user profile info.
+    - View the contents of your lists.
 
 _The above use cases are properly explained in the ntuaflix documentation [VPP-FILE]_
 
