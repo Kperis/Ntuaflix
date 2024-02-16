@@ -1,8 +1,6 @@
 const { pool } = require('../utils/database');
 const bcrypt = require('bcryptjs');
 
-// PROBLEMATIC !! -> MANO FTIAXTO 
-
 exports.updateProfile = async (req, res, next) => {
     const userId = req.user.userId; // Assuming the user is authenticated using the middleware
     const { username, password } = req.body;

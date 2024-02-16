@@ -7,6 +7,7 @@ const {pool} = require('../utils/database');
 // Variables
 let token_incorrect = 'fdfhadsklfjllasdfhfdsaaskdjfasdfhkjas';
 let titleID_correct = 'tt123456';
+let token;
 
 // TEST for the auth middleware
 describe('AUTHENTICATION MIDDLEWARE NOT VALID', () => {
@@ -35,7 +36,7 @@ describe('AUTHENTICATION MIDDLEWARE NOT PROVIDED', () => {
     });
 });
 
-let token;
+
 describe('AUTHENTICATION MIDDLEWARE VALID', () => {
     it('should return 200 if the token is valid', (done) => {
         request(app)
@@ -50,7 +51,7 @@ describe('AUTHENTICATION MIDDLEWARE VALID', () => {
             .get('/ntuaflix_api/title/:' + titleID_correct)
             .set('X-OBSERVATORY-AUTH', token)
             .end((err, res) => {
-                console.log('Response:', res.status, res.body);
+                //console.log('Response:', res.status, res.body);
                 expect(res.status).to.equal(200); 
                 done();
             });
