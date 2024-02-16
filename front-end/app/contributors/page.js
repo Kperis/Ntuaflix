@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation'
 import { useState, useEffect } from 'react'
 import { useAuth } from '@/Components/Context'
 import SearchBox from '@/Components/SearchBox'
+import '@/Styles/actors.css'
 
 const page = () => {
 
@@ -22,7 +23,7 @@ const page = () => {
     }, [])
 
     const fetchActors = () => {
-        fetch('http://localhost:9876/ntuaflix_api/actors',{
+        fetch('https://localhost:9876/ntuaflix_api/actors',{
             method : 'get',
             headers: {'X-OBSERVATORY-AUTH' : sessionStorage.getItem('token')}
         })
@@ -45,7 +46,7 @@ const page = () => {
     }
 
     const onSearch = () => {
-        fetch('http://localhost:9876/ntuaflix_api/searchname', {
+        fetch('https://localhost:9876/ntuaflix_api/searchname', {
             method: 'post',
             headers: {
                 'Content-type': 'application/json',
@@ -79,14 +80,14 @@ const page = () => {
   return (
     loginStatus
     ?
-    <div>
+    <>
         <SearchBox setOverlay={setOverlay} fetchMovies={fetchActors} setList={setActors} titleOnly={true} onSearch={onSearch} title={title} setTitle={setTitle}/>
         {overlay
             ? <h2 className='suggest'>Our suggestions:</h2>
             : <></>
         }       
         <List type='actors' arr={actors} classname='actors-container' w={220} h={270}/>
-    </div>
+    </>
 
     :
     <Spinner />

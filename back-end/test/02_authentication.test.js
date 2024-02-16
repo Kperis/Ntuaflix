@@ -3,8 +3,6 @@ const chai = require('chai')
 const expect = chai.expect;
 const app = require('../app');
 const {pool} = require('../utils/database');
-const chaiHttp = require('chai-http');
-chai.use(chaiHttp);
 
 // Variables
 let token_incorrect = 'fdfhadsklfjllasdfhfdsaaskdjfasdfhkjas';

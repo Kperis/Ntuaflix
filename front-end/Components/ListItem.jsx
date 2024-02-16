@@ -7,7 +7,7 @@ const ListItem = ({id, name, type, poster, listtype, refetch}) => {
 
   const onRemoveMovie = () => {
     if(listtype === 'fav'){
-      fetch('http://localhost:9876/ntuaflix_api/user/deleteFromFavorites/' + id, {
+      fetch('https://localhost:9876/ntuaflix_api/user/deleteFromFavorites/' + id, {
         method : 'delete',
         headers: {'X-OBSERVATORY-AUTH' : sessionStorage.getItem('token')}
       })
@@ -27,12 +27,11 @@ const ListItem = ({id, name, type, poster, listtype, refetch}) => {
       })
       .then(response => {
         refetch();
-        alert(response.message);
       })
       .catch((error) => alert(error))
     }
     else{
-      fetch('http://localhost:9876/ntuaflix_api/user/deleteFromWatchlist/' + id, {
+      fetch('https://localhost:9876/ntuaflix_api/user/deleteFromWatchlist/' + id, {
         method : 'delete',
         headers: {'X-OBSERVATORY-AUTH' : sessionStorage.getItem('token')}
       })

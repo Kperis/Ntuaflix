@@ -18,7 +18,7 @@ const MoviePage = ({id, poster, title, contributors, akas, year, type, rating}) 
 
   const fetchphotos = async () =>{
     const arr = await Promise.all(contributors.map( async (contributor) => {
-      const res = await fetch('http://localhost:9876/ntuaflix_api/name/'+contributor?.nameID ,{
+      const res = await fetch('https://localhost:9876/ntuaflix_api/name/'+contributor?.nameID ,{
           method: 'get',
           headers: {'X-OBSERVATORY-AUTH' : sessionStorage.getItem('token')}
       });
@@ -26,7 +26,7 @@ const MoviePage = ({id, poster, title, contributors, akas, year, type, rating}) 
       return data;
     }));
 
-    fetch('http://localhost:9876/ntuaflix_api/listsInfo/' + id, {
+    fetch('https://localhost:9876/ntuaflix_api/listsInfo/' + id, {
       method: 'get',
       headers: {'X-OBSERVATORY-AUTH' : sessionStorage.getItem('token')}
     })
@@ -46,7 +46,7 @@ const MoviePage = ({id, poster, title, contributors, akas, year, type, rating}) 
       setHeart(!heart);
       setDisableClick(true);
       if(!temp){
-        fetch('http://localhost:9876/ntuaflix_api/user/addToFavorites/' + id,{
+        fetch('https://localhost:9876/ntuaflix_api/user/addToFavorites/' + id,{
           method: 'post',
           headers: {
             'X-OBSERVATORY-AUTH' : sessionStorage.getItem('token'),
@@ -70,7 +70,7 @@ const MoviePage = ({id, poster, title, contributors, akas, year, type, rating}) 
         .catch((error) => alert(error))
       }
       else{
-        fetch('http://localhost:9876/ntuaflix_api/user/deleteFromFavorites/' + id, {
+        fetch('https://localhost:9876/ntuaflix_api/user/deleteFromFavorites/' + id, {
           method: 'delete',
           headers: {
             'X-OBSERVATORY-AUTH' : sessionStorage.getItem('token')
@@ -101,7 +101,7 @@ const MoviePage = ({id, poster, title, contributors, akas, year, type, rating}) 
   }
 
   const addToWatchLater = () =>{
-    fetch('http://localhost:9876/ntuaflix_api/user/addToWatchlist/' + id,{
+    fetch('https://localhost:9876/ntuaflix_api/user/addToWatchlist/' + id,{
       method: 'post',
       headers: {
         'X-OBSERVATORY-AUTH' : sessionStorage.getItem('token'),

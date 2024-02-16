@@ -26,11 +26,11 @@ export default function Home() {
             fetchMovies();
         }
         else{}
-    }, [])
+    }, [loginStatus])
 
 
     const fetchMovies = () => {
-        fetch('http://localhost:9876/ntuaflix_api/home', {
+        fetch('https://localhost:9876/ntuaflix_api/home', {
             method: 'get',
             headers:{
                 'X-OBSERVATORY-AUTH' : sessionStorage.getItem('token')
@@ -56,7 +56,7 @@ export default function Home() {
 
 
     const fetchcategory = async () => {
-        const result = await fetch('http://localhost:9876/ntuaflix_api/getGenres', {
+        const result = await fetch('https://localhost:9876/ntuaflix_api/getGenres', {
                 method: 'get',
                 headers: {'X-OBSERVATORY-AUTH' : sessionStorage.getItem('token')}
             })
@@ -66,7 +66,7 @@ export default function Home() {
 
 
     const onSearch = () =>{
-        fetch('http://localhost:9876/ntuaflix_api/searchtitle',
+        fetch('https://localhost:9876/ntuaflix_api/searchtitle',
         {
             method: 'post',
             headers: {

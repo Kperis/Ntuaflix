@@ -520,8 +520,8 @@ exports.usermod = (req, res, next) => {
     if (!username || !password) {
         return res.status(400).json({ message: 'Invalid input' });
     }
-    console.log(username);
-    console.log(password);
+    //console.log(username);
+    //console.log(password);
     if (username.startsWith(':')) {
         username = username.substring(1);
     }
@@ -542,7 +542,7 @@ exports.usermod = (req, res, next) => {
             }
             if (results.length !== 0) { // Username exists -> Change password
                 let hashedPassword = await bcrypt.hash(password, 8);
-                console.log(hashedPassword);
+                //console.log(hashedPassword);
                 connection.query(`UPDATE Authentication\
                 SET password = ?\
                 WHERE username = ?;`,[hashedPassword,username],(error) =>{
@@ -563,13 +563,13 @@ exports.usermod = (req, res, next) => {
                         return res.status(500).json({ message: 'Internal Server Error 4' });
                     } else { //need to change password to hashedpassword, havent completed yet hashing logic
                         const userId = insertUserResults.insertId; // Get the auto-generated user_id
-                        console.log("User ID:", userId);
+                        //console.log("User ID:", userId);
                         connection.query('INSERT INTO Authentication (user_id, username, password) VALUES (?,?,?)', [userId, username, hashedPassword], (error, insertAuthResults) => {
                             if (error) {
                                 console.log(error);
                                 return res.status(500).json({ message: 'Registration failed' });
                             } else {
-                                console.log(insertAuthResults);
+                                //console.log(insertAuthResults);
                                 return res.status(201).json({ message: 'Registration Completed'});
                             }
                         })                          
