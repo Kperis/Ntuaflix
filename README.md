@@ -3,7 +3,7 @@
 ## Description
 **Software Engineering (7th semester) - ECE - NTUA 2023-2024**
 
-This project was conducted for the course of Software Engineering at the 2020-2021 Winter semester of the Electrical and Computer Engineering School at the National Technical University of Athens
+This project was conducted for the course of Software Engineering at the 2023-2024 Winter semester of the Electrical and Computer Engineering School at the National Technical University of Athens
 
 
 ## Contents
