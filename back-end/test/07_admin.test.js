@@ -341,16 +341,3 @@ describe('ADMIN RESET DATABASE (POST {baseurl}/admin/resetall)', () => {
     });
 });
 
-// Finish testing!
-after(async ()=> {
-    // Run loadTestData to load the test data again
-    await loadTest();
-    pool.end((err) => {
-        if (err) {
-            console.error('Error ending the pool', err);
-        } else {
-            console.log('Testing has ended!');
-
-        }
-    });
-});

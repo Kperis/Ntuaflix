@@ -12,7 +12,7 @@ const auth = (req, res, next) => {
     //console.log("Tokem = "+token)
     
     // Check if the token in null or undefined
-    if (!token) {
+    if (!token || token === 'null' || token === 'undefined') {
       return res.status(401).json({ message: 'Not Authorized' });
     }
     number_of_results = 0;
