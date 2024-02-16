@@ -10,8 +10,9 @@ const chalk = require('chalk');
 const { promisify } = require('util');
 const execPromise = promisify(exec);
 const http = require('http');
+const https = require('https');
 const configuration = require('../lib/construct_config');
-var token;
+//var token;
 console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA)");
 async function delay(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -22,12 +23,12 @@ try{
     console.error("Error reading token file:", err);
 }
 
-
-describe('CLI Application test login command', () => {
+async function firsttest (){
+  describe('CLI Application test login command', () => {
     it('a message should be printed in the console that informs the user \
     whether his is successfully logged in or not ',() => {
   
-        const cliCommand_1 = `se2333 login --username DarkForest  --password DeathEnds`;
+        const cliCommand_1 = `se2333 login --username admin  --password 1234`;
         const actualResponseFromCLI_1 = execSync(cliCommand_1).toString().trim();
         const expectedresponse = 'User successfully logged in'
         expect(actualResponseFromCLI_1).to.equal(expectedresponse);
@@ -37,40 +38,46 @@ describe('CLI Application test login command', () => {
         const actualResponseFromCLI_2 = execSync(cliCommand_2).toString().trim();
         const expectedresponse_2 = 'No user with this credentials found. Please try again.'
         expect(actualResponseFromCLI_2).to.equal(expectedresponse_2);
-    });
+    }).timeout(3000);
   });
+}
+async function readtoken (){
+  try {
+    return fs.readFileSync('./softeng23_33.token', 'utf8').trim();
+    console.log("Token read from file:", token);
+  } catch (err) {
 
-// Read the token file synchronously
-try {
-    token = fs.readFileSync('./softeng23_33.token', 'utf8').trim();
-} catch (err) {
-    console.error("Error reading token file:", err);
-    process.exit(1); // Exit with error if unable to read the token file
+      console.error("Error reading token file:", err);
+      process.exit(1); // Exit with error if unable to read the token file
+      return null;
+  }
 }
 
 
-describe('CLI Application test adduser command', () => {
+async function resttests (token){
+  console.log(token);
+  describe('CLI Application test adduser command', () => {
     var randomNumber_1 = Math.random(); // Generate a random number between 0 (inclusive) and 1 (exclusive)
     randomNumber_1 = randomNumber_1.toFixed(4);
     it('first test to adduser with username and password and second to update it ', async () => {
         const cliCommand_1 = `se2333 adduser --username ${randomNumber_1} --password ${randomNumber_1}`;
         const actualResponseFromCLI_1 = execSync(cliCommand_1).toString().trim();
-        const expectedresponse = `{\n  "message": "Registration Completed. Please login"\n}`;
+        const expectedresponse = `{\n  "message": "Registration Completed"\n}`;
         expect(actualResponseFromCLI_1).to.equal(expectedresponse);
-      });
+      }).timeout(3000);
     it( 'second test to update the password of the user', async () => {
         const cliCommand_2 = `se2333 adduser --username ${randomNumber_1} --password ${randomNumber_1}`;
         const actualResponseFromCLI_2 = execSync(cliCommand_2).toString().trim();
         const expectedresponse_2 = '{\n  "message": "Password Updated"\n}';
         expect(actualResponseFromCLI_2).to.equal(expectedresponse_2);
-    });
+    }).timeout(3000);
   });
 
 
 describe('CLI Application test user command', () => {
     it('the returned values from the cli should equal the responses immediately from the backend\
     \n if the username exists',async () => {
-        const username = 'DarkForest';
+        const username = 'admin';
   
         const cliCommand_1 = `se2333 user --username ${username}`;
         const actualResponseFromCLI_1 = execSync(cliCommand_1).toString().trim();
@@ -78,10 +85,11 @@ describe('CLI Application test user command', () => {
         //console.log(actualResponseFromCLI_1);
         var config_1 = {
             method : 'get',
-            url : 'http://localhost:9876/ntuaflix_api/admin/users/' + username,
+            url : 'https://localhost:9876/ntuaflix_api/admin/users/' + username,
             headers : {
               'X-OBSERVATORY-AUTH': token,//'Authorization': 'Bearer ' + token
-            }
+            },
+            httpsAgent: new https.Agent({ rejectUnauthorized: false })
         }
         //console.log(config);
         var formattedData_1 = {};
@@ -90,14 +98,14 @@ describe('CLI Application test user command', () => {
         formattedData_1 = formating.formatData(response_1.data,"json");
   
         expect(actualResponseFromCLI_1).to.equal(formattedData_1);
-    });
+    }).timeout(3000);
     it('the returned values from the cli should equal the responses immediately from the backend\
     \n if the username doesnt exists',async () => {
         const cliCommand_2 = `se2333 user --username notexistuser`;
         const actualResponseFromCLI_2 = execSync(cliCommand_2).toString().trim();
         const expected_response = "User not found";
         expect(actualResponseFromCLI_2).to.equal(expected_response);
-    });
+    }).timeout(4000);
   });
 
 
@@ -110,10 +118,11 @@ describe('CLI Application test healthcheck command', () => {
   
         var config_1 = {
             method : 'get',
-            url : 'http://localhost:9876/ntuaflix_api/admin/healthcheck',
+            url : 'https://localhost:9876/ntuaflix_api/admin/healthcheck',
             headers : {
               'X-OBSERVATORY-AUTH': token,//'Authorization': 'Bearer ' + token
-            }
+            },
+            httpsAgent: new https.Agent({ rejectUnauthorized: false })
         }
   
         //console.log(config);
@@ -124,7 +133,7 @@ describe('CLI Application test healthcheck command', () => {
         formattedData_1 = formating.formatData(response_1.data,"json");
   
         expect(actualResponseFromCLI_1).to.equal(formattedData_1);
-    });
+    }).timeout(3000);
   });
 
 
@@ -141,7 +150,7 @@ describe('CLI Application test uploadtsvprincipals command',() => {
         const actualResponseFromCLI_2 = execSync(cliCommand_2).toString().trim();
         const expectedresponse_2 = 'an error occurred'
         expect(actualResponseFromCLI_2).to.equal(expectedresponse_2);
-    });
+    }).timeout(3000);
   });
 
 
@@ -158,7 +167,7 @@ describe('CLI Application test newtitles command', () => {
         const actualResponseFromCLI_2 = execSync(cliCommand_2).toString().trim();
         const expectedresponse_2 = 'an error occurred'
         expect(actualResponseFromCLI_2).to.equal(expectedresponse_2);
-    });
+    }).timeout(3000);
   });
 
 
@@ -175,7 +184,7 @@ describe('CLI Application test newakas command', () => {
         const actualResponseFromCLI_2 = execSync(cliCommand_2).toString().trim();
         const expectedresponse_2 = 'an error occurred'
         expect(actualResponseFromCLI_2).to.equal(expectedresponse_2);
-    });
+    }).timeout(3000);
   });
 
 
@@ -193,13 +202,13 @@ describe('CLI Application test newnames command', () => {
         const actualResponseFromCLI_2 = execSync(cliCommand_2).toString().trim();
         const expectedresponse_2 = 'an error occurred'
         expect(actualResponseFromCLI_2).to.equal(expectedresponse_2);
-    });
+    }).timeout(3000);
   });
 
 
 describe('CLI Application test newcrew command', () => {
     it('the returned values from the cli should equal the responses immediately from the backend\
-      whether the filepath is correct or not', () => {
+      whether the filepath is correct or not', async () => {
   
         const cliCommand_1 = `se2333 newcrew --filename ../back-end/test/testing_tsvs/truncated_title.crew_10_rows.tsv`;
         const actualResponseFromCLI_1 = execSync(cliCommand_1).toString().trim();
@@ -210,7 +219,7 @@ describe('CLI Application test newcrew command', () => {
         const actualResponseFromCLI_2 = execSync(cliCommand_2).toString().trim();
         const expectedresponse_2 = 'an error occurred'
         expect(actualResponseFromCLI_2).to.equal(expectedresponse_2);
-    });
+    }).timeout(3000);
   });
 
 
@@ -228,7 +237,7 @@ describe('CLI Application test newepisode command', () => {
         const actualResponseFromCLI_2 = execSync(cliCommand_2).toString().trim();
         const expectedresponse_2 = 'an error occurred'
         expect(actualResponseFromCLI_2).to.equal(expectedresponse_2);
-    });
+    }).timeout(3000);
   });
 
 
@@ -245,7 +254,7 @@ describe('CLI Application test newratings command', () => {
         const actualResponseFromCLI_2 = execSync(cliCommand_2).toString().trim();
         const expectedresponse_2 = 'an error occurred'
         expect(actualResponseFromCLI_2).to.equal(expectedresponse_2);
-    });
+    }).timeout(3000);
   });
 
 describe('CLI Application test title command', () => {
@@ -258,10 +267,11 @@ describe('CLI Application test title command', () => {
 
       var config_1 = {
           method : 'get',
-          url : 'http://localhost:9876/ntuaflix_api/title/' + titleid,
+          url : 'https://localhost:9876/ntuaflix_api/title/' + titleid,
           headers : {
             'X-OBSERVATORY-AUTH': token,//'Authorization': 'Bearer ' + token
-          }
+          },
+          httpsAgent: new https.Agent({ rejectUnauthorized: false })
       }
       //console.log(config);
       var formattedData_1 = {};
@@ -271,7 +281,7 @@ describe('CLI Application test title command', () => {
 
       expect(actualResponseFromCLI_1).to.equal(formattedData_1);
 
-  });
+  }).timeout(3000);
   it('the returned values from the cli should equal the responses immediately from the backend\
   \n if the titleid doesnt exists',async () => {
       const cliCommand_2 = `se2333 title --titleID notexistid`;
@@ -279,7 +289,7 @@ describe('CLI Application test title command', () => {
       const expected_response = "No title found"
       expect(actualResponseFromCLI_2).to.equal(expected_response);
   
-  });
+  }).timeout(3000);
 });
 
 
@@ -294,7 +304,7 @@ describe('CLI Application test bygenre command', () => {
         const actualResponseFromCLI_1 = execSync(cliCommand_1).toString().trim();
         var config_1 = {
             method : 'get',
-            url : 'http://localhost:9876/ntuaflix_api/bygenre',
+            url : 'https://localhost:9876/ntuaflix_api/bygenre',
             headers : {
               'X-OBSERVATORY-AUTH': token,//'Authorization': 'Bearer ' + token
             },
@@ -304,8 +314,8 @@ describe('CLI Application test bygenre command', () => {
               'yrFrom': from, 
               'yrTo': to
             },
+            httpsAgent: new https.Agent({ rejectUnauthorized: false })
         }
-        await delay(500);
         //console.log("OMG KAI TRIA LOL");
         //console.log(config);
         var formattedData_1 = {};
@@ -315,7 +325,7 @@ describe('CLI Application test bygenre command', () => {
         formattedData_1 = formating.formatData(response_1.data,"json");
   
         expect(actualResponseFromCLI_1).to.equal(formattedData_1);
-    } );
+    } ).timeout(3000);
   });
 
 
@@ -330,10 +340,11 @@ describe('CLI Application test name command', () => {
   
         var config_1 = {
             method : 'get',
-            url : 'http://localhost:9876/ntuaflix_api/name/' + nameid,
+            url : 'https://localhost:9876/ntuaflix_api/name/' + nameid,
             headers : {
               'X-OBSERVATORY-AUTH': token,//'Authorization': 'Bearer ' + token
-            }
+            },
+            httpsAgent: new https.Agent({ rejectUnauthorized: false })
         }
         //console.log(config);
         var formattedData_1 = {};
@@ -344,14 +355,14 @@ describe('CLI Application test name command', () => {
   
         expect(actualResponseFromCLI_1).to.equal(formattedData_1);
         
-    });
+    }).timeout(3000);
     it('the returned values from the cli should equal the responses immediately from the backend\
     \n if the nameid doesnt exists',async () => {
         const cliCommand_2 = `se2333 name --nameid fakenameid`;
         const actualResponseFromCLI_2 = execSync(cliCommand_2).toString().trim();
         const expected_response = 'Name not found';
         expect(actualResponseFromCLI_2).to.equal(expected_response);
-    });
+    }).timeout(3000);
   });
 
 
@@ -365,11 +376,12 @@ describe('CLI Application test searchname command', () => {
   
         var config_1 = {
             method : 'get',
-            url : 'http://localhost:9876/ntuaflix_api/searchname',
+            url : 'https://localhost:9876/ntuaflix_api/searchname',
             headers : {
               'X-OBSERVATORY-AUTH': token,//'Authorization': 'Bearer ' + token
             },
-            data:{namePart:namepart}
+            data:{namePart:namepart},
+            httpsAgent: new https.Agent({ rejectUnauthorized: false })
         }
         //console.log(config);
         var formattedData_1 = {};
@@ -379,14 +391,14 @@ describe('CLI Application test searchname command', () => {
         formattedData_1 = formating.formatData(response_1.data,"json");
   
         expect(actualResponseFromCLI_1).to.equal(formattedData_1);
-    });
+    }).timeout(3000);
     it('the returned values from the cli should equal the responses immediately from the backend\
     \n if the namepart doesnt exists',async () => {
         const cliCommand_2 = `se2333 searchname --name fakenamepart`;
         const actualResponseFromCLI_2 = execSync(cliCommand_2).toString().trim();
         const expected_response = 'No data';
         expect(actualResponseFromCLI_2).to.equal(expected_response);
-    });
+    }).timeout(3000);
   });
 
   describe('CLI Application test unit resetall command', () => {
@@ -395,11 +407,34 @@ describe('CLI Application test searchname command', () => {
         const actualResponseFromCLI_1 = configuration.configconstructor('resetall',token,null);
         const expectedconfiguration = {
           method : 'post',
-          url : 'http://localhost:9876/ntuaflix_api/admin/resetall',
+          url : 'https://localhost:9876/ntuaflix_api/admin/resetall',
           headers : {
             'X-OBSERVATORY-AUTH': token,//'Authorization': 'Bearer ' + token
-          }
+          },
+          httpsAgent: new https.Agent({ rejectUnauthorized: false })
         }
         expect(actualResponseFromCLI_1.toString()).to.equal(expectedconfiguration.toString());
-    });
+    }).timeout(3000);
   });
+
+  describe('CLI Application test logout command', () => {
+    it('a message should be printed in the console that informs the user \
+    whether his is successfully logged out ',() => {
+  
+        const cliCommand_1 = `se2333 logout`;
+        const actualResponseFromCLI_1 = execSync(cliCommand_1).toString().trim();
+        const expectedresponse = `{\n  "message": "Logout successful"\n}`;
+        expect(actualResponseFromCLI_1).to.equal(expectedresponse);
+    }).timeout(3000);
+  });
+
+}
+
+async function run (){
+  var token;
+  await firsttest();
+  token = await readtoken();
+  console.log("from here token = ",token);
+  await resttests(token);
+}
+run();

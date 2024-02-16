@@ -506,7 +506,7 @@ exports.readUser = (req, res, next) => {
                     birthdate: result[0].birthdate,
                     role: result[0].role,
                 };
-                res.status(200).json(userObject);
+                return res.status(200).json(userObject);
             }
         });
     });
