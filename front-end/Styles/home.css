@@ -1,14 +1,15 @@
-body{
+/* body{
     background: linear-gradient(60deg,var(--variant-color), var(--main-color));
     height: 100%;
     background-attachment: fixed;
-}
+} */
 
 
 .home-container{
     padding: 0 8rem;
     display: flex;
     flex-direction: column;
+    gap: 2rem;
     justify-content: center;
     align-items: center;
 }
@@ -27,7 +28,7 @@ body{
     justify-content: center;
     padding-bottom: 2rem;
     /* margin-bottom: 3rem; */
-    padding-top: 4rem;
+    padding-top: 2rem;
     width: 100%;
 }
 
@@ -79,4 +80,9 @@ body{
 
 .reset-btn:hover{
     cursor: pointer;
+}
+
+.home-container h2{
+    color: var(--selection-color-variant);
+    font-size: 2em;
 }

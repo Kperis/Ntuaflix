@@ -5,33 +5,33 @@
     align-items: center;
     width: 100%;
     padding: 4rem 8rem;
-    gap: 16rem;
+    gap: 8rem;
     list-style: none;
     overflow: hidden;
-    height: 100vh;
+    height: 400px;
 }
 
 .libraryList-container{
     /* padding: 4rem 2rem; */
     width: 460px;
-    height: 60vh;
-    background: linear-gradient(180deg, rgb(0, 255, 136), transparent);
+    height: 200px;
+    background: linear-gradient(140deg, var(--selection-color-variant) , transparent), rgba(0,0,0,0.2);
     border-radius: 16px 16px 0 0;
     box-shadow: 0px -20px 16px 1px var(--main-color);    
     transition: all linear 0.25s;
+    border: 1px solid rgba(164, 143, 113, 0.6);
 }
 
 
 .libraryList-container:hover{
     transform: scale(1.02);
-    background: linear-gradient(180deg, rgb(0, 255, 136), var(--main-color));
-    box-shadow: 0px 10px 24px 2px rgb(0,255,136);
-    height: 75vh;
+    background: linear-gradient(140deg, var(--selection-color), var(--main-color));
+    box-shadow: 0px 10px 24px 2px #720455;
 }
 
 
 .libraryList{
-    color: rgb(255, 180, 41);
+    color: var(--variant-color);
     font-weight: bold;
     font-size: 1.2em;
     width: 100%;
