@@ -74,7 +74,9 @@ const Signin = () => {
           setPassword('');
         }
     })
-    .catch((error) => alert(error.message))
+    .catch((error) => {
+      alert('There was an error. Make sure you visit https://localhost:9876/ntuaflix_api and make it a trusted source');
+    })
 
     }
   }

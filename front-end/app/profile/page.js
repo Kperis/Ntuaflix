@@ -14,6 +14,10 @@ const page = () => {
   
 
     useEffect(()=>{
+       fetchFinal();
+    }, [])
+
+    const fetchFinal = () => {
         fetch('https://localhost:9876/ntuaflix_api/user/profile', {
             method: 'get',
             headers: {
@@ -42,7 +46,7 @@ const page = () => {
                 setLoading(false);
             }
         })
-    }, [])
+    }
 
     return (
         <main>
@@ -53,7 +57,7 @@ const page = () => {
             : registered
             
                 ?  <>
-                        <UserInfo data={userdata}/>
+                        <UserInfo data={userdata} fetchFinal={fetchFinal}/>
                         <ul className='library-container'>
                             <li>
                                 <ListContainer name='Watch Later' href='/profile/watchlater' />
