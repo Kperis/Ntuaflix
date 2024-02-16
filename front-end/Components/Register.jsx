@@ -38,11 +38,11 @@ const Register = () => {
             alert('Please fill everything!');
         }
         else{
-            fetch('http://localhost:9876/ntuaflix_api/user/createProfile', {
+            fetch('https://localhost:9876/ntuaflix_api/user/createProfile', {
                 method: 'put',
                 headers: {
                     'Content-type':'application/json',
-                    'X-OBSERVATORY-AUTH' : localStorage.getItem('token')
+                    'X-OBSERVATORY-AUTH' : sessionStorage.getItem('token')
                 },  
                 body: JSON.stringify({
                     birthDate: birth,

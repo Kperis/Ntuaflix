@@ -59,10 +59,10 @@ const Navbar = () => {
 
     const changeRoute = (title) =>{
         if(title === 'logout'){
-            fetch('http://localhost:9876/ntuaflix_api/auth/logout', {
+            fetch('https://localhost:9876/ntuaflix_api/auth/logout', {
                 method: 'post',
                 headers : {
-                    'X-OBSERVATORY-AUTH' : localStorage.getItem('token')
+                    'X-OBSERVATORY-AUTH' : sessionStorage.getItem('token')
                 },
                 body : JSON.stringify({})
             })
@@ -70,11 +70,11 @@ const Navbar = () => {
                 if(response.status === 500){
                     throw new Error('Server error');
                 }
-                localStorage.clear();
+                sessionStorage.clear();
 
             })
             .catch((error) => {
-                localStorage.clear();
+                sessionStorage.clear();
                 alert(error);
             })
                  

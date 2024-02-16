@@ -104,7 +104,7 @@ exports.getActors = (req, res, next) => {
 
 exports.getGenres = (req,res,next) => {
     const SQLQuery = `
-        SELECT DISTINCT genre FROM Genres WHERE genre <> '\\N' AND genre IS NOT NULL;
+        SELECT DISTINCT genre FROM Genres WHERE genre <> '\\\\N' AND genre <> '\\N' AND genre IS NOT NULL;
     `;
 
     pool.getConnection((err,connection) => {
@@ -119,8 +119,8 @@ exports.getGenres = (req,res,next) => {
                 res.sendStatus(500).json({message: 'Internal Server Error'});
                 return;            
             }
-            console.log(results);
-            res.sendStatus(200).json(results);
+            res.status(200).json(results);
+            return;
             connection.release();
         })
     });

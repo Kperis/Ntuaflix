@@ -3,7 +3,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import '@/Styles/home.css'
 
-const SearchBox = ({setMovieList, titleOnly, onSearch, title, setTitle}) => {
+const SearchBox = ({setOverlay, setMovieList, titleOnly, onSearch, title, setTitle, categories, fetchMovies}) => {
 
     const [filter, setFilter] = useState('title');
     const [genre, setGenre] = useState('Comedy');
@@ -18,6 +18,9 @@ const SearchBox = ({setMovieList, titleOnly, onSearch, title, setTitle}) => {
 
     const changeFilter = (event) => {
         setFilter(event.target.value);
+        if(event.target.value !== 'title'){
+            setOverlay(false);
+        }
     }
 
     const changeGenre = (event) =>{
@@ -42,31 +45,52 @@ const SearchBox = ({setMovieList, titleOnly, onSearch, title, setTitle}) => {
             alert('Insert minimum rating');
         }
         else{
-        fetch('http://localhost:9876/ntuaflix_api/bygenre', 
-            {
-                method: 'post',
-                headers: {
-                    'Content-type': 'application/json',
-                    'X-OBSERVATORY-AUTH': localStorage.getItem('token')
-                },
-                body: JSON.stringify({
-                    qgenre: genre,
-                    minrating: rating,
-                    yrFrom: startYear,
-                    yrTo: endYear
-                })
+            fetch('https://localhost:9876/ntuaflix_api/bygenre', 
+                {
+                    method: 'post',
+                    headers: {
+                        'Content-type': 'application/json',
+                        'X-OBSERVATORY-AUTH': sessionStorage.getItem('token')
+                    },
+                    body: JSON.stringify({
+                        qgenre: genre,
+                        minrating: rating,
+                        yrFrom: startYear,
+                        yrTo: endYear
+                    })
 
-            }
-        )
-        .then(respone => respone.json())
-        .then(data => {
-            setMovieList(data);
-            console.log(rating);
-        })
+                }
+            )
+            .then(response =>{ 
+                if(response.status === 500){
+                    throw new Error('Server error');
+                }
+                else if(response.status === 404){
+                    return []
+                }
+                else if(response.status === 200){
+                    return response.json();
+                }
+                else throw new Error('Something went wrong');
+            })
+            .then(data => {
+                setMovieList(data);
+            })
+            .catch((error) => alert(error))
 
         }
     }
 
+    const resetSearch = () => {
+        setEndYear(null);
+        setGenre('Comedy');
+        setRating(null);
+
+        setTitle('');
+        fetchMovies();
+        setOverlay(true);
+    }
+ 
 
     return (
         <div className='selection'>
@@ -78,11 +102,16 @@ const SearchBox = ({setMovieList, titleOnly, onSearch, title, setTitle}) => {
                 </div>
             :   <div>
                     <select onChange={changeGenre} value={genre}>
-                        <option value='Comedy'>Comedy</option>
+                        {/* <option value='Comedy'>Comedy</option>
                         <option value='Fantasy'>Fantasy</option>
                         <option value='Crime'>Crime</option>
                         <option value='Romance'>Romance</option>
-                        <option value='Drama'>Drama</option>
+                        <option value='Drama'>Drama</option> */}
+                        {categories.map((category) => {
+                            return <option key={category.genre} value={category.genre}>{category.genre}</option>
+                        })
+
+                        }
                     </select>
                     <input placeholder='min rating' onChange={changeRating} type='number' min={0.0} max={10.0} step={0.1} value={rating === null ? '' : rating}/>
                     <input placeholder='Year from' onChange={changeStartYear} type='number' min={1900} max={2024} step={1}  value={startYear === null ? '' : startYear}/>
@@ -98,6 +127,7 @@ const SearchBox = ({setMovieList, titleOnly, onSearch, title, setTitle}) => {
                 </select>
             :   <></>
             }
+            <button onClick={resetSearch} className='reset-btn'>Reset</button>
     </div>
     )
 }

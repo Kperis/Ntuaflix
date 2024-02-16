@@ -18,17 +18,17 @@ const MoviePage = ({id, poster, title, contributors, akas, year, type, rating}) 
 
   const fetchphotos = async () =>{
     const arr = await Promise.all(contributors.map( async (contributor) => {
-      const res = await fetch('http://localhost:9876/ntuaflix_api/name/'+contributor?.nameID ,{
+      const res = await fetch('https://localhost:9876/ntuaflix_api/name/'+contributor?.nameID ,{
           method: 'get',
-          headers: {'X-OBSERVATORY-AUTH' : localStorage.getItem('token')}
+          headers: {'X-OBSERVATORY-AUTH' : sessionStorage.getItem('token')}
       });
       const data = await res.json();
       return data;
     }));
 
-    fetch('http://localhost:9876/ntuaflix_api/listsInfo/' + id, {
+    fetch('https://localhost:9876/ntuaflix_api/listsInfo/' + id, {
       method: 'get',
-      headers: {'X-OBSERVATORY-AUTH' : localStorage.getItem('token')}
+      headers: {'X-OBSERVATORY-AUTH' : sessionStorage.getItem('token')}
     })
     .then(response => response.json())
     .then(response => {
@@ -46,25 +46,50 @@ const MoviePage = ({id, poster, title, contributors, akas, year, type, rating}) 
       setHeart(!heart);
       setDisableClick(true);
       if(!temp){
-        fetch('http://localhost:9876/ntuaflix_api/user/addToFavorites/' + id,{
+        fetch('https://localhost:9876/ntuaflix_api/user/addToFavorites/' + id,{
           method: 'post',
           headers: {
-            'X-OBSERVATORY-AUTH' : localStorage.getItem('token'),
+            'X-OBSERVATORY-AUTH' : sessionStorage.getItem('token'),
             'Content-type' : 'application/json'
           },
           body: JSON.stringify({})
         })
-        .then(response => response.json())
-        .then(response => console.log(response))
-      }
-      else{
-        fetch('http://localhost:9876/ntuaflix_api/user/deleteFromFavorites/' + id, {
-          method: 'delete',
-          headers: {
-            'X-OBSERVATORY-AUTH' : localStorage.getItem('token')
-          },
+        .then(response => {
+          if(response.status == 500){
+            throw new Error('Server encounter an error');
+          }
+          else if(response.status === 404){
+            throw new Error('title not found in database');
+          }
+          else if(response.status === 200){
+            throw new Error('Title already in favorites');
+          }
+          else return response.json()
         })
         .then(response => console.log(response))
+        .catch((error) => alert(error))
+      }
+      else{
+        fetch('https://localhost:9876/ntuaflix_api/user/deleteFromFavorites/' + id, {
+          method: 'delete',
+          headers: {
+            'X-OBSERVATORY-AUTH' : sessionStorage.getItem('token')
+          },
+        })
+        .then(response => {
+          if(response.status == 500){
+            throw new Error('Server encounter an error');
+          }
+          else if(response.status === 404){
+            throw new Error('title not found in database');
+          }
+          else if(response.status === 200){
+            throw new Error('Title already in favorites');
+          }
+          else return response
+        })
+        .then(response => console.log(response))
+        .catch((error) => alert(error))
       }
       setTimeout(() => {
         setDisableClick(false);
@@ -76,10 +101,10 @@ const MoviePage = ({id, poster, title, contributors, akas, year, type, rating}) 
   }
 
   const addToWatchLater = () =>{
-    fetch('http://localhost:9876/ntuaflix_api/user/addToWatchlist/' + id,{
+    fetch('https://localhost:9876/ntuaflix_api/user/addToWatchlist/' + id,{
       method: 'post',
       headers: {
-        'X-OBSERVATORY-AUTH' : localStorage.getItem('token'),
+        'X-OBSERVATORY-AUTH' : sessionStorage.getItem('token'),
         'Content-type' : 'application/json'
       },
       body: JSON.stringify({})
@@ -104,17 +129,17 @@ const MoviePage = ({id, poster, title, contributors, akas, year, type, rating}) 
 
 
   return (
-    <div className='moviepage-container' style={{backgroundImage: `url(${poster.replace('{width_variable}', 'original')})`}}>
+    <div className='moviepage-container' style={{backgroundImage: `url(${poster?.replace('{width_variable}', 'original')})`}}>
         <main className='details'>
           <section>
             <h1>{title}</h1>
-            <p>{akas.map((item) => {return item?.genreTitle+', '})}</p>
+            <p>{akas?.map((item) => {return item?.genreTitle+', '})}</p>
           </section>
           <div className='seperation'></div>
           <section>
             <p>Type: {type}</p>
             <p>Year: {year}</p>
-            <p>Rating: {rating[0].avRating ? rating[0].avRating : 'No data'}</p>
+            <p>Rating: {rating[0]?.avRating ? rating[0]?.avRating : 'No data'}</p>
           </section>
           <section className='contributors'>
             <p>Contributors: </p>

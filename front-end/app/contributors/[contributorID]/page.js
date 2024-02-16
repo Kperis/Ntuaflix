@@ -22,42 +22,54 @@ const page = () => {
 
 
     useEffect(() => {
-      fetch('http://localhost:9876/ntuaflix_api/name/'+id ,{
-          method: 'get',
-          headers: {'X-OBSERVATORY-AUTH': localStorage.getItem('token')}
-      })
-      .then(response => response.json())
-      .then(data => {
-        setBirth(data.birthYr);
-        setDeath(data.deathYr);
-        setPoster(data.namePoster);
-        setName(data.name);
-        setProfession(data.profession);
-        setIds(data.nameTitles);
-        fetchMovies();
-        setLoading(false);
-        
-      })
-    }, [])
+        fetch('https://localhost:9876/ntuaflix_api/name/'+id ,{
+            method: 'get',
+            headers: {'X-OBSERVATORY-AUTH': sessionStorage.getItem('token')}
+            })
+        .then(response => {
+            if(response.status === 400){
+                throw new Error('Bad Request');
+            }
+            else if(response.status === 200){
+                return response.json();
+            }
+            else throw new Error('Something went wrong');
+        })
+        .then(data => {
+            setBirth(data.birthYr);
+            setDeath(data.deathYr);
+            setPoster(data.namePoster);
+            setName(data.name);
+            setProfession(data.profession);
+            setIds(data.nameTitles);
+            setLoading(false);
+        })
+        .catch((error) => alert(error))
+        }, [])
 
-    useEffect(() => {
-        fetchMovies();
-    }, [loading])
+        useEffect(() => {
+            fetchMovies();
+        }, [loading])
 
     const fetchMovies = async () => {
+        try{
+            const arr = await Promise.all(ids.map(async (movie) => {
+                const response = await fetch('https://localhost:9876/ntuaflix_api/title/' + movie.titleID, {
+                    method: 'get',
+                    headers: {'X-OBSERVATORY-AUTH' : sessionStorage.getItem('token')}
+                })
+    
+                const data = await response.json();
+                return data;
+            }))
+            setMovies(arr);
+            console.log(arr);
+        }
+        catch (e){
+            alert('Something went wrong: ' + e);
+            setMovies([]);
+        }
 
-        const arr = await Promise.all(ids.map(async (movie) => {
-            const response = await fetch('http://localhost:9876/ntuaflix_api/title/' + movie.titleID, {
-                method: 'get',
-                headers: {'X-OBSERVATORY-AUTH' : localStorage.getItem('token')}
-            })
-
-            const data = await response.json();
-            console.log(data);
-            return data;
-        }))
-
-        setMovies(arr);
     
     }
 

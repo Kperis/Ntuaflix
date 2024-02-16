@@ -12,15 +12,25 @@ const page = () => {
     const [movieData, setMovieData] = useState({});
     
     useEffect(() => {
-      fetch('http://localhost:9876/ntuaflix_api/title/'+id ,{
+      fetch('https://localhost:9876/ntuaflix_api/title/'+id ,{
           method: 'get',
-          headers: {'X-OBSERVATORY-AUTH': localStorage.getItem('token')}
+          headers: {'X-OBSERVATORY-AUTH': sessionStorage.getItem('token')}
       })
-      .then(response => response.json())
+      .then(response => {
+        if(response.status === 400){
+          throw new Error('Server error')
+        }
+        else if(response.status === 200){
+          return response.json()
+        }
+        else return {}
+      })
       .then(data => {
         setMovieData(data);
         setLoading(false);
+        console.log(data);
       })
+      .catch((error) => alert(error))
     }, [])
 
   return (
