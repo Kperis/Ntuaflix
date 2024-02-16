@@ -41,7 +41,7 @@ Non Functional Requirements:
 Testing:
   1. Test cases for the REST-API:
     - In the test folder, there are test cases for the REST-API
-    - The tests are written in Mocha and Chai
+    - The tests are written using Mocha and Chai
           <p align="right"><a href="#testing">Check Testing</a></p>
   2. Postman Scripts
     - The postman scripts are in the postman folder
@@ -73,6 +73,12 @@ _The above use cases are properly explained in the ntuaflix documentation [VPP-F
 <!--[VPP-FILE]: ../documentation/README.md
 -->
 [VPP-FILE]: https://github.com/ntua/softeng23-33/tree/main/documentation
+
+### Documentation
+The documentation of the REST-API is in the api_documentation folder. This folder contains:
+1. The API documentation in .json and in .yaml format
+
+2. The postman documentation in .json format
 
 
 ### NodeJS Packages:

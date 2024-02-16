@@ -35,6 +35,7 @@ program
     console.log('se2333 bygenre --genre [genre] --min [minrating] --from [yrFrom] --to [yrTo] --format [format]');
     console.log('se2333 searchname --name [namepart] --format [format]');
     console.log('se2333 adduser --username [username] --password [password] --format [format]');
+    console.log('se2333 logout --format [format]');
   });
 
 
