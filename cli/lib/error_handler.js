@@ -40,6 +40,8 @@ exports.errorhandler = (status,name) =>{
         }else if (name == "logout"){
             return 'User not logged in';
         }
+    }else if(status === 401){
+        return chalk.red('Not Authorized , please login');
     }
     return;
 }

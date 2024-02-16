@@ -1,0 +1,3556 @@
+{
+	"info": {
+		"_postman_id": "9cf0acf7-4796-4e44-b456-45b4e7344c83",
+		"name": "API documentation",
+		"description": "# 📄 Get started with NTUAflix API\n\nNTUAflix API is a comprehensive solution for managing movie-related data and user interactions. It provides a robust set of functionalities for both administrators and regular users. This guide will walk you through the steps required to start using the NTUAflix API efficiently.\n\n## Overview\n\nNTUAflix API offers functionalities for managing users, movies, and user interactions. Administrators can upload data, manage users, and perform administrative tasks, while regular users can browse movies, manage their profiles, and interact with the platform.\n\n## Getting Started Guide\n\n  \nTo start using NTUAflix API, follow these steps:\n\n1. Initializing Database:\n    \n\nStart a MySQL Server (e.g., using XAMPP).  \nCreate the database using the provided schema file (./utils/ntuaflix_create_schema.sql).  \nOptionally, you can populate the database with sample data from TSV files using the command npm run data.\n\n2\\. Start the Server and REST-API:\n\nInstall all dependencies with npm install.  \nRun the REST-API with npm start.\n\n  \n3\\. Authentication:\n\nUse provided credentials to authenticate:  \nAdmin Credentials: { \"username\": \"admin\", \"password\": \"1234\" }  \nUser Credentials: { \"username\": \"user\", \"password\": \"1234\" }\n\n  \n4\\. Testing:\n\nEnsure the local web development toolkit is running.  \nInstall dependencies with npm install.  \nRun tests with npm test.\n\n##   \nAuthentication\n\n  \nNTUAflix API uses JSON Web Tokens (JWT) for authentication. Users can obtain tokens by logging in with their credentials. The token must be included in the request header for subsequent authenticated requests.\n\nRate and Usage Limits  \nNTUAflix API imposes rate limits to ensure fair usage and prevent abuse. Requests exceeding the limit will receive an HTTP 429 Too Many Requests status code.\n\n### Need Some Help?\n\n  \nIf you need assistance or have questions regarding NTUAflix API, consider the following resources:\n\nReadme files: There are readme files in \"backend\",\"frontend\" and \"cli-client\" folders that contain all the necessary information to properly run the app.  \nFAQ Page: Contact team 33  \nWe're committed to providing comprehensive support to ensure you have a smooth experience with NTUAflix API.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27218285",
+		"_collection_link": "https://lunar-moon-962244.postman.co/workspace/5c3bc88b-fdad-44e2-b0fe-e81d182b2d23/collection/27218285-9cf0acf7-4796-4e44-b456-45b4e7344c83?action=share&source=collection_link&creator=27218285"
+	},
+	"item": [
+		{
+			"name": "Admin's routes",
+			"item": [
+				{
+					"name": "Admin healthcheck",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "https://localhost:9876/ntuaflix_api/admin/healthcheck",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "9876",
+							"path": [
+								"ntuaflix_api",
+								"admin",
+								"healthcheck"
+							]
+						},
+						"description": "This endpoint sends an HTTP GET request to [http://localhost:9876/ntuaflix_api/admin/healthcheck](http://localhost:9876/ntuaflix_api/admin/healthcheck) to retrieve the health status of the server. The response will be in JSON format with a status code of 200. The response body will contain the status and details about the host, port, user, and database.\n\nResponses:\n\n- 200 {\"status\": \"OK\"}\n    \n- 401 Unauthorized\n    \n- 500 Error establishing database connection"
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9876/ntuaflix_api/admin/healthcheck",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9876",
+									"path": [
+										"ntuaflix_api",
+										"admin",
+										"healthcheck"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "96"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"60-E1rKA7Vy+uboTmEwBZXifeO1RVw\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 10 Feb 2024 14:19:27 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"OK\",\n    \"message\": {\n        \"host\": \"localhost\",\n        \"port\": \"3306\",\n        \"user\": \"root\",\n        \"database\": \"ntuaflix\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Admin users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Demo Script: Retrieve User Information by Username\r",
+									"\r",
+									"// Define the base URL of the API\r",
+									"var baseUrl = 'http://localhost:9876/ntuaflix_api/admin/';\r",
+									"\r",
+									"// Define the username for the user we want to retrieve information for\r",
+									"var username = 'user';\r",
+									"\r",
+									"// Define the request details\r",
+									"var request = {\r",
+									"    method: 'GET',\r",
+									"    url: baseUrl + '/users/' + username,\r",
+									"    headers: {\r",
+									"        'Authorization': 'X-OBSERVATORY-AUTH eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MDc4MzY1NjEsImV4cCI6MTcwNzg1MDk2MX0.QNKB1Ty5zOz6Kj55UthNNVSyIB-v4FvjVJSean7vc9g'\r",
+									"    }\r",
+									"};\r",
+									"\r",
+									"// Send the request\r",
+									"pm.sendRequest(request, function (err, response) {\r",
+									"    if (err) {\r",
+									"        console.error('Error:', err);\r",
+									"        return;\r",
+									"    }\r",
+									"\r",
+									"    // Log the response body\r",
+									"    console.log('Response Body:', response.json());\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response status code is 200\", function () {\r",
+									"    pm.expect(pm.response.code).to.equal(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Email is in a valid format\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData.email).to.be.a('string').and.to.match(/^.+@.+\\..+$/);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"pm.test(\"Role is a non-empty string\", function () {\r",
+									"  const responseData = pm.response.json();\r",
+									"  \r",
+									"  pm.expect(responseData).to.be.an('object');\r",
+									"  pm.expect(responseData.role).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Role should not be empty\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:9876/ntuaflix_api/admin/users/notexistance",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "9876",
+							"path": [
+								"ntuaflix_api",
+								"admin",
+								"users",
+								"notexistance"
+							]
+						},
+						"description": "This endpoint retrieves user details for the admin panel using as a parameter the username of the user. It makes an HTTP GET request to the specified URL. The response will have a status code of 200 and a content type of application/json. The response body will contain the user details including user_id, username, email, first_name, last_name, birthdate, and role.\n\nResponses :\n\n- 200 User info retrieved successfully.\n    \n- 401 Unauthorized.\n    \n- 404 User not found.\n    \n- 500 Error establishing database connection."
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9876/ntuaflix_api/admin/users/exampleusername",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9876",
+									"path": [
+										"ntuaflix_api",
+										"admin",
+										"users",
+										"exampleusername"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "176"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"b0-fGNUqmOPpNh9t+Xj6uCewBrrpro\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 10 Feb 2024 14:26:37 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"user_id\": 3,\n    \"username\": \"exampleusername\",\n    \"email\": \"exampleemail\",\n    \"first_name\": \"examplefirstname\",\n    \"last_name\": \"examplelastname\",\n    \"birthdate\": \"2012-12-11T22:00:00.000Z\",\n    \"role\": \"\"\n}"
+						},
+						{
+							"name": "Admin users",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9876/ntuaflix_api/admin/users/notexist",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9876",
+									"path": [
+										"ntuaflix_api",
+										"admin",
+										"users",
+										"notexist"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "28"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1c-ZEVVcvtFhxKX/QUvVKqKxwGbbNA\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 12 Feb 2024 15:08:43 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"User not found\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Admin upload new titles",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test(\"Response status code is 201\", function () {\r",
+									"    pm.expect(pm.response.code).to.equal(201);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Content-Type header is application/json\", function () {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response has the required field 'message'\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.have.property('message');\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Message is a non-empty string\", function () {\r",
+									"  const responseData = pm.response.json();\r",
+									"  \r",
+									"  pm.expect(responseData.message).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Message should not be empty\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Message is in the expected format\", function () {\r",
+									"  const responseData = pm.response.json();\r",
+									"  \r",
+									"  pm.expect(responseData).to.be.an('object');\r",
+									"  pm.expect(responseData.message).to.be.a('string');\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/ggeor/Desktop/testing_tsvs/truncated_title.basics_10_rows.tsv"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:9876/ntuaflix_api/admin/upload/titlebasics",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9876",
+							"path": [
+								"ntuaflix_api",
+								"admin",
+								"upload",
+								"titlebasics"
+							]
+						},
+						"description": "This API endpoint allows administrators to upload title basics to the NTUAFlix database. The HTTP POST request should be made to [http://localhost:9876/ntuaflix_api/admin/upload/titlebasics](http://localhost:9876/ntuaflix_api/admin/upload/titlebasics). The request body should be of form-data type and include a file parameter, which should be a file containing the title basics data.\n\nUpon a successful execution, the API returns a 201 status code with a JSON response body containing a message indicating the success of the upload.\n\nResponses:\n\n- 201 File uploaded and proccessed successfully.\n    \n- 401 Unauthorized.\n    \n- 500 Internal server error."
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "file",
+											"type": "file",
+											"src": "/C:/Users/ggeor/Desktop/softeng 2023/softeng23-33/back-end/test/testing_tsvs/truncated_title.basics_10_rows.tsv"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:9876/ntuaflix_api/admin/upload/titlebasics",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9876",
+									"path": [
+										"ntuaflix_api",
+										"admin",
+										"upload",
+										"titlebasics"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "55"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"37-FCnEyyK/woWMKlJJbNrYB3kLNXo\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 10 Feb 2024 14:28:25 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"File uploaded and processed successfully.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Admin upload new names",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/ggeor/Desktop/testing_tsvs/truncated_name.basics_10_rows.tsv"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:9876/ntuaflix_api/admin/upload/namebasics",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9876",
+							"path": [
+								"ntuaflix_api",
+								"admin",
+								"upload",
+								"namebasics"
+							]
+						},
+						"description": "This endpoint allows administrators to upload name basics to the NTUAFlix API. The HTTP POST request should be made to [http://localhost:9876/ntuaflix_api/admin/upload/namebasics](http://localhost:9876/ntuaflix_api/admin/upload/namebasics).\n\n### Request Body\n\nThe request should have a form-data body type with a parameter named \"file\" of type file. This parameter is used to upload the name basics data.\n\nResponses:\n\n- 201 File uploaded and proccessed successfully.\n    \n- 401 Unauthorized.\n    \n- 500 Internal server error."
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "file",
+											"type": "file",
+											"src": "/C:/Users/ggeor/Desktop/testing_tsvs/truncated_name.basics_10_rows.tsv"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:9876/ntuaflix_api/admin/upload/namebasics",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9876",
+									"path": [
+										"ntuaflix_api",
+										"admin",
+										"upload",
+										"namebasics"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "55"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"37-FCnEyyK/woWMKlJJbNrYB3kLNXo\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 10 Feb 2024 16:05:04 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"File uploaded and processed successfully.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Admin upload new akas",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test(\"Response status code is 201\", function () {\r",
+									"  pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response has the required field 'message'\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('object');\r",
+									"    pm.expect(responseData.message).to.exist;\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Message is a non-empty string\", function () {\r",
+									"  const responseData = pm.response.json();\r",
+									"  \r",
+									"  pm.expect(responseData.message).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Message should not be empty\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Content-Type is application/json\", function () {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Message field contains the expected value\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData.message).to.equal(\"File uploaded and processed successfully.\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/ggeor/Desktop/testing_tsvs/truncated_title.akas_10_rows.tsv"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:9876/ntuaflix_api/admin/upload/titleakas",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9876",
+							"path": [
+								"ntuaflix_api",
+								"admin",
+								"upload",
+								"titleakas"
+							]
+						},
+						"description": "This endpoint allows administrators to upload title akas to the NTUAFlix API. The request should be sent as an HTTP POST to the specified URL. The request body should be of form-data type, with a key \"file\" containing the file to be uploaded.\n\n### Request Body\n\n- `file` (file): The file to be uploaded.\n    \n\nResponses:\n\n- 201 File uploaded and proccessed successfully.\n    \n- 401 Unauthorized.\n    \n- 500 Internal server error."
+					},
+					"response": [
+						{
+							"name": "Admin upload new akas",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "file",
+											"type": "file",
+											"src": "/C:/Users/ggeor/Desktop/testing_tsvs/truncated_title.akas_10_rows.tsv"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:9876/ntuaflix_api/admin/upload/titleakas",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9876",
+									"path": [
+										"ntuaflix_api",
+										"admin",
+										"upload",
+										"titleakas"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "55"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"37-FCnEyyK/woWMKlJJbNrYB3kLNXo\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 12 Feb 2024 15:06:35 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"File uploaded and processed successfully.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Admin upload new principals",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test(\"Response status code is 201\", function () {\r",
+									"    pm.expect(pm.response.to.have.status(201));\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response has the required field 'message'\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('object');\r",
+									"    pm.expect(responseData.message).to.exist;\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Message is a non-empty string\", function () {\r",
+									"  const responseData = pm.response.json();\r",
+									"  \r",
+									"  pm.expect(responseData.message).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Message should not be empty\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Content-Type header is application/json\", function () {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Verify that the response is not empty\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.not.be.empty;\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/ggeor/Desktop/testing_tsvs/truncated_title.principals_10_rows.tsv"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:9876/ntuaflix_api/admin/upload/titleprincipals",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9876",
+							"path": [
+								"ntuaflix_api",
+								"admin",
+								"upload",
+								"titleprincipals"
+							]
+						},
+						"description": "This endpoint allows administrators to upload title principals to the NTUAFlix API. The request should be sent as an HTTP POST to [http://localhost:9876/ntuaflix_api/admin/upload/titleprincipals](http://localhost:9876/ntuaflix_api/admin/upload/titleprincipals).\n\n### Request Body\n\nThe request body should be of form-data type and contain a file parameter. The file parameter should be of type file.\n\nResponses:\n\n- 201 File uploaded and proccessed successfully.\n    \n- 401 Unauthorized.\n    \n- 500 Internal server error."
+					},
+					"response": [
+						{
+							"name": "Admin upload new principals",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "file",
+											"type": "file",
+											"src": "/C:/Users/ggeor/Desktop/testing_tsvs/truncated_title.principals_10_rows.tsv"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:9876/ntuaflix_api/admin/upload/titleprincipals",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9876",
+									"path": [
+										"ntuaflix_api",
+										"admin",
+										"upload",
+										"titleprincipals"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "55"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"37-FCnEyyK/woWMKlJJbNrYB3kLNXo\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 12 Feb 2024 15:06:59 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"File uploaded and processed successfully.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Admin upload new ratings",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Content type is application/json\", function () {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response has the required field - message\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseData).to.be.an('object').that.has.property('message');\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Message is a non-empty string\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"  \r",
+									"    pm.expect(responseData.message).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Message should not be empty\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Verify that the message is a string\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"  \r",
+									"    pm.expect(responseData.message).to.be.a('string');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/ggeor/Desktop/testing_tsvs/truncated_title.ratings_10_rows.tsv"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:9876/ntuaflix_api/admin/upload/titleratings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9876",
+							"path": [
+								"ntuaflix_api",
+								"admin",
+								"upload",
+								"titleratings"
+							]
+						},
+						"description": "This endpoint allows administrators to upload title ratings to the NTUAflix API. The request should be sent via an HTTP POST method to [http://localhost:9876/ntuaflix_api/admin/upload/titleratings](http://localhost:9876/ntuaflix_api/admin/upload/titleratings). The request body should be of form-data type and include a file parameter. Upon successful execution, the API returns a 201 status with a JSON response containing a message.\n\nResponses:\n\n- 201 File uploaded and proccessed successfully.\n    \n- 401 Unauthorized.\n    \n- 500 Internal server error."
+					},
+					"response": [
+						{
+							"name": "Admin upload new ratings",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "file",
+											"type": "file",
+											"src": "/C:/Users/ggeor/Desktop/testing_tsvs/truncated_title.ratings_10_rows.tsv"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:9876/ntuaflix_api/admin/upload/titleratings",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9876",
+									"path": [
+										"ntuaflix_api",
+										"admin",
+										"upload",
+										"titleratings"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "55"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"37-FCnEyyK/woWMKlJJbNrYB3kLNXo\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 12 Feb 2024 15:07:23 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"File uploaded and processed successfully.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Admin upload new episodes",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test(\"Response status code is 201\", function () {\r",
+									"    pm.expect(pm.response.code).to.equal(201);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response has the required field 'message'\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    pm.expect(responseData.message).to.exist;\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Message is a non-empty string\", function () {\r",
+									"  const responseData = pm.response.json();\r",
+									"  \r",
+									"  pm.expect(responseData.message).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Message should not be empty\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Content-Type header is application/json\", function () {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response time is within an acceptable range\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(300);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/ggeor/Desktop/testing_tsvs/truncated_title.episode_10_rows.tsv"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:9876/ntuaflix_api/admin/upload/titleepisode",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9876",
+							"path": [
+								"ntuaflix_api",
+								"admin",
+								"upload",
+								"titleepisode"
+							]
+						},
+						"description": "This endpoint makes an HTTP POST request to upload a title episode to the NTUAFlix admin API.\n\n### Request Body\n\n- form-data\n    - `file` (file): The file to be uploaded.\n\nResponses:\n\n- 201 File uploaded and proccessed successfully.\n    \n- 401 Unauthorized.\n    \n- 500 Internal server error."
+					},
+					"response": [
+						{
+							"name": "Admin upload new episodes",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "file",
+											"type": "file",
+											"src": "/C:/Users/ggeor/Desktop/testing_tsvs/truncated_title.episode_10_rows.tsv"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:9876/ntuaflix_api/admin/upload/titleepisode",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9876",
+									"path": [
+										"ntuaflix_api",
+										"admin",
+										"upload",
+										"titleepisode"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "55"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"37-FCnEyyK/woWMKlJJbNrYB3kLNXo\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 12 Feb 2024 15:07:44 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"File uploaded and processed successfully.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Admin upload new crew",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test(\"Response status code is 201\", function () {\r",
+									"    pm.expect(pm.response.code).to.equal(201);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response has the required Content-Type header\", function () {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Message field is present in the response\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.have.property('message');\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Message field is a non-empty string\", function () {\r",
+									"  const responseData = pm.response.json();\r",
+									"  \r",
+									"  pm.expect(responseData.message).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Message should not be empty\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Message should indicate successful upload\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData.message).to.equal(\"File uploaded and processed successfully.\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/ggeor/Desktop/testing_tsvs/truncated_title.crew_10_rows.tsv"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:9876/ntuaflix_api/admin/upload/titlecrew",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9876",
+							"path": [
+								"ntuaflix_api",
+								"admin",
+								"upload",
+								"titlecrew"
+							]
+						},
+						"description": "This endpoint allows administrators to upload title crew information. The request should be sent as an HTTP POST to [http://localhost:9876/ntuaflix_api/admin/upload/titlecrew](http://localhost:9876/ntuaflix_api/admin/upload/titlecrew).\n\n### Request Body\n\nThe request should have a form-data body type with a single parameter:\n\n- `file` (file): The file containing the title crew information to be uploaded.\n    \n\nResponses:\n\n- 201 File uploaded and proccessed successfully.\n    \n- 401 Unauthorized.\n    \n- 500 Internal server error."
+					},
+					"response": [
+						{
+							"name": "Admin upload new crew",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "file",
+											"type": "file",
+											"src": "/C:/Users/ggeor/Desktop/testing_tsvs/truncated_title.crew_10_rows.tsv"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:9876/ntuaflix_api/admin/upload/titlecrew",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9876",
+									"path": [
+										"ntuaflix_api",
+										"admin",
+										"upload",
+										"titlecrew"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "55"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"37-FCnEyyK/woWMKlJJbNrYB3kLNXo\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 12 Feb 2024 15:08:04 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"File uploaded and processed successfully.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Admin resetall",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9876/ntuaflix_api/admin/resetall",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9876",
+							"path": [
+								"ntuaflix_api",
+								"admin",
+								"resetall"
+							]
+						},
+						"description": "This endpoint is used to reset all data for the admin in the NTUAFlix API. Upon successful execution, it returns a status code of 201 and a JSON response with a \"status\" key.\n\n### Request Body\n\nThis endpoint does not require a request body.\n\nResponses:\n\n- 201 Data reset successfully.\n    \n- 401 Unauthorized.\n    \n- 500 Internal server error."
+					},
+					"response": [
+						{
+							"name": "Admin resetall",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9876/ntuaflix_api/admin/resetall",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9876",
+									"path": [
+										"ntuaflix_api",
+										"admin",
+										"resetall"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "15"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"f-v/Y1JusChTxrQUzPtNAKycooOTA\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 12 Feb 2024 15:08:24 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"OK\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Admin usermod",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test(\"Response status code is 200\", function () {\r",
+									"    pm.expect(pm.response.code).to.equal(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Content-Type header is application/json\", function () {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response has the required field - message\", function () {\r",
+									"  const responseData = pm.response.json();\r",
+									"  pm.expect(responseData).to.be.an('object');\r",
+									"  pm.expect(responseData.message).to.exist;\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Message is a non-empty string\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData.message).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Message should not be empty\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Message property should be a string\", function () {\r",
+									"  const responseData = pm.response.json();\r",
+									"  \r",
+									"  pm.expect(responseData).to.be.an('object');\r",
+									"  pm.expect(responseData.message).to.be.a('string');\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9876/ntuaflix_api/admin/usermod/newusername/updatedpasword",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9876",
+							"path": [
+								"ntuaflix_api",
+								"admin",
+								"usermod",
+								"newusername",
+								"updatedpasword"
+							]
+						},
+						"description": "This endpoint allows you to update the username and password for a user in the admin panel of NTUAFlix. Upon a successful request, it returns a JSON response with a status code of 200 and a message indicating the success of the operation.\n\nThe request should be a POST method to the URL [http://localhost:9876/ntuaflix_api/admin/usermod/newusername/updatedpasword](http://localhost:9876/ntuaflix_api/admin/usermod/newusername/updatedpasword).\n\nThe response will have a Content-Type of application/json and will contain a message field in the JSON body.\n\n### Example Response 200\n\n``` json\n{\n    \"message\": \"Registration Completed. Please login\"\n}\n\n ```\n\nExample Response\n\n``` json\n    \"message\": \"Password Updated\"\n}\n\n ```\n\nOther responses:\n\n- 401 Unauthorized.\n    \n- 500 Internal server error."
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9876/ntuaflix_api/admin/usermod/newusername/newpasword",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9876",
+									"path": [
+										"ntuaflix_api",
+										"admin",
+										"usermod",
+										"newusername",
+										"newpasword"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "50"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"32-X3+iJ070z1SyXNop5AwzNGChRMA\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 12 Feb 2024 15:09:42 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Registration Completed. Please login\"\n}"
+						},
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9876/ntuaflix_api/admin/usermod/newusername/updatedpasword",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9876",
+									"path": [
+										"ntuaflix_api",
+										"admin",
+										"usermod",
+										"newusername",
+										"updatedpasword"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "30"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1e-eLUv0zgFG7Xms4DYU2bcNp5/cts\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 12 Feb 2024 15:10:15 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Password Updated\"\n}"
+						}
+					]
+				}
+			],
+			"auth": {
+				"type": "apikey",
+				"apikey": [
+					{
+						"key": "value",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MDgwNzcyNzgsImV4cCI6MTcwODA5MTY3OH0.NCEmnRHJAbjRvbiBaHMPfi5xQGUo_t31aVo4cZXsn3U",
+						"type": "string"
+					},
+					{
+						"key": "key",
+						"value": "X-OBSERVATORY-AUTH",
+						"type": "string"
+					},
+					{
+						"key": "in",
+						"value": "header",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Authentication routes",
+			"item": [
+				{
+					"name": "Login user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"pm.test(\"Response status code is 200\", function () {",
+									"  pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Content-Type header is application/json\", function () {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response has the required fields - success, message, and token\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.success).to.exist;",
+									"    pm.expect(responseData.message).to.exist;",
+									"    pm.expect(responseData.token).to.exist;",
+									"});",
+									"",
+									"",
+									"pm.test(\"Token is a non-empty string\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData.token).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Token should not be empty\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"Success field is boolean true\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData).to.be.an('object');",
+									"  pm.expect(responseData.success).to.be.a('boolean').and.to.equal(true);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\" : \"exampleusername\",\r\n    \"password\" : \"examplepassword\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:9876/ntuaflix_api/auth/login",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "9876",
+							"path": [
+								"ntuaflix_api",
+								"auth",
+								"login"
+							]
+						},
+						"description": "This endpoint allows users to log in and obtain an authentication token. The HTTP POST request should be made to [http://localhost:9876/ntuaflix_api/auth/login](http://localhost:9876/ntuaflix_api/auth/login) with the raw request body type. The request should include the \"username\" and \"password\" fields.\n\n### Request Body\n\n- `username` (string): The username of the user.\n- `password` (string): The password of the user.\n    \n\n### Response 200:\n\nUpon successful execution, the response will have a status code of 200 and a content type of application/json. The response will include the following fields:\n\n- `success` (boolean): Indicates whether the login was successful.\n- `message` (string): Any additional message related to the login.\n- `token` (string): The authentication token obtained upon successful login.\n    \n\nOther responses:\n\n- 401 Unauthorized.\n    \n- 500 Internal server error."
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\" : \"exampleusername\",\r\n    \"password\" : \"examplepassword\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:9876/ntuaflix_api/auth/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9876",
+									"path": [
+										"ntuaflix_api",
+										"auth",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "251"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"fb-QuvbW8PQb1LqHoZtPWB45Jt5i+E\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 10 Feb 2024 14:26:09 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Login successful\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInVzZXJuYW1lIjoiZXhhbXBsZXVzZXJuYW1lIiwicm9sZSI6IiIsImlhdCI6MTcwNzU3NTE2OSwiZXhwIjoxNzA3NTg5NTY5fQ.NJPi3DIX25XwLoIATTihBnsaPLCB5qISxrX2XvXsVxQ\"\n}"
+						}
+					]
+				}
+			],
+			"description": "This routes are responsible for authenticating the user , that includes the registration of a user (insertion into the database) , the login of the user (creation of the token) and logging out of the user (invalidation of the current token).",
+			"auth": {
+				"type": "apikey",
+				"apikey": [
+					{
+						"key": "value",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MDgwOTMyOTMsImV4cCI6MTcwODEwNzY5M30.h60XAr5S9puEux_OjDlQQxXRYHUPSOzWhOhrC0h3Rw0",
+						"type": "string"
+					},
+					{
+						"key": "key",
+						"value": "X-OBSERVATORY-AUTH",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "User's routes",
+			"item": [
+				{
+					"name": "Usecase Lists",
+					"item": [
+						{
+							"name": "Create Profile",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"firstname\" : \"Cixin\",\r\n    \"lastname\" : \"Liu\",\r\n    \"birthDate\" : \"12-12-12\",\r\n    \"email\" : \"examplenew@gmail.com\",\r\n    \"favorite_genre\" : \"Horror\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:9876/ntuaflix_api/user/createProfile",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9876",
+									"path": [
+										"ntuaflix_api",
+										"user",
+										"createProfile"
+									]
+								},
+								"description": "This endpoint allows you to create a user profile. The HTTP PUT request should be sent to [http://localhost:9876/ntuaflix_api/user/createProfile](http://localhost:9876/ntuaflix_api/user/createProfile).\n\n### Request Body\n\nThe request body should be in raw JSON format and include the following parameters:\n\n- `firstname` (string): The user's first name.\n- `lastname` (string): The user's last name.\n- `birthDate` (string): The user's date of birth.\n- `email` (string): The user's email address.\n- `favorite_genre` (string): The user's favorite genre.\n    \n\nResponses :\n\n- 200 Profile updated successfully.\n    \n- 400 Bad request.\n    \n- 401 Unauthorized.\n    \n- 500 Internal server error."
+							},
+							"response": [
+								{
+									"name": "New Request",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"firstname\" : \"Cixin\",\r\n    \"lastname\" : \"Liu\",\r\n    \"birthDate\" : \"12-12-12\",\r\n    \"email\" : \"examplenew@gmail.com\",\r\n    \"favorite_genre\" : \"Horror\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:9876/ntuaflix_api/user/createProfile",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "9876",
+											"path": [
+												"ntuaflix_api",
+												"user",
+												"createProfile"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "42"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"2a-t5BkG/uPC0n47t5uBLOFYq76Tzo\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 13 Feb 2024 16:46:23 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Profile updated successfully\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Profile",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Response status code is 200\", function () {\r",
+											"    pm.expect(pm.response.code).to.equal(200);\r",
+											"});\r",
+											"\r",
+											"\r",
+											"pm.test(\"Response has the required fields\", function () {\r",
+											"  const responseData = pm.response.json();\r",
+											"  \r",
+											"  pm.expect(responseData).to.be.an('object');\r",
+											"  pm.expect(responseData).to.have.property('firstname');\r",
+											"  pm.expect(responseData).to.have.property('lastname');\r",
+											"  pm.expect(responseData).to.have.property('birthDate');\r",
+											"  pm.expect(responseData).to.have.property('email');\r",
+											"  pm.expect(responseData).to.have.property('username');\r",
+											"});\r",
+											"\r",
+											"\r",
+											"pm.test(\"Email is in a valid format\", function () {\r",
+											"    const responseData = pm.response.json();\r",
+											"\r",
+											"    pm.expect(responseData.email).to.be.a('string');\r",
+											"});\r",
+											"\r",
+											"\r",
+											"pm.test(\"BirthDate is in a valid date format\", function () {\r",
+											"  const responseData = pm.response.json();\r",
+											"  \r",
+											"  pm.expect(responseData).to.be.an('object');\r",
+											"});\r",
+											"\r",
+											"\r",
+											"pm.test(\"Username is a non-empty string\", function () {\r",
+											"  const responseData = pm.response.json();\r",
+											"  \r",
+											"  pm.expect(responseData).to.be.an('object');\r",
+											"  pm.expect(responseData.username).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Username should not be empty\");\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9876/ntuaflix_api/user/profile",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9876",
+									"path": [
+										"ntuaflix_api",
+										"user",
+										"profile"
+									]
+								},
+								"description": "This endpoint retrieves the user's profile information from the NTUAFlix API.\n\nThe response will be in JSON format with the following fields:\n\n- firstname (string): The user's first name.\n- lastname (string): The user's last name.\n- birthDate (string): The user's date of birth.\n- email (string): The user's email address.\n- username (string): The user's username.\n    \n\nResponses:\n\n- 200 Successful retrieval of user profile info.\n    \n- 401 Unauthorized.\n    \n- 500 Internal Server Error."
+							},
+							"response": [
+								{
+									"name": "New Request",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:9876/ntuaflix_api/user/profile",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "9876",
+											"path": [
+												"ntuaflix_api",
+												"user",
+												"profile"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "152"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"98-y/SOhU1Bi/euf9A+Pfxo6I4KBqU\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 13 Feb 2024 16:51:11 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"firstname\": \"examplefirstname\",\n    \"lastname\": \"examplelastname\",\n    \"birthDate\": \"2012-12-11T22:00:00.000Z\",\n    \"email\": \"exampleemail\",\n    \"username\": \"exampleusername\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Update Profile",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Response status code is 201\", function () {\r",
+											"    pm.expect(pm.response.code).to.equal(201);\r",
+											"});\r",
+											"\r",
+											"\r",
+											"pm.test(\"Content-Type header is application/json\", function () {\r",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+											"});\r",
+											"\r",
+											"\r",
+											"pm.test(\"Response has the required field - message\", function () {\r",
+											"    const responseData = pm.response.json();\r",
+											"    pm.expect(responseData).to.have.property('message');\r",
+											"});\r",
+											"\r",
+											"\r",
+											"pm.test(\"Message is a non-empty string\", function () {\r",
+											"    const responseData = pm.response.json();\r",
+											"    \r",
+											"    pm.expect(responseData).to.be.an('object');\r",
+											"    pm.expect(responseData.message).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Message should not be empty\");\r",
+											"});\r",
+											"\r",
+											"\r",
+											"pm.test(\"Message indicates successful update of user profile\", function () {\r",
+											"    const responseData = pm.response.json();\r",
+											"    \r",
+											"    pm.expect(responseData).to.be.an('object');\r",
+											"    pm.expect(responseData.message).to.include(\"update\").and.to.include(\"success\");\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\" : \"newexampleusername\",\r\n    \"password\" : \"newexamplepassword\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:9876/ntuaflix_api/user/updateProfile",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9876",
+									"path": [
+										"ntuaflix_api",
+										"user",
+										"updateProfile"
+									]
+								},
+								"description": "This endpoint allows users to update their profile information via an HTTP PUT request. The request should be sent to [http://localhost:9876/ntuaflix_api/user/updateProfile](http://localhost:9876/ntuaflix_api/user/updateProfile).\n\n### Request Body\n\nThe request body should be in raw format and include the following parameters:\n\n- `username` (string): The new username for the user.\n- `password` (string): The new password for the user.\n    \n\nResponses:\n\n- 201 SUser profile updated successfully.\n    \n- 400 Username already in use by another user.\n    \n- 500 Internal Server Error."
+							},
+							"response": [
+								{
+									"name": "New Request",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"username\" : \"newexampleusername\",\r\n    \"password\" : \"newexamplepassword\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:9876/ntuaflix_api/user/updateProfile",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "9876",
+											"path": [
+												"ntuaflix_api",
+												"user",
+												"updateProfile"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "47"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"2f-97sxLkyRsfqPKf+9P3mTRzrLuW0\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 13 Feb 2024 16:55:25 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"User profile updated successfully\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Add to Favorites list",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"pm.test(\"Response status code is 201\", function () {",
+											"  pm.expect(pm.response.code).to.equal(201);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Response has the required field 'message'\", function () {",
+											"  const responseData = pm.response.json();",
+											"  ",
+											"  pm.expect(responseData.message).to.exist;",
+											"});",
+											"",
+											"",
+											"pm.test(\"Message field is a non-empty string\", function () {",
+											"  const responseData = pm.response.json();",
+											"  ",
+											"  pm.expect(responseData.message).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Message should not be empty\");",
+											"});",
+											"",
+											"",
+											"pm.test(\"Content-Type header is application/json\", function () {",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+											"});",
+											"",
+											"",
+											"pm.test(\"Response time is less than 200ms\", function () {",
+											"  pm.expect(pm.response.responseTime).to.be.below(200);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9876/ntuaflix_api/user/addToFavorites/tt0000929",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9876",
+									"path": [
+										"ntuaflix_api",
+										"user",
+										"addToFavorites",
+										"tt0000929"
+									]
+								},
+								"description": "This POST request is used to add a movie with the specified ID to the user's favorites list in the NTUAFlix API. The movie ID \"tt0000929\" is included in the request URL. Upon successful execution, the API returns a status code of 201 and a JSON response with a message indicating the success of the operation.\n\nResponses:\n\n- 200 Title added to favorites.\n    \n- 201 Title added to favorites.\n    \n- 401 Unauthorized.\n    \n- 404 Title not found.\n    \n- 500 Internal Server error."
+							},
+							"response": [
+								{
+									"name": "New Request",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:9876/ntuaflix_api/user/addToFavorites/tt0000929",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "9876",
+											"path": [
+												"ntuaflix_api",
+												"user",
+												"addToFavorites",
+												"tt0000929"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "38"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"26-4ZfIXlmrmbzvRB1p530pkge5TmI\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 13 Feb 2024 16:57:11 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Title added to favorites\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Add to Watchlist",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"\r",
+											"pm.test(\"Response has the required fields\", function () {\r",
+											"    const responseData = pm.response.json();\r",
+											"    \r",
+											"    pm.expect(responseData).to.be.an('object');\r",
+											"    pm.expect(responseData.message).to.exist.and.to.be.a('string');\r",
+											"});\r",
+											"\r",
+											"\r",
+											"pm.test(\"Message is a non-empty string\", function () {\r",
+											"    const responseData = pm.response.json();\r",
+											"    \r",
+											"    pm.expect(responseData.message).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Message should not be empty\");\r",
+											"});\r",
+											"\r",
+											"\r",
+											"pm.test(\"Content-Type header is application/json\", function () {\r",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+											"});\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9876/ntuaflix_api/user/addToWatchlist/tt0000929",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9876",
+									"path": [
+										"ntuaflix_api",
+										"user",
+										"addToWatchlist",
+										"tt0000929"
+									]
+								},
+								"description": "This POST request is used to add a movie with the specified ID to the user's Wathclist list in the NTUAFlix API. The movie ID \"tt0000929\" is included in the request URL. Upon successful execution, the API returns a status code of 201 and a JSON response with a message indicating the success of the operation.\n\nResponses:\n\n- 200 Title added to favorites.\n    \n- 201 Title added to favorites.\n    \n- 401 Unauthorized.\n    \n- 404 Title not found.\n    \n- 500 Internal Server error."
+							},
+							"response": [
+								{
+									"name": "New Request",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:9876/ntuaflix_api/user/addToWatchlist/tt0000929",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "9876",
+											"path": [
+												"ntuaflix_api",
+												"user",
+												"addToWatchlist",
+												"tt0000929"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "40"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"28-A1EdmzgrJ/EmyxVsRp2NlmTLBzI\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 13 Feb 2024 17:00:43 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Title already in watchlist\"\n}"
+								}
+							]
+						},
+						{
+							"name": "View Watchlist",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Response status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"\r",
+											"pm.test(\"Content-Type is application/json\", function () {\r",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+											"});\r",
+											"\r",
+											"\r",
+											"pm.test(\"Genres array is present and contains the expected number of elements\", function () {\r",
+											"    const responseData = pm.response.json();\r",
+											"\r",
+											"    pm.expect(responseData).to.be.an('array');\r",
+											"    responseData.forEach(function(item) {\r",
+											"        pm.expect(item.genres).to.exist;\r",
+											"        pm.expect(item.genres).to.be.an('array');\r",
+											"        pm.expect(item.genres).to.have.lengthOf.at.least(1, \"Genres array should not be empty\");\r",
+											"    });\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9876/ntuaflix_api/user/watchlist",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9876",
+									"path": [
+										"ntuaflix_api",
+										"user",
+										"watchlist"
+									]
+								},
+								"description": "This endpoint retrieves the watchlist for the user. It returns a JSON array containing details of the titles in the watchlist, including title ID, type, original title, poster, start and end year, genres, alternative titles, principals, and ratings.\n\nThe response will have a status code of 200, indicating a successful retrieval of the watchlist. The content type of the response is 'application/json'.\n\nResponses:\n\n- 200 Successful retireval of watchlist.\n    \n- 204 No movies in the watchlist.\n    \n- 401 Unauthorized.\n    \n- 500 Internal Server Error."
+							},
+							"response": [
+								{
+									"name": "New Request",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:9876/ntuaflix_api/user/watchlist",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "9876",
+											"path": [
+												"ntuaflix_api",
+												"user",
+												"watchlist"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "855"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"357-Jqq8ZeuiVhlkO43SsOfK0ij4uU4\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 13 Feb 2024 17:02:13 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "[\n    {\n        \"titleID\": \"tt0000929\",\n        \"type\": \"short\",\n        \"originalTitle\": \"Klebolin klebt alles\",\n        \"titlePoster\": \"\\\\N\\r\",\n        \"startYear\": 1990,\n        \"endYear\": 0,\n        \"genres\": [\n            {\n                \"akaTitle\": \"Willys Streiche: Klebolin klebt alles\",\n                \"regionAbbrev\": \"DE\"\n            },\n            {\n                \"akaTitle\": \"Klebolin klebt alles\",\n                \"regionAbbrev\": \"\\\\N\"\n            },\n            {\n                \"akaTitle\": \"Klebolin klebt alles\",\n                \"regionAbbrev\": \"DE\"\n            }\n        ],\n        \"akasInfo\": [\n            {\n                \"genreTitle\": \"Comedy\"\n            },\n            {\n                \"genreTitle\": \"Short\"\n            }\n        ],\n        \"principals\": [\n            {\n                \"nameID\": \"nm0066941\",\n                \"name\": \"Ernst Behmer\",\n                \"category\": \"actor\"\n            },\n            {\n                \"nameID\": \"nm0092290\",\n                \"name\": \"Curt Bois\",\n                \"category\": \"actor\"\n            },\n            {\n                \"nameID\": \"nm0093361\",\n                \"name\": \"Heinrich Bolten-Baeckers\",\n                \"category\": \"director\"\n            },\n            {\n                \"nameID\": \"nm0170183\",\n                \"name\": \"Victor Colani\",\n                \"category\": \"actor\"\n            },\n            {\n                \"nameID\": \"nm0667386\",\n                \"name\": \"Charles Paulus\",\n                \"category\": \"cinematographer\"\n            },\n            {\n                \"nameID\": \"nm1902148\",\n                \"name\": \"Alfred Duskes\",\n                \"category\": \"producer\"\n            }\n        ],\n        \"rating\": [\n            {\n                \"avRating\": 5.3,\n                \"nVotes\": 46\n            }\n        ]\n    }\n]"
+								}
+							]
+						},
+						{
+							"name": "View favorites list",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Response status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"\r",
+											"pm.test(\"Response Content-Type is application/json\", function () {\r",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+											"});\r",
+											"\r",
+											"\r",
+											"pm.test(\"Genres array is present and contains expected number of elements\", function () {\r",
+											"    const responseData = pm.response.json();\r",
+											"    \r",
+											"    pm.expect(responseData).to.be.an('array');\r",
+											"    responseData.forEach(function(item) {\r",
+											"        pm.expect(item.genres).to.exist;\r",
+											"        pm.expect(item.genres).to.be.an('array');\r",
+											"        pm.expect(item.genres).to.have.lengthOf.at.least(1);\r",
+											"    });\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9876/ntuaflix_api/user/favorites",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9876",
+									"path": [
+										"ntuaflix_api",
+										"user",
+										"favorites"
+									]
+								},
+								"description": "This endpoint retrieves the favorites list for the user. It returns a JSON array containing details of the titles in the watchlist, including title ID, type, original title, poster, start and end year, genres, alternative titles, principals, and ratings.\n\nThe response will have a status code of 200, indicating a successful retrieval of the favorites list. The content type of the response is 'application/json'.\n\nResponses:\n\n- 200 Successful retireval of favorites list.\n    \n- 204 No movies in the favortites list.\n    \n- 401 Unauthorized.\n- 500 Internal Server Error."
+							},
+							"response": [
+								{
+									"name": "New Request",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:9876/ntuaflix_api/user/favorites",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "9876",
+											"path": [
+												"ntuaflix_api",
+												"user",
+												"favorites"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "855"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"357-Jqq8ZeuiVhlkO43SsOfK0ij4uU4\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 13 Feb 2024 17:04:21 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "[\n    {\n        \"titleID\": \"tt0000929\",\n        \"type\": \"short\",\n        \"originalTitle\": \"Klebolin klebt alles\",\n        \"titlePoster\": \"\\\\N\\r\",\n        \"startYear\": 1990,\n        \"endYear\": 0,\n        \"genres\": [\n            {\n                \"akaTitle\": \"Willys Streiche: Klebolin klebt alles\",\n                \"regionAbbrev\": \"DE\"\n            },\n            {\n                \"akaTitle\": \"Klebolin klebt alles\",\n                \"regionAbbrev\": \"\\\\N\"\n            },\n            {\n                \"akaTitle\": \"Klebolin klebt alles\",\n                \"regionAbbrev\": \"DE\"\n            }\n        ],\n        \"akasInfo\": [\n            {\n                \"genreTitle\": \"Comedy\"\n            },\n            {\n                \"genreTitle\": \"Short\"\n            }\n        ],\n        \"principals\": [\n            {\n                \"nameID\": \"nm0066941\",\n                \"name\": \"Ernst Behmer\",\n                \"category\": \"actor\"\n            },\n            {\n                \"nameID\": \"nm0092290\",\n                \"name\": \"Curt Bois\",\n                \"category\": \"actor\"\n            },\n            {\n                \"nameID\": \"nm0093361\",\n                \"name\": \"Heinrich Bolten-Baeckers\",\n                \"category\": \"director\"\n            },\n            {\n                \"nameID\": \"nm0170183\",\n                \"name\": \"Victor Colani\",\n                \"category\": \"actor\"\n            },\n            {\n                \"nameID\": \"nm0667386\",\n                \"name\": \"Charles Paulus\",\n                \"category\": \"cinematographer\"\n            },\n            {\n                \"nameID\": \"nm1902148\",\n                \"name\": \"Alfred Duskes\",\n                \"category\": \"producer\"\n            }\n        ],\n        \"rating\": [\n            {\n                \"avRating\": 5.3,\n                \"nVotes\": 46\n            }\n        ]\n    }\n]"
+								}
+							]
+						},
+						{
+							"name": "Delete from Watchlist",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Response status code is 204\", function () {\r",
+											"    pm.response.to.have.status(204);\r",
+											"});\r",
+											"\r",
+											"\r",
+											"\r",
+											"pm.test(\"Response body is null\", function () {\r",
+											"    const responseData = xml2Json(pm.response.text());\r",
+											"    pm.expect(responseData).to.be.null;\r",
+											"});\r",
+											"\r",
+											"\r",
+											"pm.test(\"Verify user is removed from watchlist\", function () {\r",
+											"    const responseData = xml2Json(pm.response.text());\r",
+											"    \r",
+											"    pm.expect(responseData).to.be.null;\r",
+											"});\r",
+											"\r",
+											"\r",
+											"pm.test(\"Ensure that the response does not contain any sensitive information\", function () {\r",
+											"    const responseData = xml2Json(pm.response.text());\r",
+											"    \r",
+											"    pm.expect(responseData).to.be.null;\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9876/ntuaflix_api/user/deleteFromWatchlist/tt0000929",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9876",
+									"path": [
+										"ntuaflix_api",
+										"user",
+										"deleteFromWatchlist",
+										"tt0000929"
+									]
+								},
+								"description": "This endpoint sends an HTTP DELETE request to delete a movie with the specified ID from the user's watchlist in the NTUAFlix API.\n\nThe response to the request returns a status code of 204, indicating a successful deletion, and the Content-Type is set to text/xml.\n\nNo specific data is included in the response body.\n\nResponses:\n\n- 204 Title deleted from wathclist.\n    \n- 404 Title not found or not in wathclist.\n    \n- 500 Internal Server Error."
+							},
+							"response": [
+								{
+									"name": "New Request",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:9876/ntuaflix_api/user/deleteFromWatchlist/tt0000929",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "9876",
+											"path": [
+												"ntuaflix_api",
+												"user",
+												"deleteFromWatchlist",
+												"tt0000929"
+											]
+										}
+									},
+									"status": "No Content",
+									"code": 204,
+									"_postman_previewlanguage": "plain",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"2a-Eo4Mgcv4FrhHrGxo+WRNL3rBklU\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 13 Feb 2024 17:10:22 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": null
+								}
+							]
+						},
+						{
+							"name": "Delete from Favorites",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Response status code is 204\", function () {\r",
+											"  pm.response.to.have.status(204);\r",
+											"});\r",
+											"\r",
+											"\r",
+											"pm.test(\"Response body is null\", function () {\r",
+											"    const responseData = xml2Json(pm.response.text());\r",
+											"    \r",
+											"    pm.expect(responseData).to.be.null;\r",
+											"});\r",
+											"\r",
+											"\r",
+											"pm.test(\"Verify user is removed from favorites after DELETE request\", function () {\r",
+											"    const responseData = xml2Json(pm.response.text());\r",
+											"    \r",
+											"    pm.expect(responseData).to.be.null;\r",
+											"});\r",
+											"\r",
+											"\r",
+											"pm.test(\"Ensure that the response body does not contain any sensitive information\", function () {\r",
+											"    const responseData = xml2Json(pm.response.text());\r",
+											"    \r",
+											"    pm.expect(responseData).to.be.null;\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9876/ntuaflix_api/user/deleteFromFavorites/tt0000929",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9876",
+									"path": [
+										"ntuaflix_api",
+										"user",
+										"deleteFromFavorites",
+										"tt0000929"
+									]
+								},
+								"description": "This endpoint sends an HTTP DELETE request to delete a movie with the specified ID from the user's favorites list in the NTUAFlix API.\n\nThe response to the request returns a status code of 204, indicating a successful deletion, and the Content-Type is set to text/xml.\n\nNo specific data is included in the response body.\n\nResponses:\n\n- 204 Title deleted from favorites list.\n    \n- 404 Title not found or not in favorites list.\n    \n- 500 Internal Server Error."
+							},
+							"response": [
+								{
+									"name": "New Request",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:9876/ntuaflix_api/user/deleteFromFavorites/tt0000929",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "9876",
+											"path": [
+												"ntuaflix_api",
+												"user",
+												"deleteFromFavorites",
+												"tt0000929"
+											]
+										}
+									},
+									"status": "No Content",
+									"code": 204,
+									"_postman_previewlanguage": "plain",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"2a-BJHpISR+SfrvE5L/Z/rRVzUnX+I\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 13 Feb 2024 17:14:04 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": null
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "search title by titleid",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9876/ntuaflix_api/title/tt0068494",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9876",
+							"path": [
+								"ntuaflix_api",
+								"title",
+								"tt0068494"
+							]
+						},
+						"description": "This HTTP GET request retrieves information about a specific title with the given ID \"tt0068494\" from the NTUAFlix API. The response will be in JSON format and will include details such as title ID, type, original title, poster, start and end year, genres, alternate titles, principals, and ratings.\n\nThe response will include the following fields:\n\n- titleID: The ID of the title\n- type: The type of the title\n- originalTitle: The original title of the title\n- titlePoster: The poster of the title\n- startYear: The start year of the title\n- endYear: The end year of the title\n- genres: An array containing alternate titles and region abbreviations\n- akasInfo: An array containing genre titles\n- principals: An array containing name IDs, names, and categories\n- rating: An array containing average rating and number of votes\n    \n\nPlease note that the actual values for these fields will be returned in the response.\n\nResponses :\n\n- 200 Itle information retrieved successfully.\n    \n- 400 Bad request.\n    \n- 401 Unauthorized."
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9876/ntuaflix_api/title/tt0068494",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9876",
+									"path": [
+										"ntuaflix_api",
+										"title",
+										"tt0068494"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1258"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"4ea-zbCfxUdcnw1j6Z2M6ZulyRUG93w\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 12 Feb 2024 15:27:21 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"titleID\": \"tt0068494\",\n    \"type\": \"movie\",\n    \"originalTitle\": \"Domo Arigato\",\n    \"titlePoster\": \"https://image.tmdb.org/t/p/{width_variable}/84SX6npSGvfJPnmNVur7WV9dkam.jpg\\r\",\n    \"startYear\": 1990,\n    \"endYear\": 0,\n    \"genres\": [\n        {\n            \"akaTitle\": \"Domo Arigato\",\n            \"regionAbbrev\": \"US\"\n        },\n        {\n            \"akaTitle\": \"Thank You Very Much\",\n            \"regionAbbrev\": \"\\\\N\"\n        },\n        {\n            \"akaTitle\": \"Domo Arigato\",\n            \"regionAbbrev\": \"\\\\N\"\n        },\n        {\n            \"akaTitle\": \"Arch Oboler's Domo Arigato\",\n            \"regionAbbrev\": \"US\"\n        },\n        {\n            \"akaTitle\": \"Domo Arigato\",\n            \"regionAbbrev\": \"US\"\n        },\n        {\n            \"akaTitle\": \"Thank You Very Much\",\n            \"regionAbbrev\": \"\\\\N\"\n        },\n        {\n            \"akaTitle\": \"Domo Arigato\",\n            \"regionAbbrev\": \"\\\\N\"\n        },\n        {\n            \"akaTitle\": \"Arch Oboler's Domo Arigato\",\n            \"regionAbbrev\": \"US\"\n        }\n    ],\n    \"akasInfo\": [\n        {\n            \"genreTitle\": \"Drama\"\n        }\n    ],\n    \"principals\": [\n        {\n            \"nameID\": \"nm0496571\",\n            \"name\": \"Jason Ledger\",\n            \"category\": \"actor\"\n        },\n        {\n            \"nameID\": \"nm0643443\",\n            \"name\": \"Arch Oboler\",\n            \"category\": \"director\"\n        },\n        {\n            \"nameID\": \"nm0676286\",\n            \"name\": \"Donald Peterman\",\n            \"category\": \"cinematographer\"\n        },\n        {\n            \"nameID\": \"nm0792032\",\n            \"name\": \"Bonnie Sher\",\n            \"category\": \"actress\"\n        },\n        {\n            \"nameID\": \"nm2784719\",\n            \"name\": \"Sherry Mills\",\n            \"category\": \"composer\"\n        },\n        {\n            \"nameID\": \"nm2865979\",\n            \"name\": \"Hiroshi Murakawa\",\n            \"category\": \"actor\"\n        },\n        {\n            \"nameID\": \"nm2866691\",\n            \"name\": \"Kyoko Masu\",\n            \"category\": \"actor\"\n        },\n        {\n            \"nameID\": \"nm2867782\",\n            \"name\": \"Robert Angle\",\n            \"category\": \"editor\"\n        }\n    ],\n    \"rating\": [\n        {\n            \"avRating\": 4.9,\n            \"nVotes\": 20\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "search titles by titlepart",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"pm.test(\"Response status code is 200\", function () {",
+									"  pm.expect(pm.response.code).to.equal(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response Content-Type is application/json\", function () {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"Principals array should exist and be an array\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('array');",
+									"    responseData.forEach((item) => {",
+									"        pm.expect(item.principals).to.be.an('array');",
+									"    });",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"titlePart\" : \"add\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9876/ntuaflix_api/searchtitle",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9876",
+							"path": [
+								"ntuaflix_api",
+								"searchtitle"
+							]
+						},
+						"description": "# Search Title\n\nThis endpoint allows you to search for titles based on the provided title part.\n\n## Request\n\n### Request URL\n\n- Method: GET\n- URL: `http://localhost:9876/ntuaflix_api/searchtitle`\n    \n\n### Request Body\n\n- Type: Raw\n- Payload:\n    \n    ``` json\n      {\n        \"titlePart\": \"\"\n      }\n    \n     ```\n    \n\n## Response\n\n- Status: 200\n- Content-Type: application/json\n    \n\n### Response Body\n\nThe response will be a JSON array containing objects with the following properties:\n\n- `titleID` (string): The ID of the title\n- `type` (string): The type of the title\n- `originalTitle` (string): The original title\n- `titlePoster` (string): The poster of the title\n- `startYear` (number): The start year of the title\n- `endYear` (number): The end year of the title\n- `genres` (array): An array of objects containing `akaTitle` and `regionAbbrev` properties\n- `akasInfo` (array): An array of objects containing `genreTitle` property\n- `principals` (array): An array of objects containing `nameID`, `name`, and `category` properties\n- `rating` (array): An array of rating information\n    \n\nOther responses :\n\n- 401 Unauthorized.\n    \n- 404 Not found.\n    \n- 500 Internal Server Errror."
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"titlePart\" : \"add\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:9876/ntuaflix_api/searchtitle",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9876",
+									"path": [
+										"ntuaflix_api",
+										"searchtitle"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "660"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"294-menH2J8qOk4dq/2zraNXX0NJjWw\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 12 Feb 2024 15:28:43 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"titleID\": \"tt0098985\",\n        \"type\": \"short\",\n        \"originalTitle\": \"The Addict\",\n        \"titlePoster\": \"\\\\N\\r\",\n        \"startYear\": 1990,\n        \"endYear\": 0,\n        \"genres\": [\n            {\n                \"akaTitle\": \"The Addict\",\n                \"regionAbbrev\": \"US\"\n            },\n            {\n                \"akaTitle\": \"The Addict\",\n                \"regionAbbrev\": \"\\\\N\"\n            },\n            {\n                \"akaTitle\": \"The Addict\",\n                \"regionAbbrev\": \"US\"\n            },\n            {\n                \"akaTitle\": \"The Addict\",\n                \"regionAbbrev\": \"\\\\N\"\n            }\n        ],\n        \"akasInfo\": [\n            {\n                \"genreTitle\": \"Short\"\n            }\n        ],\n        \"principals\": [\n            {\n                \"nameID\": \"nm0516435\",\n                \"name\": \"Rogelio Lobato\",\n                \"category\": \"director\"\n            },\n            {\n                \"nameID\": \"nm0932885\",\n                \"name\": \"Bill Wilner\",\n                \"category\": \"editor\"\n            },\n            {\n                \"nameID\": \"nm2895666\",\n                \"name\": \"Cindy Beth Baggish\",\n                \"category\": \"producer\"\n            },\n            {\n                \"nameID\": \"nm2896344\",\n                \"name\": \"Jean Jacques-Pochet\",\n                \"category\": \"composer\"\n            }\n        ],\n        \"rating\": []\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "search title by genre",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Content-Type is application/json\", function () {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"Genres array is present and contains the expected number of elements\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('array');",
+									"    pm.expect(responseData[0].genres).to.exist;",
+									"    pm.expect(responseData[0].genres).to.be.an('array');",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"qgenre\" : \"Documentary\",\r\n    \"minrating\" : \"8.5\",\r\n    \"yrFrom\" : \"1990\",\r\n    \"yrTo\" : \"2020\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9876/ntuaflix_api/bygenre",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9876",
+							"path": [
+								"ntuaflix_api",
+								"bygenre"
+							]
+						},
+						"description": "This endpoint makes an HTTP GET request to retrieve content by genre from the NTUAFlix API. The request should be sent to [http://localhost:9876/ntuaflix_api/bygenre](http://localhost:9876/ntuaflix_api/bygenre).\n\n### Request Parameters\n\n- `qgenre` (string, optional): Specifies the genre for which content needs to be retrieved.\n- `minrating` (string, optional): Specifies the minimum rating for the content to be retrieved.\n    \n\n### Response status 200:\n\nUpon a successful request, the server responds with a status code of 200 and a JSON array containing content details. Each object in the array includes the following fields:\n\n- `titleID` (string): Unique identifier for the title.\n- `type` (string): Type of content.\n- `originalTitle` (string): Original title of the content.\n- `titlePoster` (string): URL of the poster for the content.\n- `startYear` (integer): Start year of the content.\n- `endYear` (integer): End year of the content.\n- `genres` (array): Array of objects containing additional genre information.\n- `akasInfo` (array): Array of objects containing additional title information.\n- `principals` (array): Array of objects containing principal information.\n- `rating` (array): Array of objects containing rating information, including average rating and number of votes.\n    \n\nPlease note that the response may contain multiple objects, each representing a different piece of content.\n\nOther responses:\n\n- 401 Unauthorized.\n    \n- 404 Not found.\n    \n- 500 Internal Server Error."
+					},
+					"response": [
+						{
+							"name": "search title by genre",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"qgenre\" : \"Documentary\",\r\n    \"minrating\" : \"8.5\",\r\n    \"yrFrom\" : \"1990\",\r\n    \"yrTo\" : \"2020\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:9876/ntuaflix_api/bygenre",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9876",
+									"path": [
+										"ntuaflix_api",
+										"bygenre"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "690"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2b2-cDJw9fPUPmIigQbvjDDhGerkv/8\""
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 13 Feb 2024 16:38:15 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"titleID\": \"tt0097949\",\n        \"type\": \"movie\",\n        \"originalTitle\": \"Märkische Heide, märkischer Sand\",\n        \"titlePoster\": \"https://image.tmdb.org/t/p/{width_variable}/hxl9TwLZBmCfXhrYI0ZAcf0Agil.jpg\\r\",\n        \"startYear\": 1990,\n        \"endYear\": 0,\n        \"genres\": [\n            {\n                \"akaTitle\": \"Märkische Heide, märkischer Sand\",\n                \"regionAbbrev\": \"\\\\N\"\n            },\n            {\n                \"akaTitle\": \"March Brandenburg Heath, March Brandenburg Sand\",\n                \"regionAbbrev\": \"XWW\"\n            },\n            {\n                \"akaTitle\": \"布蘭登堡二部曲：荒原與沙\",\n                \"regionAbbrev\": \"TW\"\n            },\n            {\n                \"akaTitle\": \"Märkische Heide, märkischer Sand\",\n                \"regionAbbrev\": \"DDDE\"\n            }\n        ],\n        \"akasInfo\": [\n            {\n                \"genreTitle\": \"Documentary\"\n            }\n        ],\n        \"principals\": [\n            {\n                \"nameID\": \"nm0462899\",\n                \"name\": \"Volker Koepp\",\n                \"category\": \"director\"\n            }\n        ],\n        \"rating\": [\n            {\n                \"avRating\": 8.5,\n                \"nVotes\": 12\n            }\n        ]\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "search contributor by id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test(\"Response status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Content-Type header is application/json\", function () {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response has the required fields\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('object');\r",
+									"    pm.expect(responseData.nameID).to.exist;\r",
+									"    pm.expect(responseData.name).to.exist;\r",
+									"    pm.expect(responseData.namePoster).to.exist;\r",
+									"    pm.expect(responseData.birthYr).to.exist;\r",
+									"    pm.expect(responseData.deathYr).to.exist;\r",
+									"    pm.expect(responseData.profession).to.exist;\r",
+									"    pm.expect(responseData.nameTitles).to.exist;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"NameTitles array is present and contains expected number of elements\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('object');\r",
+									"    pm.expect(responseData.nameTitles).to.exist.and.to.be.an('array');\r",
+									"    pm.expect(responseData.nameTitles).to.have.lengthOf(1);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9876/ntuaflix_api/name/nm0000019",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9876",
+							"path": [
+								"ntuaflix_api",
+								"name",
+								"nm0000019"
+							]
+						},
+						"description": "This endpoint makes an HTTP GET request to retrieve information about a specific name from the NTUAFlix API. The request should be made to [http://localhost:9876/ntuaflix_api/name/nm0000019](http://localhost:9876/ntuaflix_api/name/nm0000019).\n\n### Response status 200:\n\nUpon a successful request, the server will respond with a status code of 200 and a JSON object containing details about the requested name. The response will include the name's ID, name, poster, birth year, death year, profession, and a list of titles associated with the name.\n\nOther responses:\n\n- 401 Unauthorized.\n    \n- 404 Contributor not found.\n    \n- 500 Internal Server Error."
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9876/ntuaflix_api/name/nm0000019",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9876",
+									"path": [
+										"ntuaflix_api",
+										"name",
+										"nm0000019"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "254"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"fe-vRxprajNnKAE8tuY04brzEAHP1w\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 12 Feb 2024 15:36:47 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"nameID\": \"nm0000019\",\n    \"name\": \"Federico Fellini\",\n    \"namePoster\": \"https://image.tmdb.org/t/p/{width_variable}/jH2VnHAuI0UbTWsnrjMPro0fC9j.jpg\\r\",\n    \"birthYr\": 1920,\n    \"deathYr\": 1993,\n    \"profession\": \"writer\",\n    \"nameTitles\": [\n        {\n            \"titleID\": \"tt0098606\",\n            \"category\": \"director\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "search contributor by namepart",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test(\"Response status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Name is a non-empty string\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('array');\r",
+									"    responseData.forEach(function(item) {\r",
+									"        pm.expect(item.name).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Name should not be empty\");\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Birth year and death year are non-negative integers\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    responseData.forEach(function(actor) {\r",
+									"        pm.expect(actor.birthYr).to.be.a('number').and.to.be.at.least(0);\r",
+									"        pm.expect(actor.deathYr).to.be.a('number').and.to.be.at.least(0);\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Name titles array is present and has expected number of elements\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('array');\r",
+									"    responseData.forEach(function(item) {\r",
+									"        pm.expect(item.nameTitles).to.exist;\r",
+									"        pm.expect(item.nameTitles).to.be.an('array');\r",
+									"        pm.expect(item.nameTitles).to.have.lengthOf.at.least(1);\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"namePart\" : \"alexander p\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9876/ntuaflix_api/searchname",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9876",
+							"path": [
+								"ntuaflix_api",
+								"searchname"
+							]
+						},
+						"description": "# Search Name API\n\nThis API endpoint allows you to search for names in the NTUAFlix database.\n\n## Request\n\n### Endpoint\n\n`GET` [http://localhost:9876/ntuaflix_api/searchname](http://localhost:9876/ntuaflix_api/searchname)\n\n### Query Parameters\n\n- `namePart` (string, required): The partial name to search for.\n    \n\n## Response\n\n### Status\n\nThe API returns a `200` status code on success.\n\n### Content Type\n\n`application/json`\n\n### Response Body status 200:\n\nThe response body is an array of objects, where each object represents a name in the database. Each object contains the following properties:\n\n- `nameID` (string): The ID of the name.\n- `name` (string): The name of the person.\n- `namePoster` (string): The poster of the person.\n- `birthYr` (number): The birth year of the person.\n- `deathYr` (number): The death year of the person.\n- `profession` (string): The profession of the person.\n- `nameTitles` (array): An array of objects representing the titles associated with the person, where each object contains the following properties:\n    - `titleID` (string): The ID of the title.\n    - `category` (string): The category of the title.\n\nOther responses:\n\n- 404 No data found.\n    \n- 401 Unauthorized.\n    \n- 500 Internal Server error."
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"namePart\" : \"alexander p\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:9876/ntuaflix_api/searchname",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9876",
+									"path": [
+										"ntuaflix_api",
+										"searchname"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "472"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1d8-fCeVv3uKqagC4ndlEX5fib+7400\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 12 Feb 2024 15:39:07 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"nameID\": \"nm0671406\",\n        \"name\": \"Alexander Pelz\",\n        \"namePoster\": \"\\\\N\\r\",\n        \"birthYr\": 1953,\n        \"deathYr\": 0,\n        \"profession\": \"actor\",\n        \"nameTitles\": [\n            {\n                \"titleID\": \"tt0102501\",\n                \"category\": \"actor\"\n            },\n            {\n                \"titleID\": \"tt0102502\",\n                \"category\": \"actor\"\n            }\n        ]\n    },\n    {\n        \"nameID\": \"nm0701090\",\n        \"name\": \"Alexander Pushkin\",\n        \"namePoster\": \"https://image.tmdb.org/t/p/{width_variable}/r8w28abqC0gK252vFO2ggS7ByvS.jpg\\r\",\n        \"birthYr\": 1799,\n        \"deathYr\": 1837,\n        \"profession\": \"writer\",\n        \"nameTitles\": [\n            {\n                \"titleID\": \"tt0096937\",\n                \"category\": \"writer\"\n            }\n        ]\n    }\n]"
+						}
+					]
+				}
+			],
+			"description": "```\nUser Usecase 1:\n  - Browse on titles by titlepart.\n  - Browse on titles by genre.\n  - Get info of a specific title.\n  - Browse on contributor name by namepart.\n  - Get info of a specific contributor.\nUser Usecase 2:\n  - Create user profile.\n  - Add movies to your \"Favorites\" list.\n  - Add movied to your \"Watchlater\" list.\n  - Edit these lists.\n  - Update user profile info.\n  - View the contents of your lists.\n\n ```",
+			"auth": {
+				"type": "apikey",
+				"apikey": [
+					{
+						"key": "value",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MDgwODU5NTMsImV4cCI6MTcwODEwMDM1M30.ZKv8-NBQe-84ZIialLQbsumA44wv_SVS8c9WVHNfFC4",
+						"type": "string"
+					},
+					{
+						"key": "key",
+						"value": "X-OBSERVATORY-AUTH",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "inherit"
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://farming-simulator.pstmn.io"
+		}
+	]
+}

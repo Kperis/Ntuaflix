@@ -13,15 +13,14 @@ const http = require('http');
 const https = require('https');
 const configuration = require('../lib/construct_config');
 //var token;
-console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA)");
 async function delay(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
-try{
-    process.chdir("../");
-}catch(err){
-    console.error("Error reading token file:", err);
-}
+// try{
+//     process.chdir("../");
+// }catch(err){
+//     console.error("Error reading token file:", err);
+// }
 
 
 describe('CLI Application test login command', () => {
@@ -33,7 +32,6 @@ describe('CLI Application test login command', () => {
       const expectedresponse = 'User successfully logged in'
       expect(actualResponseFromCLI_1).to.equal(expectedresponse);
       
-      console.log("OMG KAI TRIA LOL");
       const cliCommand_2 = `se2333 login --username asdf  --password adsf`;
       const actualResponseFromCLI_2 = execSync(cliCommand_2).toString().trim();
       const expectedresponse_2 = 'No user with this credentials found. Please try again.'
@@ -155,7 +153,6 @@ describe('CLI Application test newtitles command', () => {
       const actualResponseFromCLI_1 = execSync(cliCommand_1).toString().trim();
       const expectedresponse = 'status :  201 message :  File uploaded and processed successfully.'
       expect(actualResponseFromCLI_1).to.equal(expectedresponse);
-      console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA) LOOOOKK")
       const cliCommand_2 = `se2333 newtitles --filename falsepath`;
       const actualResponseFromCLI_2 = execSync(cliCommand_2).toString().trim();
       const expectedresponse_2 = 'an error occurred'

@@ -1,0 +1,1344 @@
+
+openapi: 3.0.0
+
+info:
+  title: ntuaflix-team33
+  description: >
+    This is the REST API for ntuaflix as part of the Software engineering class project, using OpenApi Specification.
+    
+    ---
+    Admin Usecase:
+      - Upload of tsv files with data.
+      - Create new users.
+      - Get info of users.
+    User Usecase 1:
+      - Browse on titles by titlepart.
+      - Browse on titles by genre.
+      - Get info of a specific title.
+      - Browse on contributor name by namepart.
+      - Get info of a specific contributor.
+    User Usecase 2:
+      - Create user profile.
+      - Add movies to your "Favorites" list.
+      - Add movied to your "Watchlater" list.
+      - Edit these lists.
+      - Update user profile info.
+      - View the contents of your lists.
+    
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    name: team 33
+  version: 1.0.0
+
+
+servers:
+  - url: 'http://localhost:9876/ntuaflix_api/'
+  
+components:
+  schemas:
+    UserInfo:
+      type: object
+      properties:
+        user_id:
+          type: integer
+          example: integer
+        username:
+          type: string
+          example: string
+        email:
+          type: string
+          example: string
+        first_name:
+          type: string
+          example: string
+        last_name:
+          type: string
+          example: string
+        birthdate:
+          type: string
+          format: date-time
+          example: string
+        role:
+          type: string
+          example: ""
+    ContributorSearchResult:
+      type: array
+      items:
+        type: object
+        properties:
+          nameID:
+            type: string
+          name:
+            type: string
+          namePoster:
+            type: string
+          birthYr:
+            type: integer
+          deathYr:
+            type: integer
+          profession:
+            type: string
+          nameTitles:
+            type: array
+            items:
+              type: object
+              properties:
+                titleID:
+                  type: string
+                category:
+                  type: string
+
+    ContributorInfo:
+      type: object
+      properties:
+        nameID:
+          type: string
+        name:
+          type: string
+        namePoster:
+          type: string
+        birthYr:
+          type: integer
+        deathYr:
+          type: integer
+        profession:
+          type: string
+        nameTitles:
+          type: array
+          items:
+            type: object
+            properties:
+              titleID:
+                type: string
+              category:
+                type: string
+    LoginResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: "Login successful"
+        token:
+          type: string
+          example: "tokenstring"
+    TitleInfo:
+      type: object
+      properties:
+        titleID:
+          type: string
+        type:
+          type: string
+        originalTitle:
+          type: string
+        titlePoster:
+          type: string
+        startYear:
+          type: integer
+        endYear:
+          type: integer
+        genres:
+          type: array
+          items:
+            type: object
+            properties:
+              akaTitle:
+                type: string
+              regionAbbrev:
+                type: string
+        akasInfo:
+          type: array
+          items:
+            type: object
+            properties:
+              genreTitle:
+                type: string
+        principals:
+          type: array
+          items:
+            type: object
+            properties:
+              nameID:
+                type: string
+              name:
+                type: string
+              category:
+                type: string
+        rating:
+          type: array
+          items:
+            type: object
+            properties:
+              avRating:
+                type: number
+              nVotes:
+                type: integer
+
+
+
+        
+paths:
+  /admin/healthcheck:
+    get:
+      summary: Health Check for Admin
+      description: Retrieves health status of the admin service.
+      tags:
+        - Admin
+      responses:
+        '200':
+          description: Health check successful.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: OK
+                  message:
+                    type: string
+                    example: connectionDetails
+        '401':
+          description: Unauthorized access.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Unauthorized"
+        '500':
+          description: Error establishing database connection
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: failed
+                  message:
+                    type: string
+                    example: Error establishing database connection
+  /admin/users/:{username}:
+    get:
+      summary: Get User by Username
+      description: Retrieves user information based on username.
+      tags:
+        - Admin
+      parameters:
+        - in: path
+          name: username
+          required: true
+          description: Username of the user to retrieve.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User information retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserInfo'
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User not found
+        '401':
+          description: Unauthorized access.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Unauthorized"
+        '500':
+          description: Error establishing database connection
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: failed
+                  message:
+                    type: string
+                    example: Error establishing database connection
+  
+
+  /admin/upload/titlebasics:
+    post:
+      summary: Upload Title Basics
+      description: Uploads title basics data for admin purposes.
+      tags:
+        - Admin
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: object
+                  format: tsvfile
+      responses:
+        '201':
+          description: File uploaded and processed successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "File uploaded and processed successfully."
+        '401':
+          description: Unauthorized access.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Unauthorized"
+        '500':
+          description: Internal Server Error.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Internal Server Error"
+
+  /admin/upload/namebasics:
+    post:
+      summary: Upload Name Basics
+      description: Uploads name basics data for admin purposes.
+      tags:
+        - Admin
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '201':
+          description: Name basics data uploaded successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "File uploaded and processed successfully."
+        '401':
+          description: Unauthorized access.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Unauthorized"
+        '500':
+          description: Internal Server Error.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Internal Server Error"
+
+  /admin/upload/titleakas:
+    post:
+      summary: Upload Title Akas
+      description: Uploads title akas data for admin purposes.
+      tags:
+        - Admin
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '201':
+          description: Title akas data uploaded successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "File uploaded and processed successfully."
+        '401':
+          description: Unauthorized access.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Unauthorized"
+        '500':
+          description: Internal Server Error.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Internal Server Error"
+
+  /admin/upload/titleprincipals:
+    post:
+      tags:
+        - Admin
+      summary: Upload Title Principals
+      description: Uploads title principals data for admin purposes.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '201':
+          description: Title principals data uploaded successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "File uploaded and processed successfully."
+        '401':
+          description: Unauthorized access.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Unauthorized"
+        '500':
+          description: Internal Server Error.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Internal Server Error"
+  /admin/upload/titleratings:
+    post:
+      tags:
+        - Admin
+      summary: Upload Title Ratings
+      description: Uploads title ratings data for admin purposes.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '201':
+          description: Title ratings data uploaded successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "File uploaded and processed successfully."
+        '401':
+          description: Unauthorized access.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Unauthorized"
+        '500':
+          description: Internal Server Error.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Internal Server Error"
+  /admin/upload/titleepisode:
+    post:
+      tags:
+        - Admin
+      summary: Upload Title Episode
+      description: Uploads title episode data for admin purposes.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '201':
+          description: Title episode data uploaded successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "File uploaded and processed successfully."
+        '401':
+          description: Unauthorized access.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Unauthorized"
+        '500':
+          description: Internal Server Error.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Internal Server Error"
+  /admin/upload/titlecrew:
+    post:
+      summary: Upload Title Crew
+      description: Uploads title crew data for admin purposes.
+      tags:
+        - Admin
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '201':
+          description: Title crew data uploaded successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "File uploaded and processed successfully."
+        '401':
+          description: Unauthorized access.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Unauthorized"
+        '500':
+          description: Internal Server Error.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Internal Server Error"
+  /admin/resetall:
+    post:
+      tags:
+        - Admin
+      summary: Reset All Data
+      description: Resets all data in the database for administrative purposes.
+      responses:
+        '201':
+          description: Data reset successful.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "OK"
+        '401':
+          description: Unauthorized access.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Unauthorized"
+        '500':
+          description: Internal Server Error.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "failed"
+                  reason:
+                    type: string
+                    example: Internal Server Error
+  /admin/usermod/{newusername}/{newpassword}:
+    post:
+      tags:
+        - Admin
+      summary: Modify User (New Username and Password)
+      description: Modifies a user's username and password or creates a new user if the username doesn't exist.
+      parameters:
+        - in: path
+          name: newusername
+          required: true
+          description: New username for the user.
+          schema:
+            type: string
+        - in: path
+          name: newpassword
+          required: true
+          description: New password for the user.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User modification successful.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              examples:
+                RegistrationCompleted:
+                  summary: Registration Completed Example
+                  value:
+                    message: Registration Completed. Please login
+                PasswordUpdated:
+                  summary: Password Updated Example
+                  value:
+                    message: Password Updated
+        '401':
+          description: Unauthorized access.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Unauthorized"
+        '500':
+          description: Internal Server Error.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Internal Server Error"
+
+  /auth/login:
+    post:
+      tags:
+        - Auth
+      summary: User Login
+      description: Logs in a user with username and password.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Login successful.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        '401':
+          description: Unauthorized access.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Invalid username or password'
+        '500':
+          description: Internal Server Error.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Internal Server Error"
+  /title/{titleID}:
+    get:
+      tags:
+        - User
+      summary: Get Title Information by Title ID
+      description: Retrieves information about a title by its ID.
+      parameters:
+        - in: path
+          name: titleID
+          required: true
+          description: The ID of the title to retrieve.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Title information retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TitleInfo'
+        '400':
+          description: Bad Request.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Bad Request"
+        '401':
+          description: Unauthorized.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Unauthorized"
+  /searchtitle:
+    get:
+      tags:
+        - User
+      summary: Search Titles by Title Part
+      description: Retrieves titles based on a part of their title.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                titlePart:
+                  type: string
+                  description: The part of the title to search for.
+      responses:
+        '200':
+          description: Titles found successfully.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TitleInfo'
+        '404':
+          description: Not Found
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Not found
+        '401':
+          description: Unauthorized.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Unauthorized"
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Internal Server Error
+  /bygenre:
+    get:
+      tags:
+        - User
+      summary: Get Titles by Genre, Minimum Rating, and Year Range
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                qgenre:
+                  type: string
+                minrating:
+                  type: string
+                yrFrom:
+                  type: string
+                yrTo:
+                  type: string
+      responses:
+        '200':
+          description: Successful search
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TitleInfo'
+        '404':
+          description: Not Found
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Not found
+        '401':
+          description: Unauthorized.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Unauthorized"
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Internal Server Error
+  /name/{nameID}:
+    get:
+      tags:
+        - User
+      summary: Get Contributor by ID
+      parameters:
+        - in: path
+          name: nameID
+          required: true
+          schema:
+            type: string
+          description: Contributor ID to search for
+      responses:
+        '200':
+          description: Successful search
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContributorInfo'
+        '404':
+          description: Contributor not found
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Contributor not found
+        '401':
+          description: Unauthorized.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Unauthorized"
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Internal Server Error
+  /searchname:
+    get:
+      tags:
+        - User
+      summary: Search Contributors by Name
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                namePart:
+                  type: string
+      responses:
+        '200':
+          description: Successful search
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContributorSearchResult'
+        '404':
+          description: No data
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: No data
+        '401':
+          description: Unauthorized.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Unauthorized"
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Internal Server Error
+  /user/createProfile:
+    put:
+      summary: Create or Update User Profile
+      tags:
+        - User
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                firstname:
+                  type: string
+                lastname:
+                  type: string
+                birthDate:
+                  type: string
+                  format: date
+                email:
+                  type: string
+                  format: email
+                favorite_genre:
+                  type: string
+      responses:
+        '200':
+          description: Profile updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Profile updated successfully
+        '400':
+          description: Bad Request
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Bad Request
+        '401':
+          description: Unauthorized
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Unauthorized
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Internal Server Error                    
+  /user/profile:
+    get:
+      summary: Get User Profile
+      tags:
+        - User
+      responses:
+        '200':
+          description: Successful retrieval of user profile
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  firstname:
+                    type: string
+                    example: string
+                  lastname:
+                    type: string
+                    example: string
+                  birthDate:
+                    type: string
+                    format: date-time
+                    example: date
+                  email:
+                    type: string
+                    example: string
+                  username:
+                    type: string
+                    example: string
+        '401':
+          description: Unauthorized
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Unauthorized
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Internal Server Error
+  /user/addToFavorites/{titleID}:
+    post:
+      summary: Add Title to Favorites
+      tags:
+        - User
+      parameters:
+        - in: path
+          name: titleID
+          required: true
+          description: The ID of the title to add to favorites
+          schema:
+            type: string
+      responses:
+        '201':
+          description: Title added to favorites
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Title added to favorites
+        '200':
+          description: Title added to favorites
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Title already in favorites
+        '401':
+          description: Unauthorized
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Unauthorized
+        '404':
+          description: Title not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Title not found
+        '500':
+          description: Internal Server Error
+  /user/addToWatchlist/{titleID}:
+    post:
+      summary: Add Title to Watchlist
+      tags:
+        - User
+      parameters:
+        - in: path
+          name: titleID
+          required: true
+          description: The ID of the title to add to the watchlist
+          schema:
+            type: string
+      responses:
+        '201':
+          description: Title added to favorites
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Title added to watchlist
+        '200':
+          description: Title added to 
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Title already in watchlist
+        '401':
+          description: Unauthorized
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Unauthorized
+        '404':
+          description: Title not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Title not found
+        '500':
+          description: Internal Server Error
+  /user/watchlist:
+    get:
+      summary: Get User Watchlist
+      tags:
+        - User
+      responses:
+        '200':
+          description: Successful retrieval of watchlist
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TitleInfo'
+        '204':
+          description: No movies in the watchlist
+        '401':
+          description: Unauthorized
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Unauthorized
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Internal Server Error
+  /user/favorites:
+    get:
+      tags:
+        - User
+      summary: Get User's Favorites
+      responses:
+        '200':
+          description: Successful retrieval of watchlist
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TitleInfo'
+        '204':
+          description: No movies in the favorites
+        '401':
+          description: Unauthorized.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Unauthorized"
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Internal Server Error
+  /user/deleteFromWatchlist/{titleID}:
+    delete:
+      tags:
+        - User
+      summary: Delete Title from Watchlist
+      parameters:
+        - in: path
+          name: titleID
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Title deleted from watchlist
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Title deleted from watchlist
+        '404':
+          description: Title not found or not in watchlist
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Title not found
+        '500':
+          description: Internal Server Error
+  /user/deleteFromFavorites/{titleID}:
+    delete:
+      tags:
+        - User
+      summary: Delete Title from Favorites
+      parameters:
+        - in: path
+          name: titleID
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Title deleted from favorites
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Title deleted from favorites
+        '404':
+          description: Title not found or not in favorites
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Title not found
+        '500':
+          description: Internal Server Error
+  /user/updateProfile:
+    put:
+      tags:
+        - User
+      summary: Update User Profile
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '201':
+          description: User profile updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User profile updated successfully
+        '400':
+          description: Username already in use by another user
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Username already in use by another user
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Internal Server Error
+  
+  
+    
+    
+    
