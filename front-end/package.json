@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --experimental-https",
     "build": "next build",
-    "start": "HTTPS=true SSL_CRT_FILE=../cert/certificate.pem SSL_KEY_FILE=../cert/key.pem next start",
+    "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
