@@ -8,7 +8,9 @@ This project was conducted for the course of Software Engineering at the 2023-20
 
 ## Contents
 - **[Documentation](./documentation/README.md)**
+- **[Database](./database/README.md)**
 - **[Server and REST-API](./back-end/README.md)**
+  - [REST API-Documentation](./back-end/documentation)
 - **[CLI-client](./cli-client/README.md)**
 - **[Web-client(Front-end)](./front-end/README.md)**
 
@@ -19,8 +21,6 @@ This project was conducted for the course of Software Engineering at the 2023-20
 - CLI-client: NodeJS
 
 ## Users
-<!-- Add the users:INSERT INTO Users (first_name, last_name, birthdate, email, role) VALUES ('userFN', 'userLN', '1990-01-01', 'user@example.com', 'simple_user');
-INSERT INTO Authentication (user_id, password, username) VALUES (1, '$2a$08$NRJ0rUt2NnGosoWtgu3vyuSZQDZhRcGNBOmhuBpthqLsb8efR2rjS', 'user');-->
 ```json
   "user": { "username": "user","password": "1234"},
   "user2": { "username": "user2", "password": "1234"}, // without profile
