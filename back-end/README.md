@@ -31,7 +31,7 @@ Non Functional Requirements:
     - The user logs in and receives a WEB token
     - The token is used to authenticate the user in the requests
     - The middleware takes the token from the request header and checks if it is valid
-  - Security : (DDOS Attacks (if implemented) )
+  - Security
   - Performance: The app is performant
   - Maintainability: The app is maintainable
   - Testability: The app is testable
