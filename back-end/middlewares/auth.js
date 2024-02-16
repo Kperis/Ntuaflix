@@ -31,24 +31,21 @@ const auth = (req, res, next) => {
         number_of_results = results.length;
         connection.release();
         if (number_of_results > 0) {
-          console.log("You are logged out. Try logging in");
+          //console.log("You are logged out. Try logging in");
           return res.status(401).json({ message: 'You are logged out. Try logging in' });
         }
+        // Verify the token
+        jwt.verify(token, my_secret_key, (err, user) => {
+          if (err){
+            //console.log(err)
+            return res.status(401).json({ message: 'Not Authorized' })
+          }
+          req.user = user
+          //console.log("AuthMiddleware: You are authenticated!");
+          next()
+        })
       });
     });
-
-    // console.log("Number of results: "+number_of_results`);
-
-    // Verify the token
-    jwt.verify(token, my_secret_key, (err, user) => {
-      if (err){
-        //console.log(err)
-        res.sendStatus(401).json({ message: 'Not Authorized' })
-      }
-      req.user = user
-      //console.log("AuthMiddleware: You are authenticated!");
-      next()
-    })
 }
 
 module.exports = auth;

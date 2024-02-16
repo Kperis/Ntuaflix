@@ -13,10 +13,11 @@
 
 .libraryList-container{
     /* padding: 4rem 2rem; */
+    text-align: center;
     width: 460px;
-    height: 200px;
+    height: 100px;
     background: linear-gradient(140deg, var(--selection-color-variant) , transparent), rgba(0,0,0,0.2);
-    border-radius: 16px 16px 0 0;
+    border-radius: 16px;
     box-shadow: 0px -20px 16px 1px var(--main-color);    
     transition: all linear 0.25s;
     border: 1px solid rgba(164, 143, 113, 0.6);
