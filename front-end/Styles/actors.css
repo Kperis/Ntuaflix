@@ -73,4 +73,6 @@
 
 .suggest{
     text-align: center;
+    color: var(--selection-color-variant);
+    font-size: 2em;
 }

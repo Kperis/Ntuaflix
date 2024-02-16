@@ -27,7 +27,6 @@ const ListItem = ({id, name, type, poster, listtype, refetch}) => {
       })
       .then(response => {
         refetch();
-        alert(response.message);
       })
       .catch((error) => alert(error))
     }

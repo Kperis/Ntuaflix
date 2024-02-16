@@ -26,7 +26,7 @@ export default function Home() {
             fetchMovies();
         }
         else{}
-    }, [])
+    }, [loginStatus])
 
 
     const fetchMovies = () => {
