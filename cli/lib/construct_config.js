@@ -1,5 +1,6 @@
 const type = require('./type_getter.js');
 const url = require('./construct_url.js');
+const https = require('https');
 
 
 exports.configconstructor = (name,token,o,formdata) => {
@@ -42,7 +43,8 @@ exports.configconstructor = (name,token,o,formdata) => {
                 'X-OBSERVATORY-AUTH': token,//'Authorization': 'Bearer ' + token,
                 ...(formdata ? formdata.getHeaders() : {}) // Handle null case for formdata//...formdata.getHeaders(),
             },
-            data : formdata
+            data : formdata,
+            httpsAgent: new https.Agent({ rejectUnauthorized: false })
         }
         //console.log("upload configuration ...");
         //console.log(config);
@@ -54,7 +56,8 @@ exports.configconstructor = (name,token,o,formdata) => {
             headers : { 
                 'X-OBSERVATORY-AUTH': token,//'Authorization': 'Bearer ' + token 
             },
-            data : data_post
+            data : data_post,
+            httpsAgent: new https.Agent({ rejectUnauthorized: false })
         }
         //console.log(config);
         return config;
@@ -64,7 +67,8 @@ exports.configconstructor = (name,token,o,formdata) => {
             url : url.urlconstructor(name,o),
             headers : { 
                 'X-OBSERVATORY-AUTH': token,//'Authorization': 'Bearer ' + token 
-            }
+            },
+            httpsAgent: new https.Agent({ rejectUnauthorized: false })
         }
         //console.log(config);
         return config;

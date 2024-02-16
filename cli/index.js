@@ -201,4 +201,12 @@ program
     generalfun('adduser',o) 
   } )
 
+  program
+  .command('logout')
+  .description('logout user')
+  .option('--format [format]', 'Output format (e.g., json, csv)')
+  .action( function(o) { 
+    generalfun('logout',o) 
+  } )
+
 program.parse(process.argv);

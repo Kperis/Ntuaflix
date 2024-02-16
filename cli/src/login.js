@@ -1,5 +1,5 @@
 const chalk = require('chalk');
-const https = require('https')
+const https = require('https');
 const axios = require('axios');
 const fs = require('fs');
 var qs = require('qs');

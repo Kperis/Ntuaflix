@@ -29,8 +29,9 @@ exports.request_function =  (name,o,format) => {
                 console.log(formattedData);
             })
             .catch(err => {
-                var error_name = errorHandler.errorhandler(err.response.status,name)
-                console.log(error_name);
+                //console.log(err);
+                //var error_name = errorHandler.errorhandler(err.response.status,name)
+                //console.log(error_name);
             })
         }
     })

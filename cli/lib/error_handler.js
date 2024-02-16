@@ -37,6 +37,8 @@ exports.errorhandler = (status,name) =>{
             return  'No data';
         }else if(name == "searchname"){
             return 'No data';
+        }else if (name == "logout"){
+            return 'User not logged in';
         }
     }
     return;
