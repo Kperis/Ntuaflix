@@ -39,9 +39,16 @@ exports.errorhandler = (status,name) =>{
             return 'No data';
         }else if (name == "logout"){
             return 'User not logged in';
+        }else if (name == "addtofavorites" || name =="addtowatchlater" || 
+        name == "deletefromfavorites" || name == "deletefromwatchlater"){
+            return "Title not found";
         }
     }else if(status === 401){
-        return chalk.red('Not Authorized , please login');
+        return chalk.red('Not Authorized');
+    }else if(status == 500){
+        return chalk.red("Internal Server Error");
+    }else if(status == 400){
+        return chalk.red("Bad request");
     }
     return;
 }

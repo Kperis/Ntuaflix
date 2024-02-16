@@ -1,41 +1,61 @@
 const error_handler = require('./error_handler.js');
 
 exports.urlconstructor = (name,parameters) => {
+    const baseurl = "https://localhost:9876/ntuaflix_api/";
     if (name == "title"){
-        return "https://localhost:9876/ntuaflix_api/title/" + parameters.titleID;
+        return baseurl+"title/" + parameters.titleID;
     }else if(name == "resetall"){
-        return "https://localhost:9876/ntuaflix_api/admin/resetall";
+        return baseurl +"admin/resetall";
     }else if(name == "healthcheck"){
-        return "https://localhost:9876/ntuaflix_api/admin/healthcheck";
+        return baseurl +"admin/healthcheck";
     }else if(name == "user"){
-        return "https://localhost:9876/ntuaflix_api/admin/users/" + parameters.username;
+        return baseurl+"admin/users/" + parameters.username;
     }else if (name == 'login'){
-        return "https://localhost:9876/ntuaflix_api/auth/login";
+        return baseurl+"auth/login";
     }else if (name == 'name'){
-        return "https://localhost:9876/ntuaflix_api/name/" + parameters.nameid;
+        return baseurl+"name/" + parameters.nameid;
     }else if (name == 'bygenre'){
-        return "https://localhost:9876/ntuaflix_api/bygenre";
+        return baseurl+"bygenre";
     }else if( name == 'searchtitle'){
-        return "https://localhost:9876/ntuaflix_api/searchtitle";
+        return baseurl+"searchtitle";
     }else if( name == 'searchname'){
-        return "https://localhost:9876/ntuaflix_api/searchname";
+        return baseurl+"searchname";
     }else if(name == 'newtitles'){
-        return "https://localhost:9876/ntuaflix_api/admin/upload/titlebasics";
+        return baseurl+"admin/upload/titlebasics";
     }else if(name == 'newnames'){
-        return "https://localhost:9876/ntuaflix_api/admin/upload/namebasics";
+        return baseurl+"admin/upload/namebasics";
     }else if (name == 'newakas'){
-        return "https://localhost:9876/ntuaflix_api/admin/upload/titleakas";
+        return baseurl+"admin/upload/titleakas";
     }else if (name == 'newcrew'){
-        return "https://localhost:9876/ntuaflix_api/admin/upload/titlecrew";
+        return baseurl+"admin/upload/titlecrew";
     }else if(name == 'newepisode'){
-        return "https://localhost:9876/ntuaflix_api/admin/upload/titleepisode";
+        return baseurl+"admin/upload/titleepisode";
     }else if(name == 'newprincipals'){
-        return "https://localhost:9876/ntuaflix_api/admin/upload/titleprincipals";
+        return baseurl+"admin/upload/titleprincipals";
     }else if(name == 'newratings'){
-        return "https://localhost:9876/ntuaflix_api/admin/upload/titleratings";
+        return baseurl+"admin/upload/titleratings";
     }else if(name == "adduser"){
-        return "https://localhost:9876/ntuaflix_api/admin/usermod/"+parameters.username+"/"+parameters.password;
+        return baseurl+"admin/usermod/"+parameters.username+"/"+parameters.password;
     }else if (name == "logout"){
-        return "https://localhost:9876/ntuaflix_api/auth/logout";
+        return baseurl+"auth/logout";
+    }else if ( name == "createprofile"){
+        return baseurl+"user/createProfile";
+    }else if (name == "profile"){
+        return baseurl+"user/profile";
+    }else if (name == "addtofavorites"){
+        return baseurl+"user/addToFavorites/"+parameters.titleID;
+    }else if (name == "addtowatchlater"){
+        return baseurl+"user/addToWatchlist/"+parameters.titleID;
+    }else if (name == "watchlater"){
+        return baseurl+ "user/watchlist";
+    }else if (name == "favorites"){
+        return baseurl+ "user/favorites";
+    }else if (name == "deletefromfavorites"){
+        return baseurl+ "user/deleteFromFavorites/"+parameters.titleID;
+    }else if (name == "deletefromwatchlater"){
+        return baseurl+ "user/deleteFromWatchlist/"+parameters.titleID;
+    }
+    else if (name == "updateprofile"){
+        return baseurl+ "user/updateProfile";
     }
 }

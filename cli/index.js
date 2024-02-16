@@ -209,4 +209,89 @@ program
     generalfun('logout',o) 
   } )
 
+  program
+  .command('createprofile')
+  .description('update user info')
+  .option('--firstname [firstname]', 'firstname')
+  .option('--lastname [lastname]', 'lastname')
+  .option('--birthDate [birthDate]', 'birthdate')
+  .option('--email [email]', 'email')
+  .option('--favorite_genre [favorite_genre]', 'favorite_genre')
+  .option('--format [format]', 'Output format (e.g., json, csv)')
+  .action( function(o) { 
+    generalfun('createprofile',o) 
+  } )
+
+  program
+  .command('profile')
+  .description('show profile info')
+  .option('--format [format]', 'Output format (e.g., json, csv)')
+  .action( function(o) { 
+    generalfun('profile',o) 
+  } )
+
+  program
+  .command('addtofavorites')
+  .description('add movie to favorites by movieid')
+  .option('--titleID [titleID]', 'titleid')
+  .option('--format [format]', 'Output format (e.g., json, csv)')
+  .action( function(o) { 
+    generalfun('addtofavorites',o) 
+  } )
+
+  program
+  .command('addtowatchlater')
+  .description('add movie to wathclater list by movieid')
+  .option('--titleID [titleID]', 'titleid')
+  .option('--format [format]', 'Output format (e.g., json, csv)')
+  .action( function(o) { 
+    generalfun('addtowatchlater',o) 
+  } )
+
+  program
+  .command('watchlater')
+  .description('get movies in watchlater list')
+  .option('--format [format]', 'Output format (e.g., json, csv)')
+  .action( function(o) { 
+    generalfun('watchlater',o)
+  } )
+
+  program
+  .command('favorites')
+  .description('get movies in favorites list')
+  .option('--format [format]', 'Output format (e.g., json, csv)')
+  .action( function(o) { 
+    generalfun('favorites',o)
+  } )
+
+  program
+  .command('deletefromfavorites')
+  .description('delete movie from favorites by movieid')
+  .option('--titleID [titleID]', 'titleid')
+  .option('--format [format]', 'Output format (e.g., json, csv)')
+  .action( function(o) { 
+    generalfun('deletefromfavorites',o)
+  } )
+
+  program
+  .command('deletefromwatchlater')
+  .description('delete movie from watchlater list by movieid')
+  .option('--titleID [titleID]', 'titleid')
+  .option('--format [format]', 'Output format (e.g., json, csv)')
+  .action( function(o) { 
+    generalfun('deletefromwatchlater',o)
+  } )
+
+  program
+  .command('updateprofile')
+  .description('update username or password')
+  .option('--username [username]', 'username')
+  .option('--password [password]', 'password')
+  .option('--format [format]', 'Output format (e.g., json, csv)')
+  .action( function(o) { 
+    generalfun('updateprofile',o)
+  } )
+
+
+
 program.parse(process.argv);

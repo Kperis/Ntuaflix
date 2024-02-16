@@ -24,9 +24,13 @@ exports.request_function =  (name,o,format) => {
             //console.log(config);
             //console.log(config);
             axios(config)
-            .then(res => {  
-                const formattedData = formating.formatData(res.data,format);
-                console.log(formattedData);
+            .then(res => { 
+                if(name == "deletefromwatchlate" || name == "deletefromfavorites"){
+                    console.log(chalk.green("deletion successful"));
+                }else{
+                    const formattedData = formating.formatData(res.data,format);
+                    console.log(formattedData);
+                }
             })
             .catch(err => {
                 var error_name = errorHandler.errorhandler(err.response.status,name)

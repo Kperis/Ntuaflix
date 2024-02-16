@@ -31,7 +31,23 @@ exports.configconstructor = (name,token,o,formdata) => {
             'password': o.password
         };
         data_exists = true;
-    }else if (name.substring(0, 3) === "new"){
+    }else if (name == "createprofile"){
+        data_post = {
+            "firstname": o.firstname,
+            "lastname": o.lastname,
+            "birthDate": o.birthDate,
+            "email": o.email,
+            "favorite_genre" : o.favorite_genre
+        }
+        data_exists = true;
+    }else if(name == "updateprofile"){
+        data_post = {
+            "username" : o.username,
+            "password" : o.password
+        }
+        data_exists = true;
+    }
+    else if (name.substring(0, 3) === "new"){
         upload = true;
     }
     //console.log(name)
