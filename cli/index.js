@@ -19,6 +19,7 @@ program
     console.log('The format of a command is: se2333 scope --param1 value1 [--param2 value2] --format fff');
     console.log('List of commands:');
     console.log('se2333 login --username [username] --password [password]');
+    console.log('se2333 logout --format [format]');
     console.log('se2333 title --titleID [titleid] --format [format]');
     console.log('se2333 newtitles --filename [filepath]');
     console.log('se2333 newakas --filename [filepath]');
@@ -35,7 +36,15 @@ program
     console.log('se2333 bygenre --genre [genre] --min [minrating] --from [yrFrom] --to [yrTo] --format [format]');
     console.log('se2333 searchname --name [namepart] --format [format]');
     console.log('se2333 adduser --username [username] --password [password] --format [format]');
-    console.log('se2333 logout --format [format]');
+    console.log('se2333 createprofile --firstname [firstname] --lastname [lastname] --birthDate [yyyy-mm-dd] --email [email] --favorite_genre [favorite_genre] --format [format]');
+    console.log('se2333 profile --format [format]');
+    console.log('se2333 addtofavorites --titleID [titleID] --format [format]');
+    console.log('se2333 addtowatchlater --titleID [titleID] --format [format]');
+    console.log('se2333 watchlater --format [format]');
+    console.log('se2333 favorites --format [format]');
+    console.log('se2333 deletefromfavorites --titleID [titleID] --format [format]');
+    console.log('se2333 deletefromwatchlater --titleID [titleID] --format [format]');
+    console.log('se2333 updateprofile --username [username] --password [password] --format [format]');
   });
 
 
