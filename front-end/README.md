@@ -2,6 +2,8 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
+Make sure to also npm install in the front-end folder to install any dependencies!
+
 First, run the development server:
 
 ```bash
