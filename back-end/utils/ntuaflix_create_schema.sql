@@ -243,6 +243,12 @@ CREATE TABLE IF NOT EXISTS Favorites_list (
         ON DELETE CASCADE
 );
 
+-- Easter Egg:
+INSERT INTO Contributors (contributor_id, primary_name, birth_year, death_year, image_url)
+VALUES (1,'Margot Robbie', NULL, NULL,'https://media.glamour.com/photos/5a257e7cc93a350fbef53261/master/pass/margot-robbie-marriage-not-achievement.jpg');
+
+
+
 -- When expiration time passes the token is deleted from the table
 DELIMITER $$
 CREATE EVENT IF NOT EXISTS deleteExpiredTokens

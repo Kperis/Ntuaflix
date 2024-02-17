@@ -1,5 +1,7 @@
 # Back-end
 
+<p align="left"><a href="#getting-started">Check "Getting Started" ! </a></p>
+
 ## About
 
 ### We used:
@@ -9,6 +11,7 @@
 ![jsonwebtoken](https://img.shields.io/badge/jsonwebtoken-v9.0.2+-green.svg)
 ![bcryptjs](https://img.shields.io/badge/bcryptjs-v2.4.3+-blue.svg)
 ![nodemon](https://img.shields.io/badge/nodemon-v3.0.3+-red.svg)
+
 
 ### Contents:
 
@@ -146,6 +149,7 @@ Firstly the local web development toolkit (like XAMPP) must be running.
 *You can use these users :*
 ```json
   "user": { "username": "user","password": "1234"},
+  "user2": { "username": "user2", "password": "1234"}, // without profile
   "admin": { "username": "admin", "password": "1234"}
 ```
 
@@ -160,23 +164,3 @@ Firstly the local web development toolkit (like XAMPP) must be running.
    ```sh
    npm test 
    ```
-
-## URLs
-### Admin
-   - Login <br/>
-      ```json
-      Type: POST,
-      URl: http://localhost:9876.ntuaflix_api/auth/login,
-      Body: {
-         "username":"usernmae",
-         "password":"passwrod"
-         }
-
-      Reply: {
-         "token": "eyashjfyyhanmlasdf3l4na.fdashfh3mvcsaffhasdfhobnm234nfqew.vjkasdhfiuhqQQKjhochaws"
-         }
-      ```
-  - Register <br/>
-      ```json
-      should i continue?
-      ```
