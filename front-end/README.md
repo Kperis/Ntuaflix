@@ -2,6 +2,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
+First of all grab the latest version of node and npm -> https://nodejs.org/en/download
 Make sure to also npm install in the front-end folder to install any dependencies!
 
 First, run the development server:
