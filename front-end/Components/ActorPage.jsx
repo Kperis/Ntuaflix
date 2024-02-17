@@ -7,7 +7,7 @@ const ActorPage = ({name, poster, birth, death, profession, movies}) => {
   return (
     <div className='actorpage-container'>
         <main>
-            {poster === null || poster === '\N' || poster === undefined || poster === '\\N'
+            {poster === null || poster === '\N' || poster === undefined || poster === '\\N' || poster === '\\\\N'
             ? <Image src='/no-image.png' alt='actor-photo' width={440} height={540} className='actor-poster'/>
             : <Image className='actor-poster' src={poster.replace('{width_variable}', 'w185')} unoptimized alt='actor-photo' width={440} height={540}/>
             }
