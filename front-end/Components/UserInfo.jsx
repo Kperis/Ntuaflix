@@ -94,7 +94,7 @@ const UserInfo = ({data, fetchFinal}) => {
             }
             
             <aside>
-                <Image className='profile-pic' alt='pfp pic' src='/monkas.jpg' width={400} height={400}/>
+                <Image className='profile-pic' alt='pfp pic' src='/profile-pic.png' width={400} height={400}/>
             </aside>
         </section>
     </>

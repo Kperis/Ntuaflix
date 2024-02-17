@@ -5,6 +5,10 @@ import '@/Styles/signin.css'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useAuth } from './Context'
+// const https = require('https');
+// const httpsAgent = new https.Agent({
+//   rejectUnauthorized: false,
+// });
 // const AuthContext = createContext(null);
 
 // export const AuthProvider = ({children}) => {
@@ -49,6 +53,7 @@ const Signin = () => {
             username: username,
             password: password
         })
+        // Agent : httpsAgent
       })
       .then(response => {
         if(response.status === 500){
@@ -75,6 +80,7 @@ const Signin = () => {
         }
     })
     .catch((error) => {
+      alert(error);
       alert('There was an error. Make sure you visit https://localhost:9876/ntuaflix_api and make it a trusted source');
     })
 

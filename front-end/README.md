@@ -2,7 +2,12 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-First, run the development server:
+First of all grab the latest version of node and npm -> https://nodejs.org/en/download
+Make sure to also npm install in the front-end folder to install any dependencies!
+
+Before firing up the front end, make sure to start the backend and also the xampp server, so that everything is operational.
+
+Then, run the development server:
 
 ```bash
 npm run dev
@@ -13,6 +18,8 @@ pnpm dev
 # or
 bun dev
 ```
+
+If you encounter any errors then make sure to visit https://localhost:9876 and make it a trusted source because of the self signed certificate.
 
 Open [https://localhost:3000](https://localhost:3000) with your browser to see the result.
 
