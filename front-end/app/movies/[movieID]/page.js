@@ -26,7 +26,6 @@ const page = () => {
         else return {}
       })
       .then(data => {
-        console.log(data);
         setMovieData(data);
         setLoading(false);
       })

@@ -10,7 +10,7 @@ const Actor = ({id, photo, name, w, h}) => {
         {w !==90
         ? <div className='actor'>
           {
-            photo === '\\N'
+            photo === '\\N' || photo === '\N' || photo === '\\\\N'
               ? <Image src='/no-image.png' alt='actor-photo' width={w} height={h} className='actor-photo'/>
               : <Image src={photo.replace('{width_variable}', 'w185')} unoptimized alt='actor-photo' width={w} height={h} className='actor-photo'/>
           }

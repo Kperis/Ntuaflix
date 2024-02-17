@@ -141,7 +141,7 @@ const MoviePage = ({id, poster, title, contributors, genres, year, type, rating}
 
 
   return (
-    <div className='moviepage-container' style={{backgroundImage: `url(${poster?.replace('{width_variable}', 'original')})`}}>
+    <div className='moviepage-container' style={{backgroundImage: `url(${poster?.replace('{width_variable}', 'original')})`} }>
         <main className='details'>
           <section>
             <h1>{title}</h1>
