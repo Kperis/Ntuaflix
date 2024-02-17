@@ -5,7 +5,7 @@ import Heart from './Heart'
 import '@/Styles/moviepage.css'
 import List from './List'
 
-const MoviePage = ({id, poster, title, contributors, akas, year, type, rating}) => {
+const MoviePage = ({id, poster, title, contributors, genres, year, type, rating}) => {
 
   const [heart, setHeart] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -30,10 +30,22 @@ const MoviePage = ({id, poster, title, contributors, akas, year, type, rating}) 
       method: 'get',
       headers: {'X-OBSERVATORY-AUTH' : sessionStorage.getItem('token')}
     })
-    .then(response => response.json())
+    .then(response => {
+      if(response.status === 500){
+        throw new Error('Server error');
+      }
+      else if(response.status === 404){
+        throw new Error('No info');
+      }
+      else if(response.status === 200){
+        return response.json();
+      }
+      else throw new Error('Something went wrong');
+    })
     .then(response => {
       setHeart(response.isFavorite);
-    });
+    })
+    .catch((error) => alert(error))
 
     setActors(arr);
     setLoading(false);
@@ -133,7 +145,7 @@ const MoviePage = ({id, poster, title, contributors, akas, year, type, rating}) 
         <main className='details'>
           <section>
             <h1>{title}</h1>
-            <p>{akas?.map((item) => {return item?.genreTitle+', '})}</p>
+            <p>{genres?.map((item) => {return item?.genreTitle + ', '})}</p>
           </section>
           <div className='seperation'></div>
           <section>

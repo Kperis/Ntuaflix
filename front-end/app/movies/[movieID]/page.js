@@ -26,9 +26,9 @@ const page = () => {
         else return {}
       })
       .then(data => {
+        console.log(data);
         setMovieData(data);
         setLoading(false);
-        console.log(data);
       })
       .catch((error) => alert(error))
     }, [])
@@ -36,7 +36,7 @@ const page = () => {
   return (
     loading
     ?   <Spinner />
-    :    <MoviePage akas={movieData?.akasInfo} 
+    :    <MoviePage genres={movieData?.genres} 
           title={movieData?.originalTitle} 
           contributors={movieData?.principals} 
           rating={movieData?.rating}
