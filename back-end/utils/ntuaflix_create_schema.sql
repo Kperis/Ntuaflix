@@ -243,6 +243,7 @@ CREATE TABLE IF NOT EXISTS Favorites_list (
         ON DELETE CASCADE
 );
 
+
 -- When expiration time passes the token is deleted from the table
 DELIMITER $$
 CREATE EVENT IF NOT EXISTS deleteExpiredTokens
