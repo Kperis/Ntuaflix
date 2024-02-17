@@ -94,8 +94,8 @@ const getTitleObject = async (titleID) => {
                     titlePoster: results1[0].titlePoster,
                     startYear: results1[0].startYear,
                     endYear: results1[0].endYear,
-                    genres: results2,
-                    akasInfo: results3,
+                    genres: results3,
+                    akasInfo: results2,
                     principals: results4,
                     rating: results5,
                 };
