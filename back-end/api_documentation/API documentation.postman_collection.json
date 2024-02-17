@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "9cf0acf7-4796-4e44-b456-45b4e7344c83",
-		"name": "API documentation",
+		"name": "API documentation_1",
 		"description": "# 📄 Get started with NTUAflix API\n\nNTUAflix API is a comprehensive solution for managing movie-related data and user interactions. It provides a robust set of functionalities for both administrators and regular users. This guide will walk you through the steps required to start using the NTUAflix API efficiently.\n\n## Overview\n\nNTUAflix API offers functionalities for managing users, movies, and user interactions. Administrators can upload data, manage users, and perform administrative tasks, while regular users can browse movies, manage their profiles, and interact with the platform.\n\n## Getting Started Guide\n\n  \nTo start using NTUAflix API, follow these steps:\n\n1. Initializing Database:\n    \n\nStart a MySQL Server (e.g., using XAMPP).  \nCreate the database using the provided schema file (./utils/ntuaflix_create_schema.sql).  \nOptionally, you can populate the database with sample data from TSV files using the command npm run data.\n\n2\\. Start the Server and REST-API:\n\nInstall all dependencies with npm install.  \nRun the REST-API with npm start.\n\n  \n3\\. Authentication:\n\nUse provided credentials to authenticate:  \nAdmin Credentials: { \"username\": \"admin\", \"password\": \"1234\" }  \nUser Credentials: { \"username\": \"user\", \"password\": \"1234\" }\n\n  \n4\\. Testing:\n\nEnsure the local web development toolkit is running.  \nInstall dependencies with npm install.  \nRun tests with npm test.\n\n##   \nAuthentication\n\n  \nNTUAflix API uses JSON Web Tokens (JWT) for authentication. Users can obtain tokens by logging in with their credentials. The token must be included in the request header for subsequent authenticated requests.\n\nRate and Usage Limits  \nNTUAflix API imposes rate limits to ensure fair usage and prevent abuse. Requests exceeding the limit will receive an HTTP 429 Too Many Requests status code.\n\n### Need Some Help?\n\n  \nIf you need assistance or have questions regarding NTUAflix API, consider the following resources:\n\nReadme files: There are readme files in \"backend\",\"frontend\" and \"cli-client\" folders that contain all the necessary information to properly run the app.  \nFAQ Page: Contact team 33  \nWe're committed to providing comprehensive support to ensure you have a smooth experience with NTUAflix API.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "27218285",
@@ -36,7 +36,7 @@
 								"healthcheck"
 							]
 						},
-						"description": "This endpoint sends an HTTP GET request to [http://localhost:9876/ntuaflix_api/admin/healthcheck](http://localhost:9876/ntuaflix_api/admin/healthcheck) to retrieve the health status of the server. The response will be in JSON format with a status code of 200. The response body will contain the status and details about the host, port, user, and database.\n\nResponses:\n\n- 200 {\"status\": \"OK\"}\n    \n- 401 Unauthorized\n    \n- 500 Error establishing database connection"
+						"description": "This endpoint sends an HTTP GET request to [https://localhost:9876/ntuaflix_api/admin/healthcheck](https://localhost:9876/ntuaflix_api/admin/healthcheck) to retrieve the health status of the server. The response will be in JSON format with a status code of 200. The response body will contain the status and details about the host, port, user, and database.\n\nResponses:\n\n- 200 {\"status\": \"OK\"}\n    \n- 401 Unauthorized\n    \n- 500 Error establishing database connection"
 					},
 					"response": [
 						{
@@ -45,8 +45,8 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:9876/ntuaflix_api/admin/healthcheck",
-									"protocol": "http",
+									"raw": "https://localhost:9876/ntuaflix_api/admin/healthcheck",
+									"protocol": "https",
 									"host": [
 										"localhost"
 									],
@@ -110,7 +110,7 @@
 									"// Demo Script: Retrieve User Information by Username\r",
 									"\r",
 									"// Define the base URL of the API\r",
-									"var baseUrl = 'http://localhost:9876/ntuaflix_api/admin/';\r",
+									"var baseUrl = 'https://localhost:9876/ntuaflix_api/admin/';\r",
 									"\r",
 									"// Define the username for the user we want to retrieve information for\r",
 									"var username = 'user';\r",
@@ -187,8 +187,8 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:9876/ntuaflix_api/admin/users/exampleusername",
-									"protocol": "http",
+									"raw": "https://localhost:9876/ntuaflix_api/admin/users/exampleusername",
+									"protocol": "https",
 									"host": [
 										"localhost"
 									],
@@ -247,8 +247,8 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:9876/ntuaflix_api/admin/users/notexist",
-									"protocol": "http",
+									"raw": "https://localhost:9876/ntuaflix_api/admin/users/notexist",
+									"protocol": "https",
 									"host": [
 										"localhost"
 									],
@@ -369,8 +369,8 @@
 							]
 						},
 						"url": {
-							"raw": "http://localhost:9876/ntuaflix_api/admin/upload/titlebasics",
-							"protocol": "http",
+							"raw": "https://localhost:9876/ntuaflix_api/admin/upload/titlebasics",
+							"protocol": "https",
 							"host": [
 								"localhost"
 							],
@@ -382,7 +382,7 @@
 								"titlebasics"
 							]
 						},
-						"description": "This API endpoint allows administrators to upload title basics to the NTUAFlix database. The HTTP POST request should be made to [http://localhost:9876/ntuaflix_api/admin/upload/titlebasics](http://localhost:9876/ntuaflix_api/admin/upload/titlebasics). The request body should be of form-data type and include a file parameter, which should be a file containing the title basics data.\n\nUpon a successful execution, the API returns a 201 status code with a JSON response body containing a message indicating the success of the upload.\n\nResponses:\n\n- 201 File uploaded and proccessed successfully.\n    \n- 401 Unauthorized.\n    \n- 500 Internal server error."
+						"description": "This API endpoint allows administrators to upload title basics to the NTUAFlix database. The HTTP POST request should be made to [https://localhost:9876/ntuaflix_api/admin/upload/titlebasics](https://localhost:9876/ntuaflix_api/admin/upload/titlebasics). The request body should be of form-data type and include a file parameter, which should be a file containing the title basics data.\n\nUpon a successful execution, the API returns a 201 status code with a JSON response body containing a message indicating the success of the upload.\n\nResponses:\n\n- 201 File uploaded and proccessed successfully.\n    \n- 401 Unauthorized.\n    \n- 500 Internal server error."
 					},
 					"response": [
 						{
@@ -401,8 +401,8 @@
 									]
 								},
 								"url": {
-									"raw": "http://localhost:9876/ntuaflix_api/admin/upload/titlebasics",
-									"protocol": "http",
+									"raw": "https://localhost:9876/ntuaflix_api/admin/upload/titlebasics",
+									"protocol": "https",
 									"host": [
 										"localhost"
 									],
@@ -473,8 +473,8 @@
 							]
 						},
 						"url": {
-							"raw": "http://localhost:9876/ntuaflix_api/admin/upload/namebasics",
-							"protocol": "http",
+							"raw": "https://localhost:9876/ntuaflix_api/admin/upload/namebasics",
+							"protocol": "https",
 							"host": [
 								"localhost"
 							],
@@ -486,7 +486,7 @@
 								"namebasics"
 							]
 						},
-						"description": "This endpoint allows administrators to upload name basics to the NTUAFlix API. The HTTP POST request should be made to [http://localhost:9876/ntuaflix_api/admin/upload/namebasics](http://localhost:9876/ntuaflix_api/admin/upload/namebasics).\n\n### Request Body\n\nThe request should have a form-data body type with a parameter named \"file\" of type file. This parameter is used to upload the name basics data.\n\nResponses:\n\n- 201 File uploaded and proccessed successfully.\n    \n- 401 Unauthorized.\n    \n- 500 Internal server error."
+						"description": "This endpoint allows administrators to upload name basics to the NTUAFlix API. The HTTP POST request should be made to [https://localhost:9876/ntuaflix_api/admin/upload/namebasics](https://localhost:9876/ntuaflix_api/admin/upload/namebasics).\n\n### Request Body\n\nThe request should have a form-data body type with a parameter named \"file\" of type file. This parameter is used to upload the name basics data.\n\nResponses:\n\n- 201 File uploaded and proccessed successfully.\n    \n- 401 Unauthorized.\n    \n- 500 Internal server error."
 					},
 					"response": [
 						{
@@ -505,8 +505,8 @@
 									]
 								},
 								"url": {
-									"raw": "http://localhost:9876/ntuaflix_api/admin/upload/namebasics",
-									"protocol": "http",
+									"raw": "https://localhost:9876/ntuaflix_api/admin/upload/namebasics",
+									"protocol": "https",
 									"host": [
 										"localhost"
 									],
@@ -620,8 +620,8 @@
 							]
 						},
 						"url": {
-							"raw": "http://localhost:9876/ntuaflix_api/admin/upload/titleakas",
-							"protocol": "http",
+							"raw": "https://localhost:9876/ntuaflix_api/admin/upload/titleakas",
+							"protocol": "https",
 							"host": [
 								"localhost"
 							],
@@ -652,8 +652,8 @@
 									]
 								},
 								"url": {
-									"raw": "http://localhost:9876/ntuaflix_api/admin/upload/titleakas",
-									"protocol": "http",
+									"raw": "https://localhost:9876/ntuaflix_api/admin/upload/titleakas",
+									"protocol": "https",
 									"host": [
 										"localhost"
 									],
@@ -767,8 +767,8 @@
 							]
 						},
 						"url": {
-							"raw": "http://localhost:9876/ntuaflix_api/admin/upload/titleprincipals",
-							"protocol": "http",
+							"raw": "https://localhost:9876/ntuaflix_api/admin/upload/titleprincipals",
+							"protocol": "https",
 							"host": [
 								"localhost"
 							],
@@ -780,7 +780,7 @@
 								"titleprincipals"
 							]
 						},
-						"description": "This endpoint allows administrators to upload title principals to the NTUAFlix API. The request should be sent as an HTTP POST to [http://localhost:9876/ntuaflix_api/admin/upload/titleprincipals](http://localhost:9876/ntuaflix_api/admin/upload/titleprincipals).\n\n### Request Body\n\nThe request body should be of form-data type and contain a file parameter. The file parameter should be of type file.\n\nResponses:\n\n- 201 File uploaded and proccessed successfully.\n    \n- 401 Unauthorized.\n    \n- 500 Internal server error."
+						"description": "This endpoint allows administrators to upload title principals to the NTUAFlix API. The request should be sent as an HTTP POST to [https://localhost:9876/ntuaflix_api/admin/upload/titleprincipals](https://localhost:9876/ntuaflix_api/admin/upload/titleprincipals).\n\n### Request Body\n\nThe request body should be of form-data type and contain a file parameter. The file parameter should be of type file.\n\nResponses:\n\n- 201 File uploaded and proccessed successfully.\n    \n- 401 Unauthorized.\n    \n- 500 Internal server error."
 					},
 					"response": [
 						{
@@ -799,8 +799,8 @@
 									]
 								},
 								"url": {
-									"raw": "http://localhost:9876/ntuaflix_api/admin/upload/titleprincipals",
-									"protocol": "http",
+									"raw": "https://localhost:9876/ntuaflix_api/admin/upload/titleprincipals",
+									"protocol": "https",
 									"host": [
 										"localhost"
 									],
@@ -910,8 +910,8 @@
 							]
 						},
 						"url": {
-							"raw": "http://localhost:9876/ntuaflix_api/admin/upload/titleratings",
-							"protocol": "http",
+							"raw": "https://localhost:9876/ntuaflix_api/admin/upload/titleratings",
+							"protocol": "https",
 							"host": [
 								"localhost"
 							],
@@ -923,7 +923,7 @@
 								"titleratings"
 							]
 						},
-						"description": "This endpoint allows administrators to upload title ratings to the NTUAflix API. The request should be sent via an HTTP POST method to [http://localhost:9876/ntuaflix_api/admin/upload/titleratings](http://localhost:9876/ntuaflix_api/admin/upload/titleratings). The request body should be of form-data type and include a file parameter. Upon successful execution, the API returns a 201 status with a JSON response containing a message.\n\nResponses:\n\n- 201 File uploaded and proccessed successfully.\n    \n- 401 Unauthorized.\n    \n- 500 Internal server error."
+						"description": "This endpoint allows administrators to upload title ratings to the NTUAflix API. The request should be sent via an HTTP POST method to [https://localhost:9876/ntuaflix_api/admin/upload/titleratings](https://localhost:9876/ntuaflix_api/admin/upload/titleratings). The request body should be of form-data type and include a file parameter. Upon successful execution, the API returns a 201 status with a JSON response containing a message.\n\nResponses:\n\n- 201 File uploaded and proccessed successfully.\n    \n- 401 Unauthorized.\n    \n- 500 Internal server error."
 					},
 					"response": [
 						{
@@ -942,8 +942,8 @@
 									]
 								},
 								"url": {
-									"raw": "http://localhost:9876/ntuaflix_api/admin/upload/titleratings",
-									"protocol": "http",
+									"raw": "https://localhost:9876/ntuaflix_api/admin/upload/titleratings",
+									"protocol": "https",
 									"host": [
 										"localhost"
 									],
@@ -1053,8 +1053,8 @@
 							]
 						},
 						"url": {
-							"raw": "http://localhost:9876/ntuaflix_api/admin/upload/titleepisode",
-							"protocol": "http",
+							"raw": "https://localhost:9876/ntuaflix_api/admin/upload/titleepisode",
+							"protocol": "https",
 							"host": [
 								"localhost"
 							],
@@ -1085,8 +1085,8 @@
 									]
 								},
 								"url": {
-									"raw": "http://localhost:9876/ntuaflix_api/admin/upload/titleepisode",
-									"protocol": "http",
+									"raw": "https://localhost:9876/ntuaflix_api/admin/upload/titleepisode",
+									"protocol": "https",
 									"host": [
 										"localhost"
 									],
@@ -1199,8 +1199,8 @@
 							]
 						},
 						"url": {
-							"raw": "http://localhost:9876/ntuaflix_api/admin/upload/titlecrew",
-							"protocol": "http",
+							"raw": "https://localhost:9876/ntuaflix_api/admin/upload/titlecrew",
+							"protocol": "https",
 							"host": [
 								"localhost"
 							],
@@ -1212,7 +1212,7 @@
 								"titlecrew"
 							]
 						},
-						"description": "This endpoint allows administrators to upload title crew information. The request should be sent as an HTTP POST to [http://localhost:9876/ntuaflix_api/admin/upload/titlecrew](http://localhost:9876/ntuaflix_api/admin/upload/titlecrew).\n\n### Request Body\n\nThe request should have a form-data body type with a single parameter:\n\n- `file` (file): The file containing the title crew information to be uploaded.\n    \n\nResponses:\n\n- 201 File uploaded and proccessed successfully.\n    \n- 401 Unauthorized.\n    \n- 500 Internal server error."
+						"description": "This endpoint allows administrators to upload title crew information. The request should be sent as an HTTP POST to [https://localhost:9876/ntuaflix_api/admin/upload/titlecrew](https://localhost:9876/ntuaflix_api/admin/upload/titlecrew).\n\n### Request Body\n\nThe request should have a form-data body type with a single parameter:\n\n- `file` (file): The file containing the title crew information to be uploaded.\n    \n\nResponses:\n\n- 201 File uploaded and proccessed successfully.\n    \n- 401 Unauthorized.\n    \n- 500 Internal server error."
 					},
 					"response": [
 						{
@@ -1231,8 +1231,8 @@
 									]
 								},
 								"url": {
-									"raw": "http://localhost:9876/ntuaflix_api/admin/upload/titlecrew",
-									"protocol": "http",
+									"raw": "https://localhost:9876/ntuaflix_api/admin/upload/titlecrew",
+									"protocol": "https",
 									"host": [
 										"localhost"
 									],
@@ -1293,8 +1293,8 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:9876/ntuaflix_api/admin/resetall",
-							"protocol": "http",
+							"raw": "https://localhost:9876/ntuaflix_api/admin/resetall",
+							"protocol": "https",
 							"host": [
 								"localhost"
 							],
@@ -1314,8 +1314,8 @@
 								"method": "POST",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:9876/ntuaflix_api/admin/resetall",
-									"protocol": "http",
+									"raw": "https://localhost:9876/ntuaflix_api/admin/resetall",
+									"protocol": "https",
 									"host": [
 										"localhost"
 									],
@@ -1418,8 +1418,8 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:9876/ntuaflix_api/admin/usermod/newusername/updatedpasword",
-							"protocol": "http",
+							"raw": "https://localhost:9876/ntuaflix_api/admin/usermod/newusername/updatedpasword",
+							"protocol": "https",
 							"host": [
 								"localhost"
 							],
@@ -1432,7 +1432,7 @@
 								"updatedpasword"
 							]
 						},
-						"description": "This endpoint allows you to update the username and password for a user in the admin panel of NTUAFlix. Upon a successful request, it returns a JSON response with a status code of 200 and a message indicating the success of the operation.\n\nThe request should be a POST method to the URL [http://localhost:9876/ntuaflix_api/admin/usermod/newusername/updatedpasword](http://localhost:9876/ntuaflix_api/admin/usermod/newusername/updatedpasword).\n\nThe response will have a Content-Type of application/json and will contain a message field in the JSON body.\n\n### Example Response 200\n\n``` json\n{\n    \"message\": \"Registration Completed. Please login\"\n}\n\n ```\n\nExample Response\n\n``` json\n    \"message\": \"Password Updated\"\n}\n\n ```\n\nOther responses:\n\n- 401 Unauthorized.\n    \n- 500 Internal server error."
+						"description": "This endpoint allows you to update the username and password for a user in the admin panel of NTUAFlix. Upon a successful request, it returns a JSON response with a status code of 200 and a message indicating the success of the operation.\n\nThe request should be a POST method to the URL [https://localhost:9876/ntuaflix_api/admin/usermod/newusername/updatedpasword](https://localhost:9876/ntuaflix_api/admin/usermod/newusername/updatedpasword).\n\nThe response will have a Content-Type of application/json and will contain a message field in the JSON body.\n\n### Example Response 200\n\n``` json\n{\n    \"message\": \"Registration Completed. Please login\"\n}\n\n ```\n\nExample Response\n\n``` json\n    \"message\": \"Password Updated\"\n}\n\n ```\n\nOther responses:\n\n- 401 Unauthorized.\n    \n- 500 Internal server error."
 					},
 					"response": [
 						{
@@ -1441,8 +1441,8 @@
 								"method": "POST",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:9876/ntuaflix_api/admin/usermod/newusername/newpasword",
-									"protocol": "http",
+									"raw": "https://localhost:9876/ntuaflix_api/admin/usermod/newusername/newpasword",
+									"protocol": "https",
 									"host": [
 										"localhost"
 									],
@@ -1502,8 +1502,8 @@
 								"method": "POST",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:9876/ntuaflix_api/admin/usermod/newusername/updatedpasword",
-									"protocol": "http",
+									"raw": "https://localhost:9876/ntuaflix_api/admin/usermod/newusername/updatedpasword",
+									"protocol": "https",
 									"host": [
 										"localhost"
 									],
@@ -1677,7 +1677,7 @@
 								"login"
 							]
 						},
-						"description": "This endpoint allows users to log in and obtain an authentication token. The HTTP POST request should be made to [http://localhost:9876/ntuaflix_api/auth/login](http://localhost:9876/ntuaflix_api/auth/login) with the raw request body type. The request should include the \"username\" and \"password\" fields.\n\n### Request Body\n\n- `username` (string): The username of the user.\n- `password` (string): The password of the user.\n    \n\n### Response 200:\n\nUpon successful execution, the response will have a status code of 200 and a content type of application/json. The response will include the following fields:\n\n- `success` (boolean): Indicates whether the login was successful.\n- `message` (string): Any additional message related to the login.\n- `token` (string): The authentication token obtained upon successful login.\n    \n\nOther responses:\n\n- 401 Unauthorized.\n    \n- 500 Internal server error."
+						"description": "This endpoint allows users to log in and obtain an authentication token. The HTTP POST request should be made to [https://localhost:9876/ntuaflix_api/auth/login](https://localhost:9876/ntuaflix_api/auth/login) with the raw request body type. The request should include the \"username\" and \"password\" fields.\n\n### Request Body\n\n- `username` (string): The username of the user.\n- `password` (string): The password of the user.\n    \n\n### Response 200:\n\nUpon successful execution, the response will have a status code of 200 and a content type of application/json. The response will include the following fields:\n\n- `success` (boolean): Indicates whether the login was successful.\n- `message` (string): Any additional message related to the login.\n- `token` (string): The authentication token obtained upon successful login.\n    \n\nOther responses:\n\n- 401 Unauthorized.\n    \n- 500 Internal server error."
 					},
 					"response": [
 						{
@@ -1695,8 +1695,8 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:9876/ntuaflix_api/auth/login",
-									"protocol": "http",
+									"raw": "https://localhost:9876/ntuaflix_api/auth/login",
+									"protocol": "https",
 									"host": [
 										"localhost"
 									],
@@ -1809,8 +1809,8 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:9876/ntuaflix_api/user/createProfile",
-									"protocol": "http",
+									"raw": "https://localhost:9876/ntuaflix_api/user/createProfile",
+									"protocol": "https",
 									"host": [
 										"localhost"
 									],
@@ -1821,7 +1821,7 @@
 										"createProfile"
 									]
 								},
-								"description": "This endpoint allows you to create a user profile. The HTTP PUT request should be sent to [http://localhost:9876/ntuaflix_api/user/createProfile](http://localhost:9876/ntuaflix_api/user/createProfile).\n\n### Request Body\n\nThe request body should be in raw JSON format and include the following parameters:\n\n- `firstname` (string): The user's first name.\n- `lastname` (string): The user's last name.\n- `birthDate` (string): The user's date of birth.\n- `email` (string): The user's email address.\n- `favorite_genre` (string): The user's favorite genre.\n    \n\nResponses :\n\n- 200 Profile updated successfully.\n    \n- 400 Bad request.\n    \n- 401 Unauthorized.\n    \n- 500 Internal server error."
+								"description": "This endpoint allows you to create a user profile. The HTTP PUT request should be sent to [https://localhost:9876/ntuaflix_api/user/createProfile](https://localhost:9876/ntuaflix_api/user/createProfile).\n\n### Request Body\n\nThe request body should be in raw JSON format and include the following parameters:\n\n- `firstname` (string): The user's first name.\n- `lastname` (string): The user's last name.\n- `birthDate` (string): The user's date of birth.\n- `email` (string): The user's email address.\n- `favorite_genre` (string): The user's favorite genre.\n    \n\nResponses :\n\n- 200 Profile updated successfully.\n    \n- 400 Bad request.\n    \n- 401 Unauthorized.\n    \n- 500 Internal server error."
 							},
 							"response": [
 								{
@@ -1839,8 +1839,8 @@
 											}
 										},
 										"url": {
-											"raw": "http://localhost:9876/ntuaflix_api/user/createProfile",
-											"protocol": "http",
+											"raw": "https://localhost:9876/ntuaflix_api/user/createProfile",
+											"protocol": "https",
 											"host": [
 												"localhost"
 											],
@@ -1950,8 +1950,8 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:9876/ntuaflix_api/user/profile",
-									"protocol": "http",
+									"raw": "https://localhost:9876/ntuaflix_api/user/profile",
+									"protocol": "https",
 									"host": [
 										"localhost"
 									],
@@ -1971,8 +1971,8 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "http://localhost:9876/ntuaflix_api/user/profile",
-											"protocol": "http",
+											"raw": "https://localhost:9876/ntuaflix_api/user/profile",
+											"protocol": "https",
 											"host": [
 												"localhost"
 											],
@@ -2084,8 +2084,8 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:9876/ntuaflix_api/user/updateProfile",
-									"protocol": "http",
+									"raw": "https://localhost:9876/ntuaflix_api/user/updateProfile",
+									"protocol": "https",
 									"host": [
 										"localhost"
 									],
@@ -2096,7 +2096,7 @@
 										"updateProfile"
 									]
 								},
-								"description": "This endpoint allows users to update their profile information via an HTTP PUT request. The request should be sent to [http://localhost:9876/ntuaflix_api/user/updateProfile](http://localhost:9876/ntuaflix_api/user/updateProfile).\n\n### Request Body\n\nThe request body should be in raw format and include the following parameters:\n\n- `username` (string): The new username for the user.\n- `password` (string): The new password for the user.\n    \n\nResponses:\n\n- 201 SUser profile updated successfully.\n    \n- 400 Username already in use by another user.\n    \n- 500 Internal Server Error."
+								"description": "This endpoint allows users to update their profile information via an HTTP PUT request. The request should be sent to [https://localhost:9876/ntuaflix_api/user/updateProfile](https://localhost:9876/ntuaflix_api/user/updateProfile).\n\n### Request Body\n\nThe request body should be in raw format and include the following parameters:\n\n- `username` (string): The new username for the user.\n- `password` (string): The new password for the user.\n    \n\nResponses:\n\n- 201 SUser profile updated successfully.\n    \n- 400 Username already in use by another user.\n    \n- 500 Internal Server Error."
 							},
 							"response": [
 								{
@@ -2114,8 +2114,8 @@
 											}
 										},
 										"url": {
-											"raw": "http://localhost:9876/ntuaflix_api/user/updateProfile",
-											"protocol": "http",
+											"raw": "https://localhost:9876/ntuaflix_api/user/updateProfile",
+											"protocol": "https",
 											"host": [
 												"localhost"
 											],
@@ -2215,8 +2215,8 @@
 								"method": "POST",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:9876/ntuaflix_api/user/addToFavorites/tt0000929",
-									"protocol": "http",
+									"raw": "https://localhost:9876/ntuaflix_api/user/addToFavorites/tt0000929",
+									"protocol": "https",
 									"host": [
 										"localhost"
 									],
@@ -2237,8 +2237,8 @@
 										"method": "POST",
 										"header": [],
 										"url": {
-											"raw": "http://localhost:9876/ntuaflix_api/user/addToFavorites/tt0000929",
-											"protocol": "http",
+											"raw": "https://localhost:9876/ntuaflix_api/user/addToFavorites/tt0000929",
+											"protocol": "https",
 											"host": [
 												"localhost"
 											],
@@ -2332,8 +2332,8 @@
 								"method": "POST",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:9876/ntuaflix_api/user/addToWatchlist/tt0000929",
-									"protocol": "http",
+									"raw": "https://localhost:9876/ntuaflix_api/user/addToWatchlist/tt0000929",
+									"protocol": "https",
 									"host": [
 										"localhost"
 									],
@@ -2354,8 +2354,8 @@
 										"method": "POST",
 										"header": [],
 										"url": {
-											"raw": "http://localhost:9876/ntuaflix_api/user/addToWatchlist/tt0000929",
-											"protocol": "http",
+											"raw": "https://localhost:9876/ntuaflix_api/user/addToWatchlist/tt0000929",
+											"protocol": "https",
 											"host": [
 												"localhost"
 											],
@@ -2449,8 +2449,8 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:9876/ntuaflix_api/user/watchlist",
-									"protocol": "http",
+									"raw": "https://localhost:9876/ntuaflix_api/user/watchlist",
+									"protocol": "https",
 									"host": [
 										"localhost"
 									],
@@ -2470,8 +2470,8 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "http://localhost:9876/ntuaflix_api/user/watchlist",
-											"protocol": "http",
+											"raw": "https://localhost:9876/ntuaflix_api/user/watchlist",
+											"protocol": "https",
 											"host": [
 												"localhost"
 											],
@@ -2564,8 +2564,8 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:9876/ntuaflix_api/user/favorites",
-									"protocol": "http",
+									"raw": "https://localhost:9876/ntuaflix_api/user/favorites",
+									"protocol": "https",
 									"host": [
 										"localhost"
 									],
@@ -2585,8 +2585,8 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "http://localhost:9876/ntuaflix_api/user/favorites",
-											"protocol": "http",
+											"raw": "https://localhost:9876/ntuaflix_api/user/favorites",
+											"protocol": "https",
 											"host": [
 												"localhost"
 											],
@@ -2683,8 +2683,8 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:9876/ntuaflix_api/user/deleteFromWatchlist/tt0000929",
-									"protocol": "http",
+									"raw": "https://localhost:9876/ntuaflix_api/user/deleteFromWatchlist/tt0000929",
+									"protocol": "https",
 									"host": [
 										"localhost"
 									],
@@ -2705,8 +2705,8 @@
 										"method": "DELETE",
 										"header": [],
 										"url": {
-											"raw": "http://localhost:9876/ntuaflix_api/user/deleteFromWatchlist/tt0000929",
-											"protocol": "http",
+											"raw": "https://localhost:9876/ntuaflix_api/user/deleteFromWatchlist/tt0000929",
+											"protocol": "https",
 											"host": [
 												"localhost"
 											],
@@ -2796,8 +2796,8 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:9876/ntuaflix_api/user/deleteFromFavorites/tt0000929",
-									"protocol": "http",
+									"raw": "https://localhost:9876/ntuaflix_api/user/deleteFromFavorites/tt0000929",
+									"protocol": "https",
 									"host": [
 										"localhost"
 									],
@@ -2818,8 +2818,8 @@
 										"method": "DELETE",
 										"header": [],
 										"url": {
-											"raw": "http://localhost:9876/ntuaflix_api/user/deleteFromFavorites/tt0000929",
-											"protocol": "http",
+											"raw": "https://localhost:9876/ntuaflix_api/user/deleteFromFavorites/tt0000929",
+											"protocol": "https",
 											"host": [
 												"localhost"
 											],
@@ -2874,8 +2874,8 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:9876/ntuaflix_api/title/tt0068494",
-							"protocol": "http",
+							"raw": "https://localhost:9876/ntuaflix_api/title/tt0068494",
+							"protocol": "https",
 							"host": [
 								"localhost"
 							],
@@ -2895,8 +2895,8 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:9876/ntuaflix_api/title/tt0068494",
-									"protocol": "http",
+									"raw": "https://localhost:9876/ntuaflix_api/title/tt0068494",
+									"protocol": "https",
 									"host": [
 										"localhost"
 									],
@@ -2998,8 +2998,8 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:9876/ntuaflix_api/searchtitle",
-							"protocol": "http",
+							"raw": "https://localhost:9876/ntuaflix_api/searchtitle",
+							"protocol": "https",
 							"host": [
 								"localhost"
 							],
@@ -3009,7 +3009,7 @@
 								"searchtitle"
 							]
 						},
-						"description": "# Search Title\n\nThis endpoint allows you to search for titles based on the provided title part.\n\n## Request\n\n### Request URL\n\n- Method: GET\n- URL: `http://localhost:9876/ntuaflix_api/searchtitle`\n    \n\n### Request Body\n\n- Type: Raw\n- Payload:\n    \n    ``` json\n      {\n        \"titlePart\": \"\"\n      }\n    \n     ```\n    \n\n## Response\n\n- Status: 200\n- Content-Type: application/json\n    \n\n### Response Body\n\nThe response will be a JSON array containing objects with the following properties:\n\n- `titleID` (string): The ID of the title\n- `type` (string): The type of the title\n- `originalTitle` (string): The original title\n- `titlePoster` (string): The poster of the title\n- `startYear` (number): The start year of the title\n- `endYear` (number): The end year of the title\n- `genres` (array): An array of objects containing `akaTitle` and `regionAbbrev` properties\n- `akasInfo` (array): An array of objects containing `genreTitle` property\n- `principals` (array): An array of objects containing `nameID`, `name`, and `category` properties\n- `rating` (array): An array of rating information\n    \n\nOther responses :\n\n- 401 Unauthorized.\n    \n- 404 Not found.\n    \n- 500 Internal Server Errror."
+						"description": "# Search Title\n\nThis endpoint allows you to search for titles based on the provided title part.\n\n## Request\n\n### Request URL\n\n- Method: GET\n- URL: `https://localhost:9876/ntuaflix_api/searchtitle`\n    \n\n### Request Body\n\n- Type: Raw\n- Payload:\n    \n    ``` json\n      {\n        \"titlePart\": \"\"\n      }\n    \n     ```\n    \n\n## Response\n\n- Status: 200\n- Content-Type: application/json\n    \n\n### Response Body\n\nThe response will be a JSON array containing objects with the following properties:\n\n- `titleID` (string): The ID of the title\n- `type` (string): The type of the title\n- `originalTitle` (string): The original title\n- `titlePoster` (string): The poster of the title\n- `startYear` (number): The start year of the title\n- `endYear` (number): The end year of the title\n- `genres` (array): An array of objects containing `akaTitle` and `regionAbbrev` properties\n- `akasInfo` (array): An array of objects containing `genreTitle` property\n- `principals` (array): An array of objects containing `nameID`, `name`, and `category` properties\n- `rating` (array): An array of rating information\n    \n\nOther responses :\n\n- 401 Unauthorized.\n    \n- 404 Not found.\n    \n- 500 Internal Server Errror."
 					},
 					"response": [
 						{
@@ -3027,8 +3027,8 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:9876/ntuaflix_api/searchtitle",
-									"protocol": "http",
+									"raw": "https://localhost:9876/ntuaflix_api/searchtitle",
+									"protocol": "https",
 									"host": [
 										"localhost"
 									],
@@ -3129,8 +3129,8 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:9876/ntuaflix_api/bygenre",
-							"protocol": "http",
+							"raw": "https://localhost:9876/ntuaflix_api/bygenre",
+							"protocol": "https",
 							"host": [
 								"localhost"
 							],
@@ -3140,7 +3140,7 @@
 								"bygenre"
 							]
 						},
-						"description": "This endpoint makes an HTTP GET request to retrieve content by genre from the NTUAFlix API. The request should be sent to [http://localhost:9876/ntuaflix_api/bygenre](http://localhost:9876/ntuaflix_api/bygenre).\n\n### Request Parameters\n\n- `qgenre` (string, optional): Specifies the genre for which content needs to be retrieved.\n- `minrating` (string, optional): Specifies the minimum rating for the content to be retrieved.\n    \n\n### Response status 200:\n\nUpon a successful request, the server responds with a status code of 200 and a JSON array containing content details. Each object in the array includes the following fields:\n\n- `titleID` (string): Unique identifier for the title.\n- `type` (string): Type of content.\n- `originalTitle` (string): Original title of the content.\n- `titlePoster` (string): URL of the poster for the content.\n- `startYear` (integer): Start year of the content.\n- `endYear` (integer): End year of the content.\n- `genres` (array): Array of objects containing additional genre information.\n- `akasInfo` (array): Array of objects containing additional title information.\n- `principals` (array): Array of objects containing principal information.\n- `rating` (array): Array of objects containing rating information, including average rating and number of votes.\n    \n\nPlease note that the response may contain multiple objects, each representing a different piece of content.\n\nOther responses:\n\n- 401 Unauthorized.\n    \n- 404 Not found.\n    \n- 500 Internal Server Error."
+						"description": "This endpoint makes an HTTP GET request to retrieve content by genre from the NTUAFlix API. The request should be sent to [https://localhost:9876/ntuaflix_api/bygenre](https://localhost:9876/ntuaflix_api/bygenre).\n\n### Request Parameters\n\n- `qgenre` (string, optional): Specifies the genre for which content needs to be retrieved.\n- `minrating` (string, optional): Specifies the minimum rating for the content to be retrieved.\n    \n\n### Response status 200:\n\nUpon a successful request, the server responds with a status code of 200 and a JSON array containing content details. Each object in the array includes the following fields:\n\n- `titleID` (string): Unique identifier for the title.\n- `type` (string): Type of content.\n- `originalTitle` (string): Original title of the content.\n- `titlePoster` (string): URL of the poster for the content.\n- `startYear` (integer): Start year of the content.\n- `endYear` (integer): End year of the content.\n- `genres` (array): Array of objects containing additional genre information.\n- `akasInfo` (array): Array of objects containing additional title information.\n- `principals` (array): Array of objects containing principal information.\n- `rating` (array): Array of objects containing rating information, including average rating and number of votes.\n    \n\nPlease note that the response may contain multiple objects, each representing a different piece of content.\n\nOther responses:\n\n- 401 Unauthorized.\n    \n- 404 Not found.\n    \n- 500 Internal Server Error."
 					},
 					"response": [
 						{
@@ -3158,8 +3158,8 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:9876/ntuaflix_api/bygenre",
-									"protocol": "http",
+									"raw": "https://localhost:9876/ntuaflix_api/bygenre",
+									"protocol": "https",
 									"host": [
 										"localhost"
 									],
@@ -3261,8 +3261,8 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:9876/ntuaflix_api/name/nm0000019",
-							"protocol": "http",
+							"raw": "https://localhost:9876/ntuaflix_api/name/nm0000019",
+							"protocol": "https",
 							"host": [
 								"localhost"
 							],
@@ -3273,7 +3273,7 @@
 								"nm0000019"
 							]
 						},
-						"description": "This endpoint makes an HTTP GET request to retrieve information about a specific name from the NTUAFlix API. The request should be made to [http://localhost:9876/ntuaflix_api/name/nm0000019](http://localhost:9876/ntuaflix_api/name/nm0000019).\n\n### Response status 200:\n\nUpon a successful request, the server will respond with a status code of 200 and a JSON object containing details about the requested name. The response will include the name's ID, name, poster, birth year, death year, profession, and a list of titles associated with the name.\n\nOther responses:\n\n- 401 Unauthorized.\n    \n- 404 Contributor not found.\n    \n- 500 Internal Server Error."
+						"description": "This endpoint makes an HTTP GET request to retrieve information about a specific name from the NTUAFlix API. The request should be made to [https://localhost:9876/ntuaflix_api/name/nm0000019](https://localhost:9876/ntuaflix_api/name/nm0000019).\n\n### Response status 200:\n\nUpon a successful request, the server will respond with a status code of 200 and a JSON object containing details about the requested name. The response will include the name's ID, name, poster, birth year, death year, profession, and a list of titles associated with the name.\n\nOther responses:\n\n- 401 Unauthorized.\n    \n- 404 Contributor not found.\n    \n- 500 Internal Server Error."
 					},
 					"response": [
 						{
@@ -3282,8 +3282,8 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:9876/ntuaflix_api/name/nm0000019",
-									"protocol": "http",
+									"raw": "https://localhost:9876/ntuaflix_api/name/nm0000019",
+									"protocol": "https",
 									"host": [
 										"localhost"
 									],
@@ -3402,8 +3402,8 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:9876/ntuaflix_api/searchname",
-							"protocol": "http",
+							"raw": "https://localhost:9876/ntuaflix_api/searchname",
+							"protocol": "https",
 							"host": [
 								"localhost"
 							],
@@ -3413,7 +3413,7 @@
 								"searchname"
 							]
 						},
-						"description": "# Search Name API\n\nThis API endpoint allows you to search for names in the NTUAFlix database.\n\n## Request\n\n### Endpoint\n\n`GET` [http://localhost:9876/ntuaflix_api/searchname](http://localhost:9876/ntuaflix_api/searchname)\n\n### Query Parameters\n\n- `namePart` (string, required): The partial name to search for.\n    \n\n## Response\n\n### Status\n\nThe API returns a `200` status code on success.\n\n### Content Type\n\n`application/json`\n\n### Response Body status 200:\n\nThe response body is an array of objects, where each object represents a name in the database. Each object contains the following properties:\n\n- `nameID` (string): The ID of the name.\n- `name` (string): The name of the person.\n- `namePoster` (string): The poster of the person.\n- `birthYr` (number): The birth year of the person.\n- `deathYr` (number): The death year of the person.\n- `profession` (string): The profession of the person.\n- `nameTitles` (array): An array of objects representing the titles associated with the person, where each object contains the following properties:\n    - `titleID` (string): The ID of the title.\n    - `category` (string): The category of the title.\n\nOther responses:\n\n- 404 No data found.\n    \n- 401 Unauthorized.\n    \n- 500 Internal Server error."
+						"description": "# Search Name API\n\nThis API endpoint allows you to search for names in the NTUAFlix database.\n\n## Request\n\n### Endpoint\n\n`GET` [https://localhost:9876/ntuaflix_api/searchname](https://localhost:9876/ntuaflix_api/searchname)\n\n### Query Parameters\n\n- `namePart` (string, required): The partial name to search for.\n    \n\n## Response\n\n### Status\n\nThe API returns a `200` status code on success.\n\n### Content Type\n\n`application/json`\n\n### Response Body status 200:\n\nThe response body is an array of objects, where each object represents a name in the database. Each object contains the following properties:\n\n- `nameID` (string): The ID of the name.\n- `name` (string): The name of the person.\n- `namePoster` (string): The poster of the person.\n- `birthYr` (number): The birth year of the person.\n- `deathYr` (number): The death year of the person.\n- `profession` (string): The profession of the person.\n- `nameTitles` (array): An array of objects representing the titles associated with the person, where each object contains the following properties:\n    - `titleID` (string): The ID of the title.\n    - `category` (string): The category of the title.\n\nOther responses:\n\n- 404 No data found.\n    \n- 401 Unauthorized.\n    \n- 500 Internal Server error."
 					},
 					"response": [
 						{
@@ -3431,8 +3431,8 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:9876/ntuaflix_api/searchname",
-									"protocol": "http",
+									"raw": "https://localhost:9876/ntuaflix_api/searchname",
+									"protocol": "https",
 									"host": [
 										"localhost"
 									],

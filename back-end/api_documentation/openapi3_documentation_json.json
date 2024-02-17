@@ -11,7 +11,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost:9876/ntuaflix_api/"
+      "url": "https://localhost:9876/ntuaflix_api/"
     }
   ],
   "components": {

@@ -36,8 +36,7 @@ exports.configconstructor = (name,token,o,formdata) => {
             "firstname": o.firstname,
             "lastname": o.lastname,
             "birthDate": o.birthDate,
-            "email": o.email,
-            "favorite_genre" : o.favorite_genre
+            "email": o.email
         }
         data_exists = true;
     }else if(name == "updateprofile"){

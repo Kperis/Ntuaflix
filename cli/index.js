@@ -217,7 +217,6 @@ program
   .option('--lastname [lastname]', 'lastname')
   .option('--birthDate [birthDate]', 'birthdate')
   .option('--email [email]', 'email')
-  .option('--favorite_genre [favorite_genre]', 'favorite_genre')
   .option('--format [format]', 'Output format (e.g., json, csv)')
   .action( function(o) { 
     generalfun('createprofile',o) 
